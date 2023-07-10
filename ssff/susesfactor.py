@@ -19,86 +19,106 @@ driver= webdriver.Edge(executable_path='msedgedriver.exe')
 workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, keep_links=False, keep_vba=False)
 # Seleccionar la hoja de cálculo que deseas leer
 sheet = workbook['Hoja1']
-def parte1(nombre,apellido,fecha_n,pais):
-    while True:
+def parte1(nombre,apellido,fecha_n):
+    cone=0
+    while cone==0:
         try:
-            buscador=driver.find_element(By.XPATH,'//*[@id="ui5wc_14-inner"]')
-            buscador.send_keys("Añadir trabajador temporal")
-            buscador.send_keys(Keys.ENTER)
-            time.sleep(2)
-            #EMPRESA
-            #ONE CONTACT INTERNACIONAL (CA661)
-            driver.find_element(By.XPATH,'//*[@id="__box0-inner"]').send_keys("ONE CONTACT INTERNACIONAL (CA661)")
-            #//*[@id="__item26-__box0-popup-list-0-content"]/div/div
-            driver.find_element(By.XPATH,'//*[@id="__item26-__box0-popup-list-0-content"]/div/div').click()
-            #PREINGRESO
-            driver.find_element(By.XPATH,'//*[@id="__box1-arrow"]').click()
-            driver.find_element(By.XPATH,'//*[@id="__item30-__box1-popup-list-0-content"]/div/div').click()
+            
             #NOMBRE
             driver.find_element(By.XPATH,'//*[@id="__input0-inner"]').send_keys(nombre)
             #APELLIDO
             driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys(apellido)
             #FECHA NACIMIENTO
-            driver.find_element(By.XPATH,'//*[@id="__picker1-inner"]').send_keys(fecha_n)
-            
-            if pais !="COLOMBIA":
-                driver.find_element(By.XPATH,'//*[@id="__box2-arrow"]').click()
-                #PAIS
-                driver.find_element(By.XPATH,'//*[@id="__box2-inner"]').send_keys(pais)
-                time.sleep(1)
-                driver.find_element(By.XPATH,'//*[@id="__item249-content"]/div/div').click()
-                #DEPARTAMENTO
-                driver.find_element(By.XPATH,'//*[@id="__box3-inner"]').send_keys("Otros departamentos")
-                time.sleep(1)
-                driver.find_element(By.XPATH,'//*[@id="__item6-__box3-popup-list-0-content"]/div/div').click()
-
-                #CIUDAD
-                driver.find_element(By.XPATH,'//*[@id="__box4-arrow"]').click()
-                driver.find_element(By.XPATH,'//*[@id="__box4-inner"]').send_keys("otros")
-                time.sleep(1)
-                driver.find_element(By.XPATH,'//*[@id="__item11-__box4-popup-list-1-content"]/div/div').click()
-                
-            else:
-                driver.find_element(By.XPATH,'//*[@id="__box2-arrow"]').click()
-                #PAIS
-                driver.find_element(By.XPATH,'//*[@id="__box2-inner"]').send_keys(pais)
-                time.sleep(1)
-                driver.find_element(By.XPATH,'//*[@id="__item51-content"]/div/div').click()
-                #DEPARTAMENTO
-                driver.find_element(By.XPATH,'//*[@id="__box3-inner"]').send_keys("Antioquia")
-                time.Sleep(1)
-                driver.find_element(By.XPATH,'//*[@id="__item7-__box3-popup-list-0-content"]/div/div').click()
-            #NOMBRE USUARIO
-            
-            
-
-
+            cone +=1
+            driver.find_element(By.XPATH,'//*[@id="__picker3-inner"]').send_keys(fecha_n)
+            print("diligenciados")#//*[@id="__picker3-inner"]
+            time.Sleep(4)
+        
             break
         except:
+            print("nod")
             continue
 
+def agregar():
+    time.sleep(1)
+    #paso=input()
+    while True:
+        try:
+            driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys("EC7061B")
+            driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys("Onecont2024*")
+            time.sleep(1)
+            driver.find_element(By.XPATH,'//*[@id="__button2-content"]').click()
+            time.sleep(4)
+            print('adentro')
+            break
+        except:
+            print("a")
+        ##1
+    while True:
+        try:
+            time.sleep(3)
+            driver.find_element(By.XPATH, '//*[@id="content"]/div/div[2]/div/section/ul/li[5]/ui5-busy-indicator/a').click()
+            time.sleep(3)
+            driver.find_element(By.XPATH, '//*[@id="__xmlview0--newHireButton-img"]').click()
+            time.sleep(3)
+            elemento_input = driver.find_element(By.XPATH, '//*[@id="__box0-inner"]')
+            elemento_input.click()
+            elemento_input.send_keys("661")
+            time.sleep(2)
+            elemento_input.send_keys(Keys.ARROW_DOWN)
+            time.sleep(1)
+            elemento_input.send_keys(Keys.ENTER)
+            time.sleep(1)#
+            break
+        except:
+            print("Error al buscar e interactuar con elementos")
+            continue
+
+        ##2
+    while True:
+        try:
+            coso=driver.find_element(By.XPATH, '//*[@id="__box1-inner"]')
+            
+            coso.send_keys("Nueva")
+            time.sleep(1)
+            coso.send_keys(Keys.ARROW_DOWN)
+            coso.send_keys(Keys.ARROW_DOWN)
+            coso.send_keys(Keys.ARROW_DOWN)
+            coso.send_keys(Keys.ENTER)
+            print("KJHJGHGH")
+            print("Encontrado")
+            break
+        except:
+            print("Error al buscar e interactuar con elementos")
+            continue
+
+    ##3
+    while True:
+        try:
+            #desplegar=driver.find_element(By.XPATH, '//*[@id="__box1-inner"]')
+            desplegar=driver.find_element(By.XPATH, '//*[@id="__box2-inner"]')
+            desplegar.send_keys("Contratación Claro")
+            time.sleep(3)
+            desplegar.send_keys(Keys.ARROW_DOWN)
+            desplegar.send_keys(Keys.ENTER)
+        
+            
+            time.sleep(5)
+            break
+        except:
+            print("Error al buscar e interactuar con elementos")
+    driver.find_element(By.XPATH,'//*[@id="__button1-content"]').click()
 
 driver.get("https://performancemanager8.successfactors.com/login?bplte_logout=1&company=comunicaci&_s.crb=VG1RqGoWUmkzkcagqGY%252fybzahzatv77ql1k8j0nbZ2E%253d#/login")
 # Iterar sobre las filas en la hoja de cálculo
-time.sleep(1)
-#paso=input()
-while True:
-    try:
-        driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys("EC7061B")
-        driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys("Onecont2024*")
-        time.sleep(1)
-        driver.find_element(By.XPATH,'//*[@id="__button2-content"]').click()
-        time.sleep(4)
-        break
-    except:
-        print("a")
-while True:
-    try:
-        time.sleep(3)
-        cabecera=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]')
-        print("encontrada")
-        break
-        #//*[@id="shellbar"]//header/div[3]/div/div
-        #//*[@id="ui5wc_19-inner"]
-    except:
-        print("a")
+
+agregar()
+time.sleep(4)
+nombre="juan"
+apellido="alvarez"
+fecha_n="02/04/2002"
+pais="ecuador"
+parte1(nombre,apellido,fecha_n)
+time.sleep(6)
+
+
