@@ -116,7 +116,10 @@ agregar()
 time.sleep(4)
 nombre="juan"
 apellido="alvarez"
-fecha_n="02/04/2002"
+fecha = "02/04/2023"
+fechas = fecha.split("/")
+fecha_n = "".join(fechas)
+print(fecha_n)
 pais="ecuador"
 parte1(nombre,apellido,fecha_n)
 time.sleep(6)
