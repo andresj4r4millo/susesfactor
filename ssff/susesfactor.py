@@ -19,7 +19,15 @@ driver= webdriver.Edge(executable_path='msedgedriver.exe')
 workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, keep_links=False, keep_vba=False)
 # Seleccionar la hoja de cálculo que deseas leer
 sheet = workbook['Hoja1']
-def parte1(nombre,apellido,fecha_n):
+def formatof(fechas):
+    fechas = fecha.split("/")
+    fechan = "".join(fechas)
+    formato=fechan.split(" ")
+    lafecha=formato[0]
+    fechas=lafecha.split("-")
+    fecha_n="".join(fechas)
+    return fecha_n
+def parte1(nombre,apellido,fecha_n,pais):
     cone=0
     while cone==0:
         try:
@@ -31,36 +39,56 @@ def parte1(nombre,apellido,fecha_n):
             #FECHA NACIMIENTO
             cone +=1
             driver.find_element(By.XPATH,'//*[@id="__picker3-inner"]').send_keys(fecha_n)
-            print("diligenciados")#//*[@id="__picker3-inner"]
+            time.sleep(1)
+
             time.Sleep(4)
-        
             break
         except:
             print("nod")
             continue
-
+    cone=0
+    while cone<1:
+        try:
+            cone +=1
+            time.sleep(1)
+            pai=driver.find_element(By.ID,"__box7-inner")
+            #pai.click()
+            pai.send_keys(pais)
+            time.Sleep(4)
+            print('pais digitado')
+            break
+        except:
+            cone+=1
+            print("nod")
+            continue
+       
+    cone=0
+    while cone<1:
+        try:  
+                 
+            box=driver.find_element(By.XPATH,'//*[@id="__box7-inner"]')
+            box.send_keys(Keys.ARROW_DOWN)
+            box.send_keys(Keys.ENTER)
+            print("diligenciados")#//*[@id="__picker3-inner"]
+            time.Sleep(4)
+            break
+        except:
+            print("nodE")
+            cone+=1
+            continue
+    
 def agregar():
     time.sleep(1)
     #paso=input()
-    while True:
-        try:
-            driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys("EC7061B")
-            driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys("Onecont2024*")
-            time.sleep(1)
-            driver.find_element(By.XPATH,'//*[@id="__button2-content"]').click()
-            time.sleep(4)
-            print('adentro')
-            break
-        except:
-            print("a")
+
         ##1
     while True:
         try:
             time.sleep(3)
             driver.find_element(By.XPATH, '//*[@id="content"]/div/div[2]/div/section/ul/li[5]/ui5-busy-indicator/a').click()
             time.sleep(3)
-            driver.find_element(By.XPATH, '//*[@id="__xmlview0--newHireButton-img"]').click()
-            time.sleep(3)
+            driver.find_element(By.XPATH, '//*[@id="__xmlview0--newHireButton-inner"]').click()
+            time.sleep(3)#//*[@id="__xmlview0--newHireButton-img"]
             elemento_input = driver.find_element(By.XPATH, '//*[@id="__box0-inner"]')
             elemento_input.click()
             elemento_input.send_keys("661")
@@ -80,7 +108,7 @@ def agregar():
             coso=driver.find_element(By.XPATH, '//*[@id="__box1-inner"]')
             
             coso.send_keys("Nueva")
-            time.sleep(1)
+            time.sleep(2)
             coso.send_keys(Keys.ARROW_DOWN)
             coso.send_keys(Keys.ARROW_DOWN)
             coso.send_keys(Keys.ARROW_DOWN)
@@ -111,17 +139,47 @@ def agregar():
 
 driver.get("https://performancemanager8.successfactors.com/login?bplte_logout=1&company=comunicaci&_s.crb=VG1RqGoWUmkzkcagqGY%252fybzahzatv77ql1k8j0nbZ2E%253d#/login")
 # Iterar sobre las filas en la hoja de cálculo
+#INGRESAR
+while True:
+    try:
+        driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys("EC7061B")
+        driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys("Onecont2024*")
+        time.sleep(1)
+        driver.find_element(By.XPATH,'//*[@id="__button2-content"]').click()
+        time.sleep(4)
+        print('adentro')
+        break
+    except:
+        print("a")
 
-agregar()
-time.sleep(4)
-nombre="juan"
-apellido="alvarez"
-fecha = "02/04/2023"
-fechas = fecha.split("/")
-fecha_n = "".join(fechas)
-print(fecha_n)
-pais="ecuador"
-parte1(nombre,apellido,fecha_n)
-time.sleep(6)
+for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
+    if index==1:
+        continue
+    cedula=str(row[0])
+    fecha_ex=str(row[1])
+    fecha=str(row[2])
+    pais=str(row[3])
+    nombre=str(row[4])
+    apellido=str(row[5])
+    campaña=str(row[6])
+    semilla=str(row[7])
+    celular=str(row[8])
+    correo=str(row[9])
+    correo_corporativo=str(row[10])
+    direccion=str(row[11])
+    barrio=str(row[12])
+    preingreso=str(row[13])
+    ingreso=str(row[14])
+    rm=str(row[15])
+    lider_virtual=str(row[16])
+    estado=str(row[17])
+    observaciones=str(row[18])
+    fechan=formatof(fecha)
+    
+    time.sleep(4)
 
-
+    agregar()
+    parte1(nombre,apellido,fechan,pais)
+    time.sleep(6)
+    #driver.find_element(By.XPATH,'//*[@id="ui5wc_8-inner"]').send_keys("añadir")
+    

@@ -1,9 +1,32 @@
+from selenium import webdriver
+import time
+from selenium.webdriver.common.action_chains import ActionChains
+#para el libro de exporte
+import openpyxl
+from unidecode import unidecode
+import re
+import pandas as pd
+import numpy as np
+from lxml import html
+def formatof(fechas):
+    fechas = fecha.split("/")
+    fechan = "".join(fechas)
+    formato=fechan.split(" ")
+    lafecha=formato[0]
+    fechas=lafecha.split("-")
+    fecha_n="".join(fechas)
+    return fecha_n
+
+
+workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, keep_links=False, keep_vba=False)
+# Seleccionar la hoja de cálculo que deseas leer
+sheet = workbook['Hoja1']
 for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if index==1:
         continue
     cedula=str(row[0])
     fecha_ex=str(row[1])
-    fecha_n=str(row[2])
+    fecha=str(row[2])
     pais=str(row[3])
     nombre=str(row[4])
     apellido=str(row[5])
@@ -21,9 +44,10 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     estado=str(row[17])
     observaciones=str(row[18])
 
-    #parte1(nombre,apellido,fecha_n,pais)
-    driver.find_element(By.XPATH,'//*[@id="ui5wc_1-item-1"]//button').click()
-    time.sleep(2)
-    #driver.find_element(By.XPATH,'//*[@id="ui5wc_14-inner"]').click()
-    #driver.find_element(By.XPATH,'//*[@id="ui5wc_14-inner"]').send_keys("Añadir trabajador temporal")
+    fechan=formatof(fecha)
+    print(fechan)
+
+    
+
+
 
