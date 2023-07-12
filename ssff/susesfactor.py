@@ -76,6 +76,13 @@ def parte1(nombre,apellido,fecha_n,pais):
             print("nodE")
             cone+=1
             continue
+    ###departamento
+    while True:
+        try:
+            depa=driver.find_element(By.XPATH,'//*[@id="__box8-inner"]')
+            depa
+        except:
+            print("error departamento")
     
 def agregar():
     time.sleep(1)
