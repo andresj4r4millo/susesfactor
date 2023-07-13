@@ -46,23 +46,29 @@ def parte1(nombre,apellido,fecha_n,pais):
         except:
             print("nod")
             continue
+    #PAIS
     cone=0
-    while cone<1:
+    while True:
         try:
             cone +=1
             time.sleep(1)
             pai=driver.find_element(By.ID,"__box7-inner")
             #pai.click()
-            pai.send_keys(pais)
+            #pai.send_keys(pais)
+            pai.send_keys("Colombia")
             time.Sleep(4)
-            print('pais digitado')
-            break
+            driver.find_element(By.XPATH,'//*[@id="__box7-inner"]').click()
+            #pai.send_keys(Keys.ARROW_DOWN)
+            time.sleep(1)
+            #pai.send_keys(Keys.ENTER)
+            print('select')
+
         except:
             cone+=1
-            print("nod")
+            print("nodoes")
             continue
-       
-    cone=0
+    """
+     cone=0
     while cone<1:
         try:  
                  
@@ -76,13 +82,29 @@ def parte1(nombre,apellido,fecha_n,pais):
             print("nodE")
             cone+=1
             continue
+    """   
+   
     ###departamento
+    """"
     while True:
         try:
             depa=driver.find_element(By.XPATH,'//*[@id="__box8-inner"]')
-            depa
+            if pais!="Colombia":
+
+                depa.send_keys("otrodepartamento")
+            else:
+                depa.send_keys("antioquia")
+            break
         except:
             print("error departamento")
+        while True:
+            try:
+                depa.send_keys(Keys.ARROW_DOWN)
+                depa.send_keys(Keys.ENTER)
+                break
+            except:
+                print("error selecionar departamento")
+    """
     
 def agregar():
     time.sleep(1)
