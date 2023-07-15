@@ -28,7 +28,7 @@ def formatof(fechas):
     fechas=lafecha.split("-")
     fecha_n="".join(fechas)
     return fecha_n
-def parte1(nombre,apellido,fecha_n,pais):
+def parte1(nombre,apellido,fecha_n,pais,sexo):
     cone=0
     while cone==0:
         try:
@@ -48,6 +48,20 @@ def parte1(nombre,apellido,fecha_n,pais):
             print("nod")
             continue
     #PAIS
+    while True:
+        try:
+            trato=driver.find_element(By.XPATH,'//*[@id="__box6-arrow"]')
+            trato.click()
+            #//*[@id="__box6-popup-list-listUl"]
+            if sexo=="MASCULINO":
+                opctrato="Sr."
+            else:
+                opctrato="Sra"
+            opciont = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box6-popup-list-listUl"]//div[text()="{opctrato}"]')))
+            opciont.click()
+            break
+        except:
+            print("error trato")
     cone=0
     while True:
         try:
@@ -56,14 +70,18 @@ def parte1(nombre,apellido,fecha_n,pais):
 
             span=driver.find_element(By.XPATH,'//*[@id="__box7-arrow"]')
             span.click()
-            opcion_texto = "Colombia"  # Texto de la opción que deseas seleccionar
-            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box7-popup-cont"]//div[text()="{opcion_texto}"]')))
+            paism=pais.lower()
+            opcion_texto=paism.capitalize()
+             # Texto de la opción que deseas seleccionar
+            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box7-popup-cont"][text()="{opcion_texto}"]')))
             opcion.click()
+            break
         except Exception as e:
             cone += 1
             print("Error:", e)
             traceback.print_exc()
             continue
+    
 
    
     ###departamento
@@ -183,11 +201,11 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     estado=str(row[17])
     observaciones=str(row[18])
     fechan=formatof(fecha)
-    
+    sexo="FEMENINO"
     time.sleep(4)
 
     agregar()
-    parte1(nombre,apellido,fechan,pais)
+    parte1(nombre,apellido,fechan,pais,sexo)
     time.sleep(6)
     #driver.find_element(By.XPATH,'//*[@id="ui5wc_8-inner"]').send_keys("añadir")
     
