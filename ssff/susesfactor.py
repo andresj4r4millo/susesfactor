@@ -14,6 +14,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
+import traceback
 
 driver= webdriver.Edge(executable_path='msedgedriver.exe')
 workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, keep_links=False, keep_vba=False)
@@ -52,37 +53,18 @@ def parte1(nombre,apellido,fecha_n,pais):
         try:
             cone +=1
             time.sleep(1)
-            pai=driver.find_element(By.ID,"__box7-inner")
-            #pai.click()
-            #pai.send_keys(pais)
-            pai.send_keys("Colombia")
-            time.Sleep(4)
-            driver.find_element(By.XPATH,'//*[@id="__box7-inner"]').click()
-            #pai.send_keys(Keys.ARROW_DOWN)
-            time.sleep(1)
-            #pai.send_keys(Keys.ENTER)
-            print('select')
 
-        except:
-            cone+=1
-            print("nodoes")
+            span=driver.find_element(By.XPATH,'//*[@id="__box7-arrow"]')
+            span.click()
+            opcion_texto = "Colombia"  # Texto de la opción que deseas seleccionar
+            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box7-popup-cont"]//div[text()="{opcion_texto}"]')))
+            opcion.click()
+        except Exception as e:
+            cone += 1
+            print("Error:", e)
+            traceback.print_exc()
             continue
-    """
-     cone=0
-    while cone<1:
-        try:  
-                 
-            box=driver.find_element(By.XPATH,'//*[@id="__box7-inner"]')
-            box.send_keys(Keys.ARROW_DOWN)
-            box.send_keys(Keys.ENTER)
-            print("diligenciados")#//*[@id="__picker3-inner"]
-            time.Sleep(4)
-            break
-        except:
-            print("nodE")
-            cone+=1
-            continue
-    """   
+
    
     ###departamento
     """"
@@ -108,17 +90,16 @@ def parte1(nombre,apellido,fecha_n,pais):
     
 def agregar():
     time.sleep(1)
-    #paso=input()
 
-        ##1
     while True:
         try:
             time.sleep(3)
             driver.find_element(By.XPATH, '//*[@id="content"]/div/div[2]/div/section/ul/li[5]/ui5-busy-indicator/a').click()
             time.sleep(3)
             driver.find_element(By.XPATH, '//*[@id="__xmlview0--newHireButton-inner"]').click()
-            time.sleep(3)#//*[@id="__xmlview0--newHireButton-img"]
-            elemento_input = driver.find_element(By.XPATH, '//*[@id="__box0-inner"]')
+            time.sleep(5)#//*[@id="__xmlview0--newHireButton-img"]
+            #elemento_input = driver.find_element(By.XPATH, '//*[@id="__box0-inner"]')
+            elemento_input = driver.find_element(By.ID,"__box0-inner")
             elemento_input.click()
             elemento_input.send_keys("661")
             time.sleep(2)
@@ -128,42 +109,40 @@ def agregar():
             time.sleep(1)#
             break
         except:
-            print("Error al buscar e interactuar con elementos")
+            print("Error 661")
             continue
 
         ##2
     while True:
         try:
-            coso=driver.find_element(By.XPATH, '//*[@id="__box1-inner"]')
-            
+            #coso=driver.find_element(By.XPATH, '//*[@id="__box1-inner"]')
+            coso=driver.find_element(By.ID,"__box1-inner")
             coso.send_keys("Nueva")
             time.sleep(2)
             coso.send_keys(Keys.ARROW_DOWN)
             coso.send_keys(Keys.ARROW_DOWN)
             coso.send_keys(Keys.ARROW_DOWN)
             coso.send_keys(Keys.ENTER)
-            print("KJHJGHGH")
             print("Encontrado")
             break
         except:
-            print("Error al buscar e interactuar con elementos")
+            print("Error contratacion")
             continue
 
     ##3
     while True:
         try:
-            #desplegar=driver.find_element(By.XPATH, '//*[@id="__box1-inner"]')
-            desplegar=driver.find_element(By.XPATH, '//*[@id="__box2-inner"]')
+            desplegar=driver.find_element(By.ID, "__box2-inner")
+            #desplegar=driver.find_element(By.XPATH, '//*[@id="__box2-inner"]')
             desplegar.send_keys("Contratación Claro")
             time.sleep(3)
             desplegar.send_keys(Keys.ARROW_DOWN)
             desplegar.send_keys(Keys.ENTER)
-        
-            
             time.sleep(5)
             break
         except:
-            print("Error al buscar e interactuar con elementos")
+            print("Error contratacion")
+
     driver.find_element(By.XPATH,'//*[@id="__button1-content"]').click()
 
 driver.get("https://performancemanager8.successfactors.com/login?bplte_logout=1&company=comunicaci&_s.crb=VG1RqGoWUmkzkcagqGY%252fybzahzatv77ql1k8j0nbZ2E%253d#/login")
