@@ -48,20 +48,7 @@ def parte1(nombre,apellido,fecha_n,pais,sexo):
             print("nod")
             continue
     #PAIS
-    while True:
-        try:
-            trato=driver.find_element(By.XPATH,'//*[@id="__box6-arrow"]')
-            trato.click()
-            #//*[@id="__box6-popup-list-listUl"]
-            if sexo=="MASCULINO":
-                opctrato="Sr."
-            else:
-                opctrato="Sra"
-            opciont = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box6-popup-list-listUl"]//div[text()="{opctrato}"]')))
-            opciont.click()
-            break
-        except:
-            print("error trato")
+  
     cone=0
     while True:
         try:
@@ -73,7 +60,7 @@ def parte1(nombre,apellido,fecha_n,pais,sexo):
             paism=pais.lower()
             opcion_texto=paism.capitalize()
              # Texto de la opción que deseas seleccionar
-            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box7-popup-cont"][text()="{opcion_texto}"]')))
+            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box7-popup-cont"]//div[text()="{opcion_texto}"]')))
             opcion.click()
             break
         except Exception as e:
@@ -81,30 +68,47 @@ def parte1(nombre,apellido,fecha_n,pais,sexo):
             print("Error:", e)
             traceback.print_exc()
             continue
+    #trato
+    
+    while True:
+        try:
+            trato=driver.find_element(By.XPATH,'//*[@id="__box6-arrow"]')
+            trato.click()
+            #//*[@id="__box6-popup-list-listUl"]
+            if sexo=="MASCULINO":
+                opctrato="Sr."
+            else:
+                opctrato="Sra."
+            opciont = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box6-popup-cont"]//div[text()="{opctrato}"]')))
+            opciont.click()
+            print("sr")
+            time.sleep(5)
+            break
+        except:
+            print("error trato")
     
 
    
     ###departamento
-    """"
+    
     while True:
         try:
-            depa=driver.find_element(By.XPATH,'//*[@id="__box8-inner"]')
-            if pais!="Colombia":
+            pais="venezuela"
+            depart=driver.find_element(By.XPATH,'//*[@id="__box8-content"]/div')
+            depart.click()
+            if pais!="COLOMBIA":
 
-                depa.send_keys("otrodepartamento")
+                depat="Otros departamentos"
+                driver.find_element(By.XPATH,'//*[@id="__box8-inner"]').send_keys("otros")
             else:
-                depa.send_keys("antioquia")
+                depat="Antioquia"
+
+            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box8-popup-cont"]//div[text()="{depat}"]')))
+            opciond.click()
             break
         except:
             print("error departamento")
-        while True:
-            try:
-                depa.send_keys(Keys.ARROW_DOWN)
-                depa.send_keys(Keys.ENTER)
-                break
-            except:
-                print("error selecionar departamento")
-    """
+    
     
 def agregar():
     time.sleep(1)
@@ -177,7 +181,7 @@ while True:
         break
     except:
         print("a")
-
+cont=0
 for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if index==1:
         continue
@@ -203,9 +207,12 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     fechan=formatof(fecha)
     sexo="FEMENINO"
     time.sleep(4)
+    if cont==1:
+        break
 
     agregar()
     parte1(nombre,apellido,fechan,pais,sexo)
     time.sleep(6)
+    cont+=1
     #driver.find_element(By.XPATH,'//*[@id="ui5wc_8-inner"]').send_keys("añadir")
-    
+print("terminao")
