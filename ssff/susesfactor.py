@@ -28,7 +28,7 @@ def formatof(fechas):
     fechas=lafecha.split("-")
     fecha_n="".join(fechas)
     return fecha_n
-def parte1(nombre,apellido,fecha_n,pais,sexo):
+def parte1(nombre,apellido,fecha_n,pais,sexo,cedula):
     cone=0
     while cone==0:
         try:
@@ -43,6 +43,7 @@ def parte1(nombre,apellido,fecha_n,pais,sexo):
             time.sleep(1)
 
             time.Sleep(4)
+            print("fecha")
             break
         except:
             print("nod")
@@ -93,7 +94,6 @@ def parte1(nombre,apellido,fecha_n,pais,sexo):
     
     while True:
         try:
-            pais="venezuela"
             depart=driver.find_element(By.XPATH,'//*[@id="__box8-content"]/div')
             depart.click()
             if pais!="COLOMBIA":
@@ -108,7 +108,66 @@ def parte1(nombre,apellido,fecha_n,pais,sexo):
             break
         except:
             print("error departamento")
-    
+    ##ciudad 
+    while True:
+        try:
+            
+            if pais=="COLOMBIA":
+                driver.find_element(By.XPATH,'//*[@id="__box9-arrow"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__box9-inner"]').send_keys("mede")
+                time.sleep(2)
+                ciud="Medellín"
+                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box9-popup-cont"]//div[text()="{ciud}"]')))
+                opciond.click()
+            else:
+                driver.find_element(By.XPATH,'//*[@id="__box9-arrow"]').click()
+                time.sleep(2)
+                ciud="Otros municipios"
+                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box9-popup-cont"]//div[text()="{ciud}"]')))
+                opciond.click()
+            print("municipio select")
+            time.sleep(2)
+            break
+
+            #Otros municipios
+            #Medellín
+        except:
+            #
+            print("departamento none")
+    ##NOMBRE DE USUARIO 
+    while True:
+        try:
+            usu=driver.find_element(By.XPATH,'//*[@id="__input8-inner"]')
+            usu.send_keys(cedula+"CA661")
+            print("usuario digitado")
+            
+            time.Sleep(2)
+            break
+        except:
+            print("error user")
+    driver.find_element(By.XPATH,'//*[@id="__button26-content"]').click()
+    #documento identificacion
+    #pais
+    while True:
+        try:
+            driver.find_element(By.XPATH,'//*[@id="__box10-arrow"]').click()
+            #//*[@id="__box10-popup"]
+            p="Colombia"
+            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box9-popup-cont"]//div[text()="{p}"]')))
+            opciond.click()
+            print("pais document")
+            time.sleep(4)
+            break
+        except:
+            print("error paisd")
+    #tipo
+    while True:
+        try:
+            driver.find_element(By.XPATH,'//*[@id="__box11-arrow"]').click()
+        except:
+            print("error tipo")
+
+
     
 def agregar():
     time.sleep(1)
@@ -211,7 +270,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         break
 
     agregar()
-    parte1(nombre,apellido,fechan,pais,sexo)
+    parte1(nombre,apellido,fechan,pais,sexo,cedula)
     time.sleep(6)
     cont+=1
     #driver.find_element(By.XPATH,'//*[@id="ui5wc_8-inner"]').send_keys("añadir")
