@@ -138,13 +138,15 @@ def parte1(nombre,apellido,fecha_n,pais,sexo,cedula):
     while True:
         try:
             usu=driver.find_element(By.XPATH,'//*[@id="__input8-inner"]')
-            usu.send_keys(cedula+"CA661")
+            usu.clear()
+            cadena=str(cedula+"CA661")
+            usu.send_keys(cadena)
             print("usuario digitado")
-            
-            time.Sleep(2)
             break
         except:
             print("error user")
+
+def parte2(fechaex,pais,cedula):
     driver.find_element(By.XPATH,'//*[@id="__button26-content"]').click()
     #documento identificacion
     #pais
@@ -153,7 +155,7 @@ def parte1(nombre,apellido,fecha_n,pais,sexo,cedula):
             driver.find_element(By.XPATH,'//*[@id="__box10-arrow"]').click()
             #//*[@id="__box10-popup"]
             p="Colombia"
-            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box9-popup-cont"]//div[text()="{p}"]')))
+            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box10-popup"]//div[text()="{p}"]')))
             opciond.click()
             print("pais document")
             time.sleep(4)
@@ -163,9 +165,119 @@ def parte1(nombre,apellido,fecha_n,pais,sexo,cedula):
     #tipo
     while True:
         try:
+            cc="#"
             driver.find_element(By.XPATH,'//*[@id="__box11-arrow"]').click()
+            if pais=="COLOMBIA":
+                cc="Cédula de ciudadanía"
+            elif pais=="VENEZUELA":
+                cc="Cédula de Extranjeria"
+            else:
+                cc="Pasaporte"
+            #//*[@id="__box11-popup"]
+            time.sleep(2)
+            document=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box11-popup"]//div[text()="{cc}"]')))
+            document.click()
+            time.sleep(1)
+            #documento numero
+            n_id=driver.find_element(By.XPATH,'//*[@id="__input11-inner"]')
+            n_id.clear()
+            n_id.send_keys(cedula)
+            #primario
+            driver.find_element(By.XPATH,'//*[@id="__box12-arrow"]').click()
+            time.sleep(1)
+            #//*[@id="__box12-popup"]
+            p="Sí"
+            time.sleep(1)
+            primary=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box12-popup"]//div[text()="{p}"]')))
+            primary.click()
+            driver.find_element(By.XPATH,'//*[@id="__picker4-inner"]').clear()
+            driver.find_element(By.XPATH,'//*[@id="__picker4-inner"]').send_keys(fechaex)
+            #DEPARTAMENTO EXPEDICION
+            driver.find_element(By.XPATH,'//*[@id="__box13-arrow"]').click()
+            dep="Antioquia"
+            time.sleep(2)
+            #//*[@id="__box13-popup"]
+            dep_ex=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box13-popup"]//div[text()="{dep}"]')))
+            dep_ex.click()
+            break
         except:
             print("error tipo")
+    while True:
+        try:
+                        #municipio o ciudad de expedicion //*[@id="__box14-arrow"]
+            
+            
+            if pais=="COLOMBIA":
+                dep_x="Medellín"
+            else:
+                dep_x="Otros Ciudades / Municipios"
+            #driver.find_element(By.XPATH,'//*[@id="__box14-arrow"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__box14-inner"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__box14-inner"]').send_keys(dep_x)
+            time.sleep(1)
+            depaex=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box14-popup"]//div[text()="{dep_x}"]')))
+            depaex.click()
+            print("tipo ide")
+            time.sleep(20)
+        except Exception as e:
+            print("Error:", e)
+
+
+
+def informacion_personal(sexo,estado,pais):
+    while True:
+        try:
+            #GENERO#
+            driver.find_element(By.XPTH,'//*[@id="__box15-arrow"]').click()
+            if sexo=="MASCULINO":
+                sex="Hombre"
+            else:
+                sex="Mujer"
+            #//*[@id="__box15-popup"]
+
+            genero=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box15-popup"]//div[text()="{sex}"]')))
+            genero.click()
+            #estado civil //*[@id="__box16-arrow"]
+            driver.find_element(By.XPATH,'//*[@id="__box16-arrow"]').click()
+            time.sleep(1)
+            #//*[@id="__box16-popup-cont"]
+            if estado=="CASADO":
+                est="Casado/a"
+            elif estado=="VIUDO":
+                est="viudo/a"
+            else:
+                est="Soltero/a"
+                
+            estado=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box16-popup-cont"]//div[text()="{est}"]')))
+            estado.click()
+            #nacionalidad
+            driver.find_element(By.XPATH,'//*[@id="__box17-arrow"]').click()
+            paism=pais.lower()
+            opcionp=paism.capitalize()
+            try:
+                driver.find_element(By.XPATH,'//*[@id="__box17-inner"]').send_keys(opcionp)
+                nacionalidad=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box15-popup"]//div[text()="{opcionp}"]')))
+                nacionalidad.click()
+            except:
+                opcionp='Colombia'
+                driver.find_element(By.XPATH,'//*[@id="__box17-inner"]').send_keys(opcionp)
+                nacionalidad=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box15-popup"]//div[text()="{opcionp}"]')))
+                nacionalidad.click()
+            #lengua nativa
+            driver.find_element(By.XPATH,'//*[@id="__box17-arrow"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__box19-inner"]').send_keys("espa")
+            time.sleep(2)
+            #//*[@id="__box19-popup-cont"]
+            lengua=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box19-popup-cont"]//div[text()="Español"]')))
+            lengua.click()
+            
+
+
+
+        except:
+            print("parte2")
+
+
 
 
     
@@ -264,13 +376,16 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     estado=str(row[17])
     observaciones=str(row[18])
     fechan=formatof(fecha)
+    fechaex=formatof(fecha_ex)
     sexo="FEMENINO"
+    estadoc="CASADO"
     time.sleep(4)
     if cont==1:
         break
 
     agregar()
     parte1(nombre,apellido,fechan,pais,sexo,cedula)
+    parte2(fechaex,pais,cedula)
     time.sleep(6)
     cont+=1
     #driver.find_element(By.XPATH,'//*[@id="ui5wc_8-inner"]').send_keys("añadir")
