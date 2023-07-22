@@ -350,6 +350,7 @@ while True:
         driver.find_element(By.XPATH,'//*[@id="__button2-content"]').click()
         time.sleep(4)
         print('adentro')
+        time.sleep(6)
         break
     except:
         print("a")
@@ -383,11 +384,35 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     time.sleep(4)
     if cont==1:
         break
+    #//*[@id="main--globalSFHeader"]
+    while True:
+        try:
+            cabecera=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]')
+            print("encontrado")
+            break
+        except:
+            print("no encontrado")
+    while True:
+        try:
+            time.sleep(6)
+            modal = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH,'//*[@id="container"]/div[1]'))
+            )
+            button = modal.find_element(By.XPATH,'//*[@id="shellbar"]//header/div[1]/button')#//*[@id="shellbar"]//header/div[1]/button
+            button.click()
+            driver.switch_to.default_content()
+            print("sisepuede")
+            break
+        except:
+            print("no se pudo interactuar")
 
+    """
     agregar()
     parte1(nombre,apellido,fechan,pais,sexo,cedula)
     parte2(fechaex,pais,cedula)
     time.sleep(6)
     cont+=1
     #driver.find_element(By.XPATH,'//*[@id="ui5wc_8-inner"]').send_keys("añadir")
+    """
+
 print("terminao")
