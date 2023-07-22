@@ -307,6 +307,7 @@ def agregar():
 
         ##2
     while True:
+        
         try:
             #coso=driver.find_element(By.XPATH, '//*[@id="__box1-inner"]')
             coso=driver.find_element(By.ID,"__box1-inner")
