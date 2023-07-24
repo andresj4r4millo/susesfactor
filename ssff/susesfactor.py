@@ -387,24 +387,36 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     #//*[@id="main--globalSFHeader"]
     while True:
         try:
-            cabecera=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]')
+            cabecera=driver.find_element(By.XPATH,'//*[@id="globalHeaderFullWidthBackground"]')
             print("encontrado")
+            #//*[@id="globalHeaderFullWidthBackground"]
             break
         except:
             print("no encontrado")
     while True:
         try:
+            """
             time.sleep(6)
             modal = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH,'//*[@id="container"]/div[1]'))
-            )
-            button = modal.find_element(By.XPATH,'//*[@id="shellbar"]//header/div[1]/button')#//*[@id="shellbar"]//header/div[1]/button
-            button.click()
+            EC.presence_of_element_located((By.XPATH,'//*[@id="globalHeaderFullWidthBackground"]'))
+            ) 
+            button = modal.find_element(By.XPATH,'//*[@id="shellbar"]')#//*[@id="shellbar"]//header/div[1]/button
+            #button.click()
             driver.switch_to.default_content()
             print("sisepuede")
+            """
+            
+            
+            #d2=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]')
+            #D3=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar')
+            #
+            D3=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar//div')
+            print("tambien se encontro") # //*[@id="container"]/div[1]/div/xweb-shellbar
             break
         except:
             print("no se pudo interactuar")
+    
+
 
     """
     agregar()
