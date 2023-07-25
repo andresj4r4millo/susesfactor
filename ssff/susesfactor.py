@@ -410,9 +410,11 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
             #d2=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]')
             #D3=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar')
             #
-            D3=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar//div')
-            print("tambien se encontro") # //*[@id="container"]/div[1]/div/xweb-shellbar
-            break
+            #D3=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div')
+            D4=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar') # //*[@id="container"]/div[1]/div/xweb-shellbar
+
+            print("tambien se encontro") 
+            # //*[@id="shellbarContainer"]
         except:
             print("no se pudo interactuar")
     
