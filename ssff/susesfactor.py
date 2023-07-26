@@ -411,10 +411,22 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
             #D3=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar')
             #
             #D3=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div')
-            D4=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar') # //*[@id="container"]/div[1]/div/xweb-shellbar
+            #D4=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar') # //*[@id="container"]/div[1]/div/xweb-shellbar
 
-            print("tambien se encontro") 
+             
             # //*[@id="shellbarContainer"]
+            container_div = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
+            shadow_root = driver.execute_script("return arguments[0].shadowRoot", container_div)
+            time.sleep(2)
+
+            # Dentro del ShadowRoot, se busca un div específico
+            inner_div = shadow_root.find_element(By.XPATH, '//*[@id="shellbarContainer"]')
+
+            # Luego, dentro de ese div intermedio, se busca el elemento de la barra de búsqueda
+            element_inside_shadow = inner_div.find_element(By.XPATH, '//*[@id="search"]')
+            element_inside_shadow.send_keys("661")
+            print("tambien se encontro")
+
         except:
             print("no se pudo interactuar")
     
