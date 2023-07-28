@@ -395,40 +395,34 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
             print("no encontrado")
     while True:
         try:
-            """
-            time.sleep(6)
-            modal = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH,'//*[@id="globalHeaderFullWidthBackground"]'))
-            ) 
-            button = modal.find_element(By.XPATH,'//*[@id="shellbar"]')#//*[@id="shellbar"]//header/div[1]/button
-            #button.click()
-            driver.switch_to.default_content()
-            print("sisepuede")
-            """
-            
-            
-            #d2=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]')
-            #D3=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar')
-            #
-            #D3=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div')
-            #D4=driver.find_element(By.XPATH,'//*[@id="container"]/div[1]/div/xweb-shellbar') # //*[@id="container"]/div[1]/div/xweb-shellbar
 
-             
             # //*[@id="shellbarContainer"]
-            container_div = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
-            shadow_root = driver.execute_script("return arguments[0].shadowRoot", container_div)
-            time.sleep(2)
+            #container_div = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
+            #shadow_root = driver.execute_script("return arguments[0].shadowRoot", container_div)
+            #time.sleep(2)
 
             # Dentro del ShadowRoot, se busca un div específico
-            inner_div = shadow_root.find_element(By.XPATH, '//*[@id="shellbarContainer"]')
+            #inner_div = shadow_root.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
 
-            # Luego, dentro de ese div intermedio, se busca el elemento de la barra de búsqueda
-            element_inside_shadow = inner_div.find_element(By.XPATH, '//*[@id="search"]')
-            element_inside_shadow.send_keys("661")
+            def expand_shadow_element(element):
+                shadow_root = driver.execute_script('return arguments[0].shadowRoot', element)
+                return shadow_root
+
+            # 1. Encontrar el elemento que contiene el ShadowRoot utilizando XPath  
+            container_div = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
+            # Obtener el ShadowRoot
+            shadow_root = expand_shadow_element(container_div)
+
+            # 2. Buscar y ubicar el div deseado dentro del ShadowRoot utilizando XPath o alguna otra propiedad
+            # Por ejemplo, si el div que deseas ubicar tiene un atributo "class" único
+            desired_div = shadow_root.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
+
+            # 3. Interactuar con el div deseado, por ejemplo, hacer clic en él
+            desired_div.click()
             print("tambien se encontro")
 
         except:
-            print("no se pudo interactuar")
+                print("no se pudo interactuar")
     
 
 
