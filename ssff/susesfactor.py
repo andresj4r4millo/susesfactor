@@ -404,21 +404,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
             # Dentro del ShadowRoot, se busca un div específico
             #inner_div = shadow_root.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
 
-            def expand_shadow_element(element):
-                shadow_root = driver.execute_script('return arguments[0].shadowRoot', element)
-                return shadow_root
-
-            # 1. Encontrar el elemento que contiene el ShadowRoot utilizando XPath  
-            container_div = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
-            # Obtener el ShadowRoot
-            shadow_root = expand_shadow_element(container_div)
-
-            # 2. Buscar y ubicar el div deseado dentro del ShadowRoot utilizando XPath o alguna otra propiedad
-            # Por ejemplo, si el div que deseas ubicar tiene un atributo "class" único
-            desired_div = shadow_root.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
-
-            # 3. Interactuar con el div deseado, por ejemplo, hacer clic en él
-            desired_div.click()
+            
             print("tambien se encontro")
 
         except:
