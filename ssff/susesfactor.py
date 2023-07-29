@@ -401,10 +401,11 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
             #shadow_root = driver.execute_script("return arguments[0].shadowRoot", container_div)
             #time.sleep(2)
 
-            # Dentro del ShadowRoot, se busca un div específico
+            #Dentro del ShadowRoot, se busca un div específico
             #inner_div = shadow_root.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
+            shadow_root= driver.find_element(By.CSS_SELECTOR,'mixpath' ).shadow_root
+            shadow_text= shadow_root.find_element(By.CSS_SELECTOR,'mixpath').text
 
-            
             print("tambien se encontro")
 
         except:
