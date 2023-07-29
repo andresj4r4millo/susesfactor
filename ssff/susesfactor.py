@@ -354,6 +354,29 @@ while True:
         break
     except:
         print("a")
+def find_element_in_nested_div(driver, div_element, xpath):
+    try:
+        # Buscar el shadow root dentro del div
+        shadow_root = driver.execute_script('return arguments[0].shadowRoot', div_element)
+        
+        # Intentar encontrar el elemento deseado dentro del shadow root
+        desired_element = shadow_root.find_element(By.XPATH, xpath)
+        return desired_element
+    except:
+        pass  # Ignorar excepción si no se encuentra el elemento en este shadow root
+
+    # Si el elemento no se encuentra en este shadow root, busca en los div anidados
+    nested_div_elements = div_element.find_elements(By.TAG_NAME, 'div')
+    for nested_div_element in nested_div_elements:
+        try:
+            # Intentar encontrar el elemento deseado dentro del div anidado
+            desired_element = find_element_in_nested_div(driver, nested_div_element, xpath)
+            if desired_element:
+                return desired_element
+        except:
+            continue
+
+    return None
 cont=0
 for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if index==1:
@@ -395,22 +418,20 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
             print("no encontrado")
     while True:
         try:
-
-            # //*[@id="shellbarContainer"]
-            #container_div = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
-            #shadow_root = driver.execute_script("return arguments[0].shadowRoot", container_div)
-            #time.sleep(2)
-
-            #Dentro del ShadowRoot, se busca un div específico
-            #inner_div = shadow_root.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
-            shadow_root= driver.find_element(By.CSS_SELECTOR,'mixpath' ).shadow_root
-            shadow_text= shadow_root.find_element(By.CSS_SELECTOR,'mixpath').text
-
+            #xweb_shellbar = driver.find_element(By.CSS_SELECTOR, 'xweb-shellbar')
+            #shadow_root_xweb_shellbar = driver.execute_script('return arguments[0].shadowRoot', xweb_shellbar)
+            xweb_shellbar = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
+            div_inside_shadow_root = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
+            time.sleep(1)
+            desired_element = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="search"]')
+            #segundo root
+            desired_element_with_shadow = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="search"]')
+            shadow_root_desired_element = driver.execute_script('return arguments[0].shadowRoot', desired_element_with_shadow)
+            input_element = shadow_root_desired_element.find_element(By.TAG_NAME, 'input')
             print("tambien se encontro")
 
-        except:
-                print("no se pudo interactuar")
-    
+        except Exception as e:
+            print("No se pudo interactuar:", e)
 
 
     """
