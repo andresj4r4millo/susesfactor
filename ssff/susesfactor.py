@@ -17,9 +17,43 @@ from selenium.webdriver.support.ui import Select
 import traceback
 
 driver= webdriver.Edge(executable_path='msedgedriver.exe')
+driver.implicitly_wait(10)
 workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, keep_links=False, keep_vba=False)
 # Seleccionar la hoja de cálculo que deseas leer
 sheet = workbook['Hoja1']
+def temporal():
+    while True:
+        try:
+            """
+            #div que contiene priemer shadow root
+            xweb_shellbar = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
+            #div_inside_shadow_root = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
+            time.sleep(1)
+            #hayar div que contiene el segundo shadow root
+
+            #//*[@id="search"]
+            segundo = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="search"]') #//*[@id="search"]
+            #buscar shadow root y elementos dentro de este
+            """
+            primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
+            primer_shadow_root = driver.execute_script('return arguments[0].shadowRoot', primer_etiqueta)
+            segunda_etiqueta = primer_shadow_root.find_element(By.ID,"search")
+            segundo_shadow_root = driver.execute_script('return arguments[0].shadowRoot', segunda_etiqueta)
+
+            buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_14-inner")
+            time.sleep(1)
+            buscador.send_keys("Añadir trabajador temporal")
+            time.sleep(2)
+            buscador.send_keys(Keys.ARROW_DOWN)
+            buscador.send_keys(Keys.ARROW_DOWN)
+            time.sleep(1)
+            buscador.send_keys(Keys.ENTER)
+
+            print("tambien se encontro")
+            time.sleep(10)
+        except Exception as e:
+
+            print("No se pudo interactuar:", e)
 def formatof(fechas):
     fechas = fecha.split("/")
     fechan = "".join(fechas)
@@ -354,37 +388,7 @@ while True:
         break
     except:
         print("a")
-def find_element_in_nested_div(driver, element, xpath):
-    try:
-        # Intentar encontrar el elemento deseado dentro del elemento actual
-        desired_element = element.find_element(By.XPATH, xpath)
-        if desired_element:
-            return desired_element
-    except:
-        pass  # Ignorar excepción si no se encuentra el elemento en este elemento
 
-    # Si el elemento no se encuentra en este elemento, busca en los elementos anidados
-    nested_elements = element.find_elements(By.XPATH, '*')
-    for nested_element in nested_elements:
-        try:
-            # Intentar encontrar el elemento deseado dentro del elemento anidado
-            desired_element = find_element_in_nested_div(driver, nested_element, xpath)
-            if desired_element:
-                return desired_element
-        except:
-            continue
-
-    # Si el elemento no se encuentra en ninguno de los elementos, intenta buscar en los shadow roots anidados
-    shadow_root = driver.execute_script('return arguments[0].shadowRoot', element)
-    if shadow_root:
-        try:
-            desired_element = find_element_in_nested_div(driver, shadow_root, xpath)
-            if desired_element:
-                return desired_element
-        except:
-            pass
-
-    return None
 
 cont=0
 for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
@@ -425,32 +429,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
             break
         except:
             print("no encontrado")
-    while True:
-        try:
-            """
-            #div que contiene priemer shadow root
-            xweb_shellbar = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
-            #div_inside_shadow_root = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
-            time.sleep(1)
-            #hayar div que contiene el segundo shadow root
 
-            #//*[@id="search"]
-            segundo = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="search"]') #//*[@id="search"]
-            #buscar shadow root y elementos dentro de este
-            """
-            xweb_shellbar = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
-            div_inside_shadow_root = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
-
-            # Obtener el segundo div contenedor dentro del primer shadow root
-            segundo_div = find_element_in_nested_div(driver,div_inside_shadow_root, '//*[@id="search"]') #//*[@id="search"]
-
-
-           
-            print("tambien se encontro")
-
-        except Exception as e:
-            print("No se pudo interactuar:", e)
-
+    temporal()
     """
     agregar()
     parte1(nombre,apellido,fechan,pais,sexo,cedula)
