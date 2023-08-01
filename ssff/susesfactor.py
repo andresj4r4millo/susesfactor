@@ -21,6 +21,8 @@ driver.implicitly_wait(10)
 workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, keep_links=False, keep_vba=False)
 # Seleccionar la hoja de cálculo que deseas leer
 sheet = workbook['Hoja1']
+######################################################################################################################################################
+##########################################################  AÑADIR TRABAJADOR TEMPORAL
 def temporal():
     while True:
         try:
@@ -50,10 +52,17 @@ def temporal():
             buscador.send_keys(Keys.ENTER)
 
             print("tambien se encontro")
-            time.sleep(10)
+
+            time.sleep(5)
+            break
         except Exception as e:
 
             print("No se pudo interactuar:", e)
+
+
+####################################################################################################################################################3
+#######################################################################  FORMATO DE FECHA    ############################################################
+
 def formatof(fechas):
     fechas = fecha.split("/")
     fechan = "".join(fechas)
@@ -62,6 +71,9 @@ def formatof(fechas):
     fechas=lafecha.split("-")
     fecha_n="".join(fechas)
     return fecha_n
+#########################################################################################################################################################
+########################################################################     FUNCIONES INGRESO############################################################
+
 def parte1(nombre,apellido,fecha_n,pais,sexo,cedula):
     cone=0
     while cone==0:
@@ -179,7 +191,8 @@ def parte1(nombre,apellido,fecha_n,pais,sexo,cedula):
             break
         except:
             print("error user")
-
+##################################################################################################################################
+############################################### PARTE2 INGRESO#####################################################################
 def parte2(fechaex,pais,cedula):
     driver.find_element(By.XPATH,'//*[@id="__button26-content"]').click()
     #documento identificacion
@@ -304,14 +317,10 @@ def informacion_personal(sexo,estado,pais):
             #//*[@id="__box19-popup-cont"]
             lengua=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box19-popup-cont"]//div[text()="Español"]')))
             lengua.click()
-            
-
-
-
         except:
             print("parte2")
 
-
+###################################################################################################################################
 
 
     
@@ -375,7 +384,10 @@ def agregar():
 
 driver.get("https://performancemanager8.successfactors.com/login?bplte_logout=1&company=comunicaci&_s.crb=VG1RqGoWUmkzkcagqGY%252fybzahzatv77ql1k8j0nbZ2E%253d#/login")
 # Iterar sobre las filas en la hoja de cálculo
-#INGRESAR
+################################################################################################
+##########################################################################################
+##################################################INGRESAR#############################
+
 while True:
     try:
         driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys("EC7061B")
@@ -421,16 +433,10 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if cont==1:
         break
     #//*[@id="main--globalSFHeader"]
-    while True:
-        try:
-            cabecera=driver.find_element(By.XPATH,'//*[@id="globalHeaderFullWidthBackground"]')
-            print("encontrado")
-            #//*[@id="globalHeaderFullWidthBackground"]
-            break
-        except:
-            print("no encontrado")
 
     temporal()
+    parte1(nombre,apellido,fechan,pais,sexo,cedula)
+
     """
     agregar()
     parte1(nombre,apellido,fechan,pais,sexo,cedula)
