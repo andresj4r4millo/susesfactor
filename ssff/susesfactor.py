@@ -29,17 +29,7 @@ sheet = workbook['Hoja1']
 def temporal():
     while True:
         try:
-            """
-            #div que contiene priemer shadow root
-            xweb_shellbar = driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
-            #div_inside_shadow_root = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="container"]/div[1]/div/xweb-shellbar//div')
-            time.sleep(1)
-            #hayar div que contiene el segundo shadow root
 
-            #//*[@id="search"]
-            segundo = find_element_in_nested_div(driver, xweb_shellbar, '//*[@id="search"]') #//*[@id="search"]
-            #buscar shadow root y elementos dentro de este
-            """
             primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
             primer_shadow_root = driver.execute_script('return arguments[0].shadowRoot', primer_etiqueta)
             segunda_etiqueta = primer_shadow_root.find_element(By.ID,"search")
@@ -114,6 +104,7 @@ def ingresar(nombre, apellido, fecha_n,pais ):
     ###informacion biografica
     while True:
         try:
+
             driver.find_element(By.XPATH,'//*[@id="__picker1-inner"]').send_keys(fecha_n)
             time.sleep(1)
             #//*[@id="__box2-inner"]
@@ -128,9 +119,40 @@ def ingresar(nombre, apellido, fecha_n,pais ):
              # Texto de la opción que deseas seleccionar
             opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box2-popup-cont"]//div[text()="{opcion_texto}"]')))
             opcion.click()
+            if (opcion_texto !="Colombia"):
+                departamento="Otros departamentos"
+            else:
+                departamento="Antioquia"
+            #departamento  
+            driver.find_element(By.XPATH,'//*[@id="__box3-arrow"]')
+            depa=driver.find_element(By.XPATH,'//*[@id="__box3-inner"]')
+            depa.clear()
+            depa.send_keys(departamento)
+            time.sleep(1)
+            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box3-popup-cont"]//div[text()="{departamento}"]')))
+            opciond.click()
             print("bien")
+            break
         except:
             print("error biografico")
+    while True:
+        try:
+            if pais=="COLOMBIA":
+                driver.find_element(By.XPATH,'//*[@id="__box4-arrow"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__box9-inner"]').send_keys("mede")
+                time.sleep(2)
+                ciud="Medellín"
+                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box9-popup-cont"]//div[text()="{ciud}"]')))
+                opciond.click()
+            else:
+                driver.find_element(By.XPATH,'//*[@id="__box4-arrow"]').click()
+                time.sleep(2)
+                ciud="Otros municipios"
+                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box9-popup-cont"]//div[text()="{ciud}"]')))
+                opciond.click()
+            print("municipio select")
+        except:
+            print("error ciudad")
 
 
 ####################################################################################################################################################3
@@ -144,23 +166,25 @@ def formatof(fechas):
     fecha_n="".join(fechas)
     return fecha_n
 
-driver.get("https://performancemanager8.successfactors.com/login?bplte_logout=1&company=comunicaci&_s.crb=VG1RqGoWUmkzkcagqGY%252fybzahzatv77ql1k8j0nbZ2E%253d#/login")
 
 ##################################################INGRESAR#############################
+def iniciar_sesion():
+    while True:
+        try:
+            driver.get("https://performancemanager8.successfactors.com/login?bplte_logout=1&company=comunicaci&_s.crb=VG1RqGoWUmkzkcagqGY%252fybzahzatv77ql1k8j0nbZ2E%253d#/login")
 
-while True:
-    try:
-        driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys("EC7061B")
-        driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys("Onecont2024*")
-        time.sleep(1)
-        driver.find_element(By.XPATH,'//*[@id="__button2-content"]').click()
-        time.sleep(4)
-        print('adentro')
-        time.sleep(3)
-        break
-    except:
-        print("a")
+            driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys("EC7061B")
+            driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys("Onecont2024*")
+            time.sleep(1)
+            driver.find_element(By.XPATH,'//*[@id="__button2-content"]').click()
+            time.sleep(4)
+            print('adentro')
+            time.sleep(3)
+            break
+        except:
+            print("a")
 
+iniciar_sesion()
 
 cont=0
 for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
