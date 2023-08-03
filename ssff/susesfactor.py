@@ -52,7 +52,7 @@ def temporal():
 
             print("No se pudo interactuar:", e)
 
-def ingresar(nombre, apellido, fecha_n,pais ):
+def ingresar(nombre, apellido, fecha_n,pais,cedula ):
     while True:
         try:
             #NOMBRE
@@ -139,20 +139,34 @@ def ingresar(nombre, apellido, fecha_n,pais ):
         try:
             if pais=="COLOMBIA":
                 driver.find_element(By.XPATH,'//*[@id="__box4-arrow"]').click()
-                driver.find_element(By.XPATH,'//*[@id="__box9-inner"]').send_keys("mede")
+                driver.find_element(By.XPATH,'//*[@id="__box4-inner"]').send_keys("mede")
                 time.sleep(2)
                 ciud="Medellín"
-                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box9-popup-cont"]//div[text()="{ciud}"]')))
+                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box4-popup-cont"]//div[text()="{ciud}"]')))
                 opciond.click()
             else:
                 driver.find_element(By.XPATH,'//*[@id="__box4-arrow"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__box4-inner"]').send_keys("otros")
                 time.sleep(2)
                 ciud="Otros municipios"
-                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box9-popup-cont"]//div[text()="{ciud}"]')))
+                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box4-popup-cont"]//div[text()="{ciud}"]')))
                 opciond.click()
             print("municipio select")
+            break
         except:
             print("error ciudad")
+    #documento
+    while True:
+        try:
+            #                            //*[@id="__input6-inner"]
+            driver.find_element(By.XPATH,'//*[@id="__input6-inner"]').click()
+            document=driver.find_element(By.XPATH,'//*[@id="__input6-inner"]')    
+            document.send_keys(cedula)
+            print("si")
+            time.sleep(10)
+            break
+        except:
+            print("error documento")
 
 
 ####################################################################################################################################################3
@@ -219,7 +233,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     #//*[@id="main--globalSFHeader"]
 
     temporal()
-    ingresar(nombre, apellido, fechan,pais )
+    ingresar(nombre, apellido, fechan,pais,cedula )
     #parte1(nombre,apellido,fechan,pais,sexo,cedula)
 
     """
