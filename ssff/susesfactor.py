@@ -51,8 +51,22 @@ def temporal():
         except Exception as e:
 
             print("No se pudo interactuar:", e)
+def ssff():
+    while True:
+        try:
+            # //*[@id="shellbar"]//header/div[1]/span
+            primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')#//*[@id="container"]/div[1]/div/xweb-shellbar
+            primer_shadow_root = driver.execute_script('return arguments[0].shadowRoot', primer_etiqueta)
+            segunda_etiqueta = primer_shadow_root.find_element(By.ID,"shellbar")
+            segundo_shadow_root = driver.execute_script('return arguments[0].shadowRoot', segunda_etiqueta)
+            btn_inicio=segundo_shadow_root.find_element(By.XPATH, '//*[@id="shellbar"]//header/div[1]/button/span')
+            btn_inicio.click()
+            print("inicio")
+            break
+        except:
+            print("boton no encontrado")
 
-def ingresar(nombre, apellido, fecha_n,pais,cedula ):
+def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex ):
     while True:
         try:
             #NOMBRE
@@ -156,17 +170,71 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula ):
         except:
             print("error ciudad")
     #documento
+    """
     while True:
         try:
             #                            //*[@id="__input6-inner"]
-            driver.find_element(By.XPATH,'//*[@id="__input6-inner"]').click()
-            document=driver.find_element(By.XPATH,'//*[@id="__input6-inner"]')    
+            driver.find_element(By.XPATH,'//*[@id="__input6-content"]').click()
+            document=driver.find_element(By.XPATH,'//*[@id="__input6-content"]')
+            print(cedula)    
             document.send_keys(cedula)
             print("si")
             time.sleep(10)
             break
-        except:
+        except NoSuchElementException as e:
             print("error documento")
+            print("mensaje: ", e)
+    """
+    while True:
+        try:
+            nom=driver.find_element(By.XPATH,'//*[@id="__input7-inner"]')
+            nom.send_keys(f"{nombre} {apellido}")
+            ### identificacion
+            print("echo")
+            break
+        except:
+            print("error nombre")
+    #IDENTIFICACION
+    while True:
+        try:
+            driver.find_element(By.XPATH,'//*[@id="__box5-arrow"]').click()
+            option="Colombia"
+            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box5-popup-cont"]//div[text()="{option}"]')))
+            
+            opciond.click()
+            #tipo documento
+            cc="#"
+            driver.find_element(By.XPATH,'//*[@id="__box6-arrow"]').click()
+            if pais=="COLOMBIA":
+                cc="Cédula de ciudadanía"
+            elif pais=="VENEZUELA":
+                cc="Cédula de Extranjeria"
+            else:
+                cc="Pasaporte"
+            document=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box6-popup-cont"]//div[text()="{cc}"]')))
+            document.click()
+            #documento
+            cd=driver.find_element(By.XPATH,'//*[@id="__input10-inner"]')
+            actions.double_click(cd).perform()
+            cd.send_keys(cedula)
+            #fecha expedicion
+            fx=driver.find_element(By.XPATH,'//*[@id="__picker2-inner"]')
+            fx.send_keys(fechaex)
+            ##departamento de expedicion
+            exp="Antioquia"
+            driver.find_element(By.XPATH,'//*[@id="__box8-arrow"]').click()
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box8-popup-cont"]//div[text()="{exp}"]')))
+            opcionx.click()
+            #//*[@id="__box8-popup-cont"]
+            #Antioquia
+            print("lito a envio")
+            time.sleep(20)
+
+
+        except:
+            print("datos erroneos")
+            
+
 
 
 ####################################################################################################################################################3
@@ -231,9 +299,12 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if cont==1:
         break
     #//*[@id="main--globalSFHeader"]
-
-    temporal()
-    ingresar(nombre, apellido, fechan,pais,cedula )
+    while True:
+        temporal()
+        #ssff()
+        time.sleep(1)
+        driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
+    #ingresar(nombre, apellido, fechan,pais,cedula,fechaex )
     #parte1(nombre,apellido,fechan,pais,sexo,cedula)
 
     """
