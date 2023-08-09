@@ -227,6 +227,9 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex ):
             opcionx.click()
             #//*[@id="__box8-popup-cont"]
             #Antioquia
+            #nombre de usuario
+            #//*[@id="__input26-inner"]
+
             print("lito a envio")
             time.sleep(20)
 
@@ -303,8 +306,9 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         temporal()
         #ssff()
         time.sleep(1)
-        driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
-    #ingresar(nombre, apellido, fechan,pais,cedula,fechaex )
+        #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
+        ingresar(nombre, apellido, fechan,pais,cedula,fechaex )
+        time.sleep(20)
     #parte1(nombre,apellido,fechan,pais,sexo,cedula)
 
     """
