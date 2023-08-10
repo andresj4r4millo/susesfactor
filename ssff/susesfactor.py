@@ -66,7 +66,7 @@ def ssff():
         except:
             print("boton no encontrado")
 
-def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex ):
+def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
     while True:
         try:
             #NOMBRE
@@ -169,6 +169,12 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex ):
             break
         except:
             print("error ciudad")
+    if codigo_p=="si":
+        while True:
+            try:
+                cdp=driver.find_element(By.XPATH,'//*[@id="__input6-inner"]')
+            except:
+                print("error al interactuar con el codigo de la persona")
     #documento
     """
     while True:
@@ -188,7 +194,7 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex ):
     while True:
         try:
             nom=driver.find_element(By.XPATH,'//*[@id="__input7-inner"]')
-            nom.send_keys(f"{nombre} {apellido}")
+            nom.send_keys(f"{cedula}CA661")
             ### identificacion
             print("echo")
             break
@@ -230,8 +236,9 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex ):
             #nombre de usuario
             #//*[@id="__input26-inner"]
 
-            print("lito a envio")
-            time.sleep(20)
+            print("listo a envio")
+            break
+            #time.sleep(20)
 
 
         except:
@@ -307,9 +314,13 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         #ssff()
         time.sleep(1)
         #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
-        ingresar(nombre, apellido, fechan,pais,cedula,fechaex )
+        ingresar(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
         time.sleep(20)
-    #parte1(nombre,apellido,fechan,pais,sexo,cedula)
+        continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
+        continuar.click()
+        driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
+        
+
 
     """
     agregar()
