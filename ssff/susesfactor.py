@@ -306,8 +306,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     sexo="FEMENINO"
     estadoc="CASADO"
     time.sleep(2)
-    if cont==1:
-        break
+
+
     #//*[@id="main--globalSFHeader"]
     while True:
         temporal()
@@ -315,9 +315,14 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         time.sleep(1)
         #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
         ingresar(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
-        time.sleep(20)
+        #time.sleep(20)
         continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
         continuar.click()
+        ignorar=driver.find_element(By.XPATH,'//*[@id="__button23-inner"]')
+        time.sleep(2)
+        ignorar.click()#
+        time.sleep(1)
+        ingresar(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
         driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
         
 
