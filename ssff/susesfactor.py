@@ -245,7 +245,191 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
             print("datos erroneos")
             
 
+##################################################################################################
+def ingresar2(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
+    while True:
+        try:
+            #NOMBRE
+            driver.find_element(By.XPATH,'//*[@id="__input13-inner"]').clear
+            driver.find_element(By.XPATH,'//*[@id="__input13-inner"]').send_keys(nombre)
+            #APELLIDO
+            driver.find_element(By.XPATH,'//*[@id="__input14-inner"]').clear()
+            driver.find_element(By.XPATH,'//*[@id="__input14-inner"]').send_keys(apellido)
+            break
+        except:
+            print("no se pudo diligenciar")
+    while True:
+        try:
+            #FECHA NACIMIENTO
+            #campofecha=driver.find_element(By.XPATH,'//*[@id="__picker0-inner"]')
+            #actions.double_click(campofecha).perform()
+            #campofecha.clear()
+            #campofecha.send_keys(fecha_n)
+            #time.sleep(1)
+            #empresa
+            elemento_input = driver.find_element(By.ID,"__box10-inner")
+            texto="ONE CONTACT INTERNACIONAL (CA661)"
+            elemento_input.send_keys("661")
+            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box10-popup-list"]//div[text()="{texto}"]')))
+            #//*[@id="__box0-popup-list-listUl"]
+            opcion.click()
+            time.sleep(2)
+            elemento_input.send_keys(Keys.ARROW_DOWN)
+            elemento_input.send_keys(Keys.ENTER)
+            time.sleep(1)#
+            # PREINGRESO
+            print('bien')
+            break
+        except:
+            print('error2')
+    while True:
+        try:
+            #//*[@id="__box1-popup"]
+            #motivo=driver.find_element(By.XPATH,'//*[@id="__box1-inner"]')
+            opciont="Preingreso (H10)"
+            #motivo.send_keys(opciont)
+            driver.find_element(By.XPATH,'//*[@id="__box11-arrow"]').click()
+            #//*[@id="__box1-popup"]
+            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box11-popup-list-listUl"]//div[text()="{opciont}"]')))
+            opcion.click()
+            time.sleep(1)
 
+            break
+        except:
+            print("error3")
+    ###informacion biografica
+    while True:
+        try:
+            driver.find_element(By.XPATH,'//*[@id="__picker4-inner"]').clear()         
+            driver.find_element(By.XPATH,'//*[@id="__picker4-inner"]').send_keys(fecha_n)
+            time.sleep(1)
+            #//*[@id="__box2-inner"]
+            #PAIS
+
+            span=driver.find_element(By.XPATH,'//*[@id="__box12-inner"]')#//*[@id="__box2-inner"]
+            span.clear()
+            paism=pais.lower()
+            opcion_texto=paism.capitalize()
+            span.send_keys(opcion_texto)
+            #desplegar opciones
+            driver.find_element(By.XPATH,'//*[@id="__box12-arrow"]').click()
+            time.sleep(2)
+             # Texto de la opción que deseas seleccionar
+            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box12-popup-cont"]//div[text()="{opcion_texto}"]')))
+            opcion.click()
+            if (opcion_texto !="Colombia"):
+                departamento="Otros departamentos"
+            else:
+                departamento="Antioquia"
+            #departamento  
+            
+            depa=driver.find_element(By.XPATH,'//*[@id="__box13-inner"]')
+            depa.clear()
+            depa.send_keys(departamento)
+            time.sleep(1)
+            driver.find_element(By.XPATH,'//*[@id="__box13-arrow"]').click()
+            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box13-popup-cont"]//div[text()="{departamento}"]')))
+            opciond.click()
+            print("bien")
+            break
+        except:
+            print("error biografico")
+    while True:
+        try:
+            if pais=="COLOMBIA":
+                driver.find_element(By.XPATH,'//*[@id="__box14-arrow"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__box14-inner"]').send_keys("mede")
+                time.sleep(2)
+                ciud="Medellín"
+                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box14-popup-cont"]//div[text()="{ciud}"]')))
+                opciond.click()
+            else:
+                driver.find_element(By.XPATH,'//*[@id="__box14-arrow"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__box14-arrow"]').send_keys("otros")
+                time.sleep(2)
+                ciud="Otros municipios"
+                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box14-popup-cont"]//div[text()="{ciud}"]')))
+                opciond.click()
+            print("municipio select")
+            break
+        except:
+            print("error ciudad")
+    if codigo_p=="si":
+        while True:
+            try:
+                cdp=driver.find_element(By.XPATH,'//*[@id="__input6-inner"]')
+            except:
+                print("error al interactuar con el codigo de la persona")
+    #documento
+    """
+    while True:
+        try:
+            #                            //*[@id="__input6-inner"]
+            driver.find_element(By.XPATH,'//*[@id="__input6-content"]').click()
+            document=driver.find_element(By.XPATH,'//*[@id="__input6-content"]')
+            print(cedula)    
+            document.send_keys(cedula)
+            print("si")
+            time.sleep(10)
+            break
+        except NoSuchElementException as e:
+            print("error documento")
+            print("mensaje: ", e)
+    """
+    while True:
+        try:
+            nom=driver.find_element(By.XPATH,'//*[@id="__input20-inner"]')
+            nom.send_keys(f"{cedula}CA661")
+            ### identificacion
+            print("echo")
+            break
+        except:
+            print("error nombre")
+    #IDENTIFICACION
+    while True:
+        try:
+            driver.find_element(By.XPATH,'//*[@id="__box15-arrow"]').click()
+            option="Colombia"
+            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box15-popup-cont"]//div[text()="{option}"]')))
+            
+            opciond.click()
+            #tipo documento
+            cc="#"
+            driver.find_element(By.XPATH,'//*[@id="__box16-arrow"]').click()
+            if pais=="COLOMBIA":
+                cc="Cédula de ciudadanía"
+            elif pais=="VENEZUELA":
+                cc="Cédula de Extranjeria"
+            else:
+                cc="Pasaporte"
+            document=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box16-popup-cont"]//div[text()="{cc}"]')))
+            document.click()
+            #documento
+            cd=driver.find_element(By.XPATH,'//*[@id="__input23-inner"]')
+            actions.double_click(cd).perform()
+            cd.send_keys(cedula)
+            #fecha expedicion
+            fx=driver.find_element(By.XPATH,'//*[@id="__picker5-inner"]')
+            fx.clear()
+            fx.send_keys(fechaex)
+            ##departamento de expedicion
+            exp="Antioquia"
+            driver.find_element(By.XPATH,'//*[@id="__box18-arrow"]').click()
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box18-popup-cont"]//div[text()="{exp}"]')))
+            opcionx.click()
+            #//*[@id="__box8-popup-cont"]
+            #Antioquia
+            #nombre de usuario
+            #//*[@id="__input26-inner"]
+
+            print("listo a envio")
+            break
+            #time.sleep(20)
+
+
+        except:
+            print("datos erroneos")
+            
 
 ####################################################################################################################################################3
 #######################################################################  FORMATO DE FECHA    ############################################################
@@ -309,21 +493,28 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
 
 
     #//*[@id="main--globalSFHeader"]
+
+    temporal()
+    #ssff()
+    time.sleep(1)
+    #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
+    ingresar(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
+    #time.sleep(20)
+    
     while True:
-        temporal()
-        #ssff()
-        time.sleep(1)
-        #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
-        ingresar(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
-        #time.sleep(20)
-        continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
-        continuar.click()
-        ignorar=driver.find_element(By.XPATH,'//*[@id="__button23-inner"]')
+        try:
+            continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
+            continuar.click()
+            ignorar=driver.find_element(By.XPATH,'//*[@id="__button23-inner"]')
+            ignorar.click()#
+            break
+        except:
+            continue
         time.sleep(2)
-        ignorar.click()#
-        time.sleep(1)
-        ingresar(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
-        driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
+        
+    time.sleep(1)
+    ingresar2(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
+    driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
         
 
 
