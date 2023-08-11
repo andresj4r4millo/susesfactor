@@ -59,7 +59,7 @@ def ssff():
             primer_shadow_root = driver.execute_script('return arguments[0].shadowRoot', primer_etiqueta)
             segunda_etiqueta = primer_shadow_root.find_element(By.ID,"shellbar")
             segundo_shadow_root = driver.execute_script('return arguments[0].shadowRoot', segunda_etiqueta)
-            btn_inicio=segundo_shadow_root.find_element(By.XPATH, '//*[@id="shellbar"]//header/div[1]/button/span')
+            btn_inicio=segundo_shadow_root.find_element(By.XPATH, '//*[@id="shellbar"]//header/div[1]/span')
             btn_inicio.click()
             print("inicio")
             break
@@ -429,6 +429,20 @@ def ingresar2(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
 
         except:
             print("datos erroneos")
+def info_asignacion(campaña):
+    while True:
+        try:
+            posicion=driver.find_element(By.XPATH,'//*[@id="__box17-inner"]')
+            posicion.send_keys("porta")
+            opc="#"
+            if campaña=="PORTA OUT":
+                opc="ASESOR PORTA OUT TMK ALIADO (30031644)"
+            elif campaña=="MIGRA OUT":
+                opc="ASESOR MIGRA OUT TMK ALIADO (30031645)"
+            
+        except:
+            print("err.position")
+
             
 
 ####################################################################################################################################################3
