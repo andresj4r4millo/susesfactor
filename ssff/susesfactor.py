@@ -500,7 +500,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
     ingresar(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
     #time.sleep(20)
-    
+    n=0
     while True:
         try:
             continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
@@ -509,6 +509,10 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
             ignorar.click()#
             break
         except:
+            n+=1
+            if n!=1 and n!=2 and n!=3:
+                #ignorar
+                driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
             continue
         time.sleep(2)
         
