@@ -444,7 +444,7 @@ def info_asignacion(campaña):
             print("err.position")
 #########################################################################################################################################################
 ##########################################FUNCION CORREO Y  TELEFONO
-def correo_telefono(celular,correo):
+def correo_telefono(correo_corporativo,celular,correo):
     #correo
     while True:
         try:
@@ -461,7 +461,7 @@ def correo_telefono(celular,correo):
             opcionx.click()
 
             driver.find_element(By.XPATH,'//*[@id="__input21-inner"]').send_keys(correo)
-            driver.find_element(By.XPATH,'//*[@id="__input21-inner"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__box14-arrow"]').click()
             #
             pr="Sí"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box14-popup-cont"]//div[text()="{pr}"]')))
@@ -473,22 +473,28 @@ def correo_telefono(celular,correo):
     while True:
         try:
             driver.find_element(By.XPATH,'//*[@id="__input18-inner"]').send_keys(celular)
+            #//*[@id="__box20-arrow"]
+            driver.find_element(By.XPATH,'//*[@id="__box20-arrow"]').click()
+            ttf="No"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box20-popup-cont"]//div[text()="{ttf}"]')))
+            opcionx.click()
             #añadir
             driver.find_element(By.XPATH,'//*[@id="__button37-inner"]').click()
             #tipo
             driver.find_element(By.XPATH,'//*[@id="__box17-arrow"]').click()
             #//*[@id="__box17-popup-cont"]
-            ttf="Personal"
+            ttf="Corporativo"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box17-popup-cont"]//div[text()="{ttf}"]')))
             opcionx.click()
             #numero telefono
             driver.find_element(By.XPATH,'//*[@id="__input27-inner"]').send_keys(celular)
             #principal
-            driver.find_element(By.XPATH,'//*[@id="__input27-inner"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__box18-arrow"]').click()
             #//*[@id="__box18-popup-cont"]
             ttf="Sí"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box18-popup-cont"]//div[text()="{ttf}"]')))
             opcionx.click()
+            break
         except:
             print(celular)
 
@@ -588,7 +594,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         ingresar2(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
     else:
         print(correo)
-        correo_telefono(celular,correo)
+        correo_telefono(correo_corporativo,celular,correo)
         
         time.sleep(20)
 
