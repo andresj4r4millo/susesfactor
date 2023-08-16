@@ -26,7 +26,7 @@ workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, k
 sheet = workbook['Hoja1']
 ######################################################################################################################################################
 ##########################################################  AÑADIR TRABAJADOR TEMPORAL
-def temporal():
+def temporal(texto):
     while True:
         try:
 
@@ -37,7 +37,7 @@ def temporal():
 
             buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_14-inner")
             time.sleep(1)
-            buscador.send_keys("Añadir trabajador temporal")
+            buscador.send_keys(texto)
             time.sleep(2)
             buscador.send_keys(Keys.ARROW_DOWN)
             buscador.send_keys(Keys.ARROW_DOWN)
@@ -463,7 +463,7 @@ def correo_telefono(correo_corporativo,celular,correo):
             driver.find_element(By.XPATH,'//*[@id="__input21-inner"]').send_keys(correo)
             driver.find_element(By.XPATH,'//*[@id="__box14-arrow"]').click()
             #
-            pr="Sí"
+            pr="No"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box14-popup-cont"]//div[text()="{pr}"]')))
             opcionx.click()
             break
@@ -472,26 +472,33 @@ def correo_telefono(correo_corporativo,celular,correo):
     #telefono
     while True:
         try:
+            #corporativo
+            driver.find_element(By.XPATH,'//*[@id="__box11-arrow"]').click()
+            ttf="Corporativo"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box11-popup-cont"]//div[text()="{ttf}"]')))
+            opcionx.click()
+            driver.find_element(By.XPATH,'//*[@id="__input18-inner"]').clear()
             driver.find_element(By.XPATH,'//*[@id="__input18-inner"]').send_keys(celular)
             #//*[@id="__box20-arrow"]
-            driver.find_element(By.XPATH,'//*[@id="__box20-arrow"]').click()
-            ttf="No"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box20-popup-cont"]//div[text()="{ttf}"]')))
-            opcionx.click()
+            driver.find_element(By.XPATH,'//*[@id="__box12-arrow"]').click()
+            tf="No"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box12-popup-cont"]//div[text()="{"No"}"]')))
+            actions.double_click(opcionx).perform()
             #añadir
             driver.find_element(By.XPATH,'//*[@id="__button37-inner"]').click()
             #tipo
             driver.find_element(By.XPATH,'//*[@id="__box17-arrow"]').click()
             #//*[@id="__box17-popup-cont"]
-            ttf="Corporativo"
+            ttf="Personal"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box17-popup-cont"]//div[text()="{ttf}"]')))
             opcionx.click()
             #numero telefono
+            driver.find_element(By.XPATH,'//*[@id="__input27-inner"]').clear()
             driver.find_element(By.XPATH,'//*[@id="__input27-inner"]').send_keys(celular)
             #principal
             driver.find_element(By.XPATH,'//*[@id="__box18-arrow"]').click()
             #//*[@id="__box18-popup-cont"]
-            ttf="Sí"
+            ttf="No"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box18-popup-cont"]//div[text()="{ttf}"]')))
             opcionx.click()
             break
@@ -560,8 +567,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
 
 
     #//*[@id="main--globalSFHeader"]
-
-    temporal()
+    texto="Añadir trabajador temporal"
+    temporal(texto)
     #ssff()
     time.sleep(1)
     #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
