@@ -30,12 +30,37 @@ def temporal(texto):
     while True:
         try:
 
-            primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')
+            primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="container"]/div[1]/div/xweb-shellbar')#//*[@id="renderTopNavSFHeader"]/xweb-shellbar
             primer_shadow_root = driver.execute_script('return arguments[0].shadowRoot', primer_etiqueta)
             segunda_etiqueta = primer_shadow_root.find_element(By.ID,"search")
             segundo_shadow_root = driver.execute_script('return arguments[0].shadowRoot', segunda_etiqueta)
 
             buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_14-inner")
+            time.sleep(1)
+            buscador.send_keys(texto)
+            time.sleep(2)
+            buscador.send_keys(Keys.ARROW_DOWN)
+            buscador.send_keys(Keys.ARROW_DOWN)
+            time.sleep(1)
+            buscador.send_keys(Keys.ENTER)
+
+            print("tambien se encontro")
+
+            time.sleep(5)
+            break
+        except Exception as e:
+
+            print("No se pudo interactuar:", e)
+def temporal_intro(texto):
+    while True:
+        try:
+
+            primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="renderTopNavSFHeader"]/xweb-shellbar')#//*[@id="renderTopNavSFHeader"]/xweb-shellbar
+            primer_shadow_root = driver.execute_script('return arguments[0].shadowRoot', primer_etiqueta)
+            segunda_etiqueta = primer_shadow_root.find_element(By.ID,"search")
+            segundo_shadow_root = driver.execute_script('return arguments[0].shadowRoot', segunda_etiqueta)
+
+            buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_8-inner")#//*[@id="ui5wc_8-inner"]
             time.sleep(1)
             buscador.send_keys(texto)
             time.sleep(2)
@@ -501,6 +526,8 @@ def correo_telefono(correo_corporativo,celular,correo):
             ttf="No"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box18-popup-cont"]//div[text()="{ttf}"]')))
             opcionx.click()
+            time.sleep(2)
+            driver.find_element(By.XPATH,'//*[@id="__button33-BDI-content"]').click()
             break
         except:
             print(celular)
@@ -602,10 +629,11 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     else:
         print(correo)
         correo_telefono(correo_corporativo,celular,correo)
-        
-        time.sleep(20)
+        time.sleep(2)
+        #temporal_intro("inicio")
+        #time.sleep(20)
 
-    driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
+    #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
         
 
 
