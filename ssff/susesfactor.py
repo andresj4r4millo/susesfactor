@@ -539,28 +539,30 @@ def correo_telefono(correo_corporativo,celular,correo):
         #telefono
     while True:
         try:
-            driver.find_element(By.XPATH,'//*[@id="__box23-arrow"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__box11-arrow"]').click()
             tc="Corporativo"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box23-popup-cont"]//div[text()="{tc}"]')))
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box11-popup-cont"]//div[text()="{tc}"]')))
             opcionx.click()
-            tel=driver.find_element(By.XPATH,'//*[@id="__input34-inner"]')
+            tel=driver.find_element(By.XPATH,'//*[@id="__input18-inner"]')
             tel.clear()
             tel.send_keys(celular)
-            driver.find_element(By.XPATH,'//*[@id="__box24-arrow"]').click()#//*[@id="__box24-arrow"]
+            driver.find_element(By.XPATH,'//*[@id="__box12-arrow"]').click()#//*[@id="__box24-arrow"]
             tf="Sí"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box24-popup-cont"]//div[text()="{tf}"]')))
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box12-popup-cont"]//div[text()="{tf}"]')))
             opcionx.click()
-            #añadido
-            driver.find_element(By.XPATH,'//*[@id="__box25-arrow"]').click()
+            #añadido #//*[@id="__button37-content"]
+            driver.find_element(By.XPATH,'//*[@id="__button37-content"]').click()
+            ###
+            driver.find_element(By.XPATH,'//*[@id="__box17-arrow"]').click()
             tc="Personal"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box25-popup-cont"]//div[text()="{tc}"]')))
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box17-popup-cont"]//div[text()="{tc}"]')))
             opcionx.click()
-            tel2=driver.find_element(By.XPATH,'//*[@id="__input37-inner"]')
+            tel2=driver.find_element(By.XPATH,'//*[@id="__input27-inner"]')
             tel2.clear()
             tel2.send_keys(celular)
-            driver.find_element(by.XPATH,'//*[@id="__box26-arrow"]').click()#//*[@id="__box26-arrow"]
+            driver.find_element(By.XPATH,'//*[@id="__box18-arrow"]').click()#//*[@id="__box26-arrow"]
             tf="No"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box26-popup-cont"]//div[text()="{tf}"]')))
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box18-popup-cont"]//div[text()="{tf}"]')))
             opcionx.click()
             break
         except:
