@@ -15,6 +15,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 import traceback
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 #import funciones
 
 driver= webdriver.Edge(executable_path='msedgedriver.exe')
@@ -264,33 +266,33 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
             
             continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
             continuar.click()
-
-            if (driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]')):
-                driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
-                
-            print("listo a envio")
-
-            #time.sleep(20)
-
             try:
-                driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]')
+
+                driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
+            except:   
+                print("listo a envio")
+
+                #time.sleep(20)
+
                 try:
-                    ignorar=driver.find_element(By.XPATH,'//*[@id="__button23-inner"]')
-                    ignorar.click()#
-                    print("aceptar")
-                    return "aceptar"
+                    driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]')
+                    try:
+                        ignorar=driver.find_element(By.XPATH,'//*[@id="__button23-inner"]')
+                        ignorar.click()#
+                        print("aceptar")
+                        return "aceptar"
+                    except:
+                        driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
+                        print("ignorar")
+                        return "ignorar"
                 except:
-                    driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
-                    print("ignorar")
-                    return "ignorar"
-            except:
-                try:
-                    cor=driver.find_element(By.XPATH,'//*[@id="__input15-inner"]')
-                    print("añadir")
-                    cor.click()
-                    return "añadir"
-                except:
-                    continue
+                    try:
+                        cor=driver.find_element(By.XPATH,'//*[@id="__input15-inner"]')
+                        print("añadir")
+                        cor.click()
+                        return "añadir"
+                    except:
+                        continue
         except:
             print("datos erroneos")
             
@@ -606,7 +608,7 @@ def correo_telefono(correo_corporativo,semilla,celular,correo):
             print(celular)
 
 
-def asignacion():
+def asignacion(nombre,apellido,fecha_futura):
     while True:
         try:
             #posicion
@@ -625,11 +627,44 @@ def asignacion():
             print("ya casi")
 
             driver.find_element(By.XPATH,'//*[@id="__button56-BDI-content"]').click()
+            break
         except:
             print("error de asignacion  ")
+    ### work order
+    while True:
+        try:
+            nombrec=(f"{nombre} {apellido}")
+            cd=driver.find_element(By.XPATH,'//*[@id="__input51-inner"]')
+            cd.clear()
+            cd.send_keys(cedula)
+            #
+            nom=driver.find_element(By.XPATH,'//*[@id="__input52-inner"]')
+            nom.clear()
+            nom.send_keys(nombrec)
+            #GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL
+            dueño=driver.find_element(By.XPATH,'//*[@id="__box35-inner"]')
+            dueño.clear()
+            dueño.send_keys("GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL")
+            #proveedor
+            driver.find_element(By.XPATH,'//*[@id="__box36-arrow"]').click()
+            #CA661
+            prov=driver.find_element(By.XPATH,'//*[@id="__box36-inner"]')
+            prov.send_keys("CA661")
+            provedor="CA661 (ONE CONTACT INTERNACIONAL)"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box36-popup-cont"]//div[text()="{provedor}"]')))
+            opcionx.click()
+            # fecha fin 2 meses
+            fechaf=driver.find_element(By.XPATH,'//*[@id="__picker7-inner"]')
+            fechaf.clear()
+
+            fechaf.send_keys(fecha_futura)
+            print("asignado")
+            break
+        except:
+            print("no asignado ")
 ####################################################################################################################################################3
 #######################################################################  FORMATO DE FECHA    ############################################################
-def formatof(fechas):
+def formatof(fechas,caracter):
     fechas = fecha.split("/")
     fechan = "".join(fechas)
     formato=fechan.split(" ")
@@ -637,6 +672,19 @@ def formatof(fechas):
     fechas=lafecha.split("-")
     fecha_n="".join(fechas)
     return fecha_n
+###
+def calcular_fechas():
+    # Obtener la fecha actual
+    fecha_actual = datetime.now().date()
+
+    # Calcular la fecha de dos meses en adelante
+    fecha_futura = fecha_actual + relativedelta(months=2)
+
+    return  fecha_futura
+
+# Llamar a la función y obtener las fechas
+fecha_futura = calcular_fechas()
+    
 
 
 ##################################################INGRESAR#############################
@@ -725,7 +773,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         print(correo)
         correo_telefono(correo_corporativo,semilla,celular,correo)
         time.sleep(2)
-        asignacion()
+        asignacion(nombre,apellido,fecha_futura)
         time.sleep(20)
         #temporal_intro("inicio")
         #time.sleep(20)
