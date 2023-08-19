@@ -608,7 +608,7 @@ def correo_telefono(correo_corporativo,semilla,celular,correo):
             print(celular)
 
 
-def asignacion(nombre,apellido,fecha_futura):
+def asignacion(nombre,apellido,fecha_ft):
     while True:
         try:
             #posicion
@@ -633,6 +633,10 @@ def asignacion(nombre,apellido,fecha_futura):
     ### work order
     while True:
         try:
+            # fecha fin 2 meses
+            FF=driver.find_element(By.ID,"__picker7-inner")
+
+            FF.send_keys(fecha_ft)
             nombrec=(f"{nombre} {apellido}")
             cd=driver.find_element(By.XPATH,'//*[@id="__input51-inner"]')
             cd.clear()
@@ -641,30 +645,39 @@ def asignacion(nombre,apellido,fecha_futura):
             nom=driver.find_element(By.XPATH,'//*[@id="__input52-inner"]')
             nom.clear()
             nom.send_keys(nombrec)
+
             #GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL
             dueño=driver.find_element(By.XPATH,'//*[@id="__box35-inner"]')
             dueño.clear()
             dueño.send_keys("GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL")
+            time.sleep(2)
+            dueño.send_keys(Keys.ARROW_DOWN)
+            dueño.send_keys(Keys.ENTER)
+
+            #//*[@id="__box35-popup-cont"]
+            #opciong = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box35-popup-cont"]//div[text()="GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL"]')))
+            #opciong.click()
             #proveedor
             driver.find_element(By.XPATH,'//*[@id="__box36-arrow"]').click()
             #CA661
             prov=driver.find_element(By.XPATH,'//*[@id="__box36-inner"]')
+            prov.clear()
+
             prov.send_keys("CA661")
             provedor="CA661 (ONE CONTACT INTERNACIONAL)"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box36-popup-cont"]//div[text()="{provedor}"]')))
             opcionx.click()
-            # fecha fin 2 meses
-            fechaf=driver.find_element(By.XPATH,'//*[@id="__picker7-inner"]')
-            fechaf.clear()
-
-            fechaf.send_keys(fecha_futura)
+            
+            #fechaf.clear()
             print("asignado")
-            break
+            #continuar
+            #driver.find_element(By.XPATH,'//*[@id="__button63-content"]').click()
+            #break
         except:
             print("no asignado ")
 ####################################################################################################################################################3
 #######################################################################  FORMATO DE FECHA    ############################################################
-def formatof(fechas,caracter):
+def formatof(fechas):
     fechas = fecha.split("/")
     fechan = "".join(fechas)
     formato=fechan.split(" ")
@@ -735,7 +748,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     estadoc="CASADO"
     time.sleep(2)
 
-
+    fecha_ft=fecha_futura.strftime('%Y%m%d')
     #//*[@id="main--globalSFHeader"]
     texto="Añadir trabajador temporal"
     temporal(texto)
@@ -773,7 +786,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         print(correo)
         correo_telefono(correo_corporativo,semilla,celular,correo)
         time.sleep(2)
-        asignacion(nombre,apellido,fecha_futura)
+        asignacion(nombre,apellido,fecha_ft)
         time.sleep(20)
         #temporal_intro("inicio")
         #time.sleep(20)

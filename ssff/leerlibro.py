@@ -9,13 +9,14 @@ import pandas as pd
 import numpy as np
 from lxml import html
 def formatof(fechas):
-    fechas = fecha.split("/")
-    fechan = "".join(fechas)
-    formato=fechan.split(" ")
-    lafecha=formato[0]
-    fechas=lafecha.split("-")
-    fecha_n="".join(fechas)
-    return fecha_n
+    fechas = fecha.split(" ")
+    fecha_=fechas[0]
+    
+    lafecha=str(fecha_)
+    div=lafecha.split
+
+
+    return prueba
 
 
 workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, keep_links=False, keep_vba=False)
@@ -26,7 +27,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         continue
     cedula=str(row[0])
     fecha_ex=str(row[1])
-    fecha=str(row[2])
+    fn=str(row[2])
     pais=str(row[3])
     nombre=str(row[4])
     apellido=str(row[5])
@@ -43,8 +44,10 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     lider_virtual=str(row[16])
     estado=str(row[17])
     observaciones=str(row[18])
-
+    fecha=str(fn)
+    print(fecha)
     fechan=formatof(fecha)
+
     print(fechan)
 
     

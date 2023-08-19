@@ -13,5 +13,5 @@ def calcular_fechas():
 # Llamar a la función y obtener las fechas
 fecha_actual, fecha_futura = calcular_fechas()
 
-print("Fecha actual:", fecha_actual.strftime('%Y-%m-%d'))
-print("Fecha de dos meses en adelante:", fecha_futura.strftime('%Y-%m-%d'))
+print("Fecha actual:", fecha_actual.strftime('%Y%m%d'))
+print("Fecha de dos meses en adelante:", fecha_futura.strftime('%Y%m%d'))
