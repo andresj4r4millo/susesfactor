@@ -17,6 +17,7 @@ from selenium.webdriver.support.ui import Select
 import traceback
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from notifypy import Notify
 #import funciones
 
 driver= webdriver.Edge(executable_path='msedgedriver.exe')
@@ -266,8 +267,13 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
             
             continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
             continuar.click()
+            time.sleep(8)
+            if 'Activo' in driver.page_source:
+                screenshot_name = f'capturas/{cedula}.png'
+                driver.save_screenshot(screenshot_name)
+                return "activo"
+                
             try:
-
                 driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
             except:   
                 print("listo a envio")
@@ -707,7 +713,7 @@ def iniciar_sesion():
             driver.get("https://performancemanager8.successfactors.com/login?bplte_logout=1&company=comunicaci&_s.crb=VG1RqGoWUmkzkcagqGY%252fybzahzatv77ql1k8j0nbZ2E%253d#/login")
 
             driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys("EC7061B")
-            driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys("Onecont2024*")
+            driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys("Onecont2025*")
             time.sleep(1)
             driver.find_element(By.XPATH,'//*[@id="__button2-content"]').click()
             time.sleep(4)
@@ -759,22 +765,6 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     #time.sleep(20)
     n=0
 
-    """
-    try:
-        driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]')
-        try:
-            ignorar=driver.find_element(By.XPATH,'//*[@id="__button23-inner"]')
-            ignorar.click()#
-            estado="aceptar"
-        except:
-            driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
-            estado="ignorar"
-    except:
-        cor=driver.find_element(By.XPATH,'//*[@id="__input15-inner"]')
-        estado="añadir"
-    """    
-
-
     print(estado)
 
         
@@ -782,7 +772,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if estado != "añadir":
         ingresar2(nombre, apellido, fechan,pais,cedula,fechaex,'si' )
         time.sleep(5)
-    else:
+    elif estado=="sesado":
         print(correo)
         correo_telefono(correo_corporativo,semilla,celular,correo)
         time.sleep(2)
@@ -790,6 +780,12 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         time.sleep(20)
         #temporal_intro("inicio")
         #time.sleep(20)
+    elif estado=="activo":
+        notification = Notify()
+        notification.title = "persona activa con aliado"
+        notification.message = "captura guardada en carpeta capturas."
+        notification.send()
+
 
     #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
         

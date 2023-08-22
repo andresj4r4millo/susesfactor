@@ -1,4 +1,7 @@
-from plyer import notification
-notification.notify(
-    title='Fin de simulación',
-    message='La simulación ha finalizado')
+from notifypy import Notify
+
+notification = Notify()
+notification.title = "Cool Title"
+notification.message = "Even cooler message."
+
+notification.send()

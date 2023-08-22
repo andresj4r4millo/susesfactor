@@ -11,9 +11,9 @@ from email.mime.image import MIMEImage
 
 # Función para enviar correo
 def enviar_correo(cedula):
-    sender_email = 'andres.jaramillo8819@outlook.com'
-    sender_password = 'Andres123457'
-    receiver_email = 'felipe.123.mc@gmail.com'
+    sender_email = 'andres.jaramillo@onecontact.com.co'
+    sender_password = 'Andres123,'
+    receiver_email = 'andres.jaramillo8819@outlook.com'
     subject = 'Captura de pantalla'
 
     # Crear el mensaje
@@ -46,24 +46,35 @@ def enviar_correo(cedula):
         
 #busqueda 
 def buscar(anime):
-    buscador=driver.find_element(By.XPATH,'//*[@id="search-anime"]')
-    buscador.clear()
-    buscador.send_keys(anime)
-    time.sleep(2)
-    buscador.send_keys(Keys.ENTER)
-    time.sleep(2)
+    try:
+        buscador=driver.find_element(By.XPATH,'//*[@id="searchInput"]')
+        buscador.clear()
+        buscador.send_keys(anime)
+        time.sleep(2)
+        buscador.send_keys(Keys.ENTER)
+        time.sleep(2)
+    except:
+        #//*[@id="searchform"]/div/div/div[1]/input
+        buscador=driver.find_element(By.XPATH,'//*[@id="searchform"]/div/div/div[1]/input')
+        buscador.clear()
+        buscador.send_keys(anime)
+        time.sleep(2)
+        buscador.send_keys(Keys.ENTER)
+        time.sleep(2)
+
 
 animes= {
-    "kenichi": False,
-    "boku no hero": False,
-    "hajime no ippo":False,
-    "jojos":False,
-    "wabi wabo":False
+    "la rueda": False,
+    "wabi wabo xxxxllss":False,
+    "la imprenta": False,
+    "el papel higienico":False,
+    "jojo":False,
+    "wabi wabo xxxxllss":False
 }
 driver= webdriver.Edge()
 driver.maximize_window()
 # Abrir una página web en el navegador
-driver.get("https://www3.animeflv.net/")
+driver.get("https://www.wikipedia.org/")
 time.sleep(2)
 for i in animes:
     #anime=i.keys()
@@ -72,7 +83,7 @@ for i in animes:
     #/html/body/div[2]/div/div/main/ul
     #if 'ANIME' in driver.page_source:
     try:
-        driver.find_element(By.XPATH,'/html/body/div[2]/div/div/main/div/ul/li/a')
+        driver.find_element(By.XPATH,'//*[@id="ca-view"]/a/span')#//*[@id="ca-view"]/a/span
         time.sleep(1)
         screenshot_name = f'capturas/{i}.png'
         driver.save_screenshot(screenshot_name)
