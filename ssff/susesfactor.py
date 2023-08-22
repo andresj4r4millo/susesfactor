@@ -18,6 +18,9 @@ import traceback
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from notifypy import Notify
+import os
+import cv2
+import pyautogui
 #import funciones
 
 driver= webdriver.Edge(executable_path='msedgedriver.exe')
@@ -181,8 +184,9 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
         try:
             if pais=="COLOMBIA":
                 driver.find_element(By.XPATH,'//*[@id="__box4-arrow"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__box4-inner"]').clear()
                 driver.find_element(By.XPATH,'//*[@id="__box4-inner"]').send_keys("mede")
-                time.sleep(2)
+                time.sleep(1)
                 ciud="Medellín"
                 opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box4-popup-cont"]//div[text()="{ciud}"]')))
                 opciond.click()
@@ -264,16 +268,47 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
             #nombre de usuario
             #//*[@id="__input26-inner"]
 
-            
+
             continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
             continuar.click()
             time.sleep(8)
+            try:
+                ventana_e=driver.find_element(By.XPATH,'//*[@id="UserSearchResult--userSearchDialog-cont"]')#//*[@id="UserSearchResult--userSearchDialog"]
+                if "activo" in ventana_e.text.lower():
+                    # Configura la carpeta de capturas de video
+                    driver.execute_script("arguments[0].style.zoom='50%';", ventana_e)
+                    carpeta_capturas = "capturas"
+                    if not os.path.exists(carpeta_capturas):
+                        os.makedirs(carpeta_capturas)
+                    print("preparando navegador para captura")
+                    
+
+                    screenshot_name = f'capturas/{cedula}.png'
+                    driver.save_screenshot(screenshot_name)
+                    #ignorar
+                    driver.execute_script("arguments[0].style.zoom='100%';", ventana_e)
+                    
+                    time.sleep(2)
+                    return "activo"
+                elif "cesado" in ventana_e.text.lower():
+                    print("a")
+
+                time.sleep(20)
+            except:
+                print("noventana")
+            
+            """
             if 'Activo' in driver.page_source:
                 screenshot_name = f'capturas/{cedula}.png'
                 driver.save_screenshot(screenshot_name)
                 return "activo"
                 
             try:
+                #aceptar correspondencia 
+                #//*[@id="__button23-BDI-content"]
+                #cerrar
+                #//*[@id="__mbox-btn-0"]
+
                 driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
             except:   
                 print("listo a envio")
@@ -299,6 +334,7 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
                         return "añadir"
                     except:
                         continue
+            """
         except:
             print("datos erroneos")
             
@@ -769,7 +805,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
 
         
     time.sleep(4)
-    if estado != "añadir":
+    if estado == "añadir":
         ingresar2(nombre, apellido, fechan,pais,cedula,fechaex,'si' )
         time.sleep(5)
     elif estado=="sesado":
@@ -785,6 +821,12 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         notification.title = "persona activa con aliado"
         notification.message = "captura guardada en carpeta capturas."
         notification.send()
+        driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
+        time.sleep(1)
+        #//*[@id="__mbox-btn-0-BDI-content"]
+        driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
+        time.sleep(10)
+        
 
 
     #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
