@@ -95,7 +95,7 @@ def ssff():
         except:
             print("boton no encontrado")
 
-def ingresar(nombre, apellido, fecha_naci,pais,cedula,fechaex,codigo_p ):
+def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
     while True:
         try:
             #NOMBRE
@@ -199,12 +199,6 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fechaex,codigo_p ):
             break
         except:
             print("error ciudad")
-    if codigo_p=="si":
-        while True:
-            try:
-                cdp=driver.find_element(By.XPATH,'//*[@id="__input6-inner"]')
-            except:
-                print("error al interactuar con el codigo de la persona")
     #documento
     """
     while True:
@@ -254,8 +248,11 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fechaex,codigo_p ):
             actions.double_click(cd).perform()
             cd.send_keys(cedula)
             #fecha expedicion
+            
             fx=driver.find_element(By.XPATH,'//*[@id="__picker2-inner"]')
-            fx.send_keys(fechaex)
+            fx.send_keys(fecha_expedicion)
+            print(fecha_expedicion)
+            time.sleep(20)
             ##departamento de expedicion
             exp="Antioquia"
             driver.find_element(By.XPATH,'//*[@id="__box8-arrow"]').click()
@@ -819,7 +816,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     fecha_expedicion = fx.strftime("%d%m%Y")
     fecha_naci=fechanaci.strftime("%d%m%Y")
     #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
-    estado=ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,'no')
+    estado=ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion)
     #time.sleep(20)
     n=0
 
@@ -828,7 +825,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         
     time.sleep(2)
     if estado == "sesado":
-        ingresar2(nombre, apellido, fechan,pais,cedula,fechaex,'si' )
+        ingresar2(nombre, apellido, fechan,pais,cedula,fecha_expedicion,'si' )
         time.sleep(5)
     elif estado=="añadir":
         print(correo)
