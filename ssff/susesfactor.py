@@ -295,7 +295,7 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
 
                 time.sleep(20)
             except:
-                print("noventana")
+                return "añadir"
             
             """
             if 'Activo' in driver.page_source:
@@ -805,10 +805,10 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
 
         
     time.sleep(4)
-    if estado == "añadir":
+    if estado == "sesado":
         ingresar2(nombre, apellido, fechan,pais,cedula,fechaex,'si' )
         time.sleep(5)
-    elif estado=="sesado":
+    elif estado=="añadir":
         print(correo)
         correo_telefono(correo_corporativo,semilla,celular,correo)
         time.sleep(2)
@@ -825,11 +825,11 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         time.sleep(1)
         #//*[@id="__mbox-btn-0-BDI-content"]
         driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
-        time.sleep(10)
-        
-
-
-    #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
+        time.sleep(1)
+        driver.find_element(By.XPATH,'//*[@id="__button5-BDI-content"]').click()
+        time.sleep(1)
+        driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
+        continue
         
 
 
