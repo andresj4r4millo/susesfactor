@@ -776,7 +776,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if index==1:
         continue
     cedula=str(row[0])
-    expedicion=str(row[1])
+    ex=str(row[1])
     fecha=str(row[2])
     pais=str(row[3])
     nombre=str(row[4])
@@ -795,7 +795,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     estado=str(row[17])
     observaciones=str(row[18])
     fechan=formatof(fecha)
-    fecha_ex=formatof(expedicion)
+    fecha_ex=formatof(ex)
     sexo="FEMENINO"
     estadoc="CASADO"
     time.sleep(2)
@@ -808,7 +808,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     time.sleep(1)
     try:
         fechanaci=datetime.strptime(fechan,"%Y%m%d")
-        fx = datetime.strptime(fecha_ex, "%Y%m%d")
+        fx= datetime.strptime(fecha_ex, "%Y%m%d")
     except ValueError:
         continue
 
