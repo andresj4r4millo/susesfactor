@@ -19,8 +19,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from notifypy import Notify
 import os
-import cv2
-import pyautogui
+from datetime import datetime
 #import funciones
 
 driver= webdriver.Edge(executable_path='msedgedriver.exe')
@@ -55,7 +54,6 @@ def temporal(texto):
             time.sleep(5)
             break
         except Exception as e:
-
             print("No se pudo interactuar:", e)
 def temporal_intro(texto):
     while True:
@@ -97,7 +95,7 @@ def ssff():
         except:
             print("boton no encontrado")
 
-def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
+def ingresar(nombre, apellido, fecha_naci,pais,cedula,fechaex,codigo_p ):
     while True:
         try:
             #NOMBRE
@@ -150,7 +148,7 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
     while True:
         try:
 
-            driver.find_element(By.XPATH,'//*[@id="__picker1-inner"]').send_keys(fecha_n)
+            driver.find_element(By.XPATH,'//*[@id="__picker1-inner"]').send_keys(fecha_naci)
             time.sleep(1)
             #//*[@id="__box2-inner"]
             #PAIS
@@ -271,7 +269,10 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
 
             continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
             continuar.click()
-            time.sleep(8)
+            time.sleep(4)
+            if 'Tipo de Documento es obligatorio' in driver.page_source:
+                driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]').click()
+                continue
             try:
                 ventana_e=driver.find_element(By.XPATH,'//*[@id="UserSearchResult--userSearchDialog-cont"]')#//*[@id="UserSearchResult--userSearchDialog"]
                 if "activo" in ventana_e.text.lower():
@@ -293,7 +294,7 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
                 elif "cesado" in ventana_e.text.lower():
                     print("a")
 
-                time.sleep(20)
+                time.sleep(2)
             except:
                 return "añadir"
             
@@ -340,7 +341,7 @@ def ingresar(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
             
 
 ##################################################################################################
-def ingresar2(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
+def ingresar2(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p ):
     while True:
         try:
             #NOMBRE
@@ -395,7 +396,7 @@ def ingresar2(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
     while True:
         try:
             driver.find_element(By.XPATH,'//*[@id="__picker4-inner"]').clear()         
-            driver.find_element(By.XPATH,'//*[@id="__picker4-inner"]').send_keys(fecha_n)
+            driver.find_element(By.XPATH,'//*[@id="__picker4-inner"]').send_keys(fecha_naci)
             time.sleep(1)
             #//*[@id="__box2-inner"]
             #PAIS     //*[@id="__input20-inner"]
@@ -512,7 +513,7 @@ def ingresar2(nombre, apellido, fecha_n,pais,cedula,fechaex,codigo_p ):
             #fecha expedicion
             fx=driver.find_element(By.XPATH,'//*[@id="__picker5-inner"]')
             fx.clear()
-            fx.send_keys(fechaex)
+            fx.send_keys(fecha_expedicion)
             ##departamento de expedicion
             exp="Antioquia"
             driver.find_element(By.XPATH,'//*[@id="__box18-arrow"]').click()
@@ -644,18 +645,29 @@ def correo_telefono(correo_corporativo,semilla,celular,correo):
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box18-popup-cont"]//div[text()="{tf}"]')))
             opcionx.click()
             driver.find_element(By.XPATH,'//*[@id="__button33-BDI-content"]').click()
-            time.sleep(20)
+            time.sleep(2)
             break
         except:
             print(celular)
 
 
-def asignacion(nombre,apellido,fecha_ft):
+def asignacion(nombre,apellido,fecha_ft,campaña):
     while True:
         try:
             #posicion
+            
             driver.find_element(By.XPATH,'//*[@id="__box21-arrow"]').click()
+            pt=driver.find_element(By.XPATH,'//*[@id="__box21-inner"]')
             puesto="ASESOR ADICIONALES AUTOGENERACION TMK ALIADO (30031651)"
+            if campaña=="HOGAR OUT":
+                puesto="ASESOR HOGAR OUT TMK ALIADO (30031640)"
+                pt.send_keys("hogar")
+            elif campaña=="PORTABILIDAD OUT":
+                puesto="ASESOR PORTA OUT TMK ALIADO (30031644)"
+                pt.send_keys("porta")
+            elif campaña=="MIGRACION OUT":
+                pt.send_keys("migra")
+                puesto="ASESOR MIGRA OUT TMK ALIADO (30031645)"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box21-popup-cont"]//div[text()="{puesto}"]')))
             opcionx.click()
             #direccion
@@ -713,8 +725,9 @@ def asignacion(nombre,apellido,fecha_ft):
             #fechaf.clear()
             print("asignado")
             #continuar
-            #driver.find_element(By.XPATH,'//*[@id="__button63-content"]').click()
-            #break
+            driver.find_element(By.XPATH,'//*[@id="__button63-BDI-content"]').click()
+            time.sleep(10)
+            break
         except:
             print("no asignado ")
 ####################################################################################################################################################3
@@ -766,7 +779,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if index==1:
         continue
     cedula=str(row[0])
-    fecha_ex=str(row[1])
+    expedicion=str(row[1])
     fecha=str(row[2])
     pais=str(row[3])
     nombre=str(row[4])
@@ -785,26 +798,35 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     estado=str(row[17])
     observaciones=str(row[18])
     fechan=formatof(fecha)
-    fechaex=formatof(fecha_ex)
+    fecha_ex=formatof(expedicion)
     sexo="FEMENINO"
     estadoc="CASADO"
     time.sleep(2)
 
-    fecha_ft=fecha_futura.strftime('%Y%m%d')
+    fecha_ft=fecha_futura.strftime('%d%m%Y')
     #//*[@id="main--globalSFHeader"]
     texto="Añadir trabajador temporal"
     temporal(texto)
     #ssff()
     time.sleep(1)
+    try:
+        fechanaci=datetime.strptime(fechan,"%Y%m%d")
+        fx = datetime.strptime(fecha_ex, "%Y%m%d")
+    except ValueError:
+        continue
+
+        # Formatea la fecha en el nuevo formato (DDMMYYYY)
+    fecha_expedicion = fx.strftime("%d%m%Y")
+    fecha_naci=fechanaci.strftime("%d%m%Y")
     #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
-    estado=ingresar(nombre, apellido, fechan,pais,cedula,fechaex,'no' )
+    estado=ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,'no')
     #time.sleep(20)
     n=0
 
     print(estado)
 
         
-    time.sleep(4)
+    time.sleep(2)
     if estado == "sesado":
         ingresar2(nombre, apellido, fechan,pais,cedula,fechaex,'si' )
         time.sleep(5)
@@ -812,7 +834,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         print(correo)
         correo_telefono(correo_corporativo,semilla,celular,correo)
         time.sleep(2)
-        asignacion(nombre,apellido,fecha_ft)
+        asignacion(nombre,apellido,fecha_ft,campaña)
         time.sleep(20)
         #temporal_intro("inicio")
         #time.sleep(20)

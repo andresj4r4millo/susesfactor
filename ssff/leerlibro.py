@@ -8,15 +8,19 @@ import re
 import pandas as pd
 import numpy as np
 from lxml import html
-def formatof(fechas):
-    fechas = fecha.split(" ")
-    fecha_=fechas[0]
-    
-    lafecha=str(fecha_)
-    div=lafecha.split
-
-
-    return prueba
+from datetime import datetime
+def formatof(fecha):
+    if fecha==None:
+        fecha_actual = datetime.now()
+        fecha_n = fecha_actual.strftime("%d%m%Y")
+        return fecha_n
+    fechas = fecha.split("/")
+    fechan = "".join(fechas)
+    formato=fechan.split(" ")
+    lafecha=formato[0]
+    fechas=lafecha.split("-")
+    fecha_n="".join(fechas)
+    return fecha_n
 
 
 workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, keep_links=False, keep_vba=False)
@@ -44,11 +48,30 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     lider_virtual=str(row[16])
     estado=str(row[17])
     observaciones=str(row[18])
-    fecha=str(fn)
-    print(fecha)
-    fechan=formatof(fecha)
+    fecha=fn
+    if fecha == None:
+        continue
+    else:
+        fechan=formatof(fecha)
+        expedicion=formatof(fecha_ex)
+        # Convierte la fecha a un objeto datetime
+        try:
+            fecha_objeto = datetime.strptime(fechan, "%Y%m%d")
+        except ValueError:
+            continue
 
-    print(fechan)
+        # Formatea la fecha en el nuevo formato (DDMMYYYY)
+        fecha_formateada = fecha_objeto.strftime("%d%m%Y")
+
+        # Formatea la fecha en el nuevo formato (DD/MM/AAAA)
+        fecha_formateada = fecha_objeto.strftime("%d%m%Y")
+        print("nacimiento")
+        print(fecha)
+        print("expedicion")
+        #print(fecha_ex)
+        print(fecha_formateada)
+        print(expedicion)
+        #print(fechan)
 
     
 
