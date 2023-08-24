@@ -251,8 +251,6 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
             
             fx=driver.find_element(By.XPATH,'//*[@id="__picker2-inner"]')
             fx.send_keys(fecha_expedicion)
-            print(fecha_expedicion)
-            time.sleep(20)
             ##departamento de expedicion
             exp="Antioquia"
             driver.find_element(By.XPATH,'//*[@id="__box8-arrow"]').click()
@@ -700,10 +698,11 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
             #GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL
             dueño=driver.find_element(By.XPATH,'//*[@id="__box35-inner"]')
             dueño.clear()
-            dueño.send_keys("GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL")
+            dueño.send_keys("GESTOR")#
+            dueno="GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL"
             time.sleep(2)
-            dueño.send_keys(Keys.ARROW_DOWN)
-            dueño.send_keys(Keys.ENTER)
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box35-popup-cont"]//div[text()="{dueno}"]')))
+            opcionx.click()
 
             #//*[@id="__box35-popup-cont"]
             #opciong = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box35-popup-cont"]//div[text()="GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL"]')))
@@ -729,9 +728,9 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
             print("no asignado ")
 ####################################################################################################################################################3
 #######################################################################  FORMATO DE FECHA    ############################################################
-def formatof(fechas):
-    fechas = fecha.split("/")
-    fechan = "".join(fechas)
+def formatof(fecha):
+    fechad = fecha.split("/")
+    fechan = "".join(fechad)
     formato=fechan.split(" ")
     lafecha=formato[0]
     fechas=lafecha.split("-")
