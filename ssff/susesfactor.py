@@ -287,9 +287,20 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
                     time.sleep(2)
                     return "activo"
                 elif "cesado" in ventana_e.text.lower():
+                    texto_ventana = ventana_e.text.lower() 
+                    if "cesado" in texto_ventana:
+                        # Utilizar una expresión regular para buscar la fecha después de "cesado"
+                        patron_fecha = r'cesado el(\d{1,2}/\d{1,2}/\d{4})'  # Patrón para encontrar una fecha en formato dd/mm/yyyy después de "cesado"
+                        fecha_coincidencia = re.search(patron_fecha, texto_ventana)
+
+                        if fecha_coincidencia:
+                            fecha = fecha_coincidencia.group(1)  # Obtener la fecha encontrada
+                            print(f"La fecha después de 'cesado' es: {fecha}")
+                        else:
+                            print("No se encontró una fecha después de 'cesado'")
                     print("a")
 
-                time.sleep(2)
+                time.sleep(20)
             except:
                 return "añadir"
             
@@ -683,7 +694,7 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
     while True:
         try:
             # fecha fin 2 meses
-            FF=driver.find_element(By.ID,"__picker7-inner")
+            FF=driver.find_element(By.XPATH,'//*[@id="__picker7-inner"]')#//*[@id="__picker7-inner"]
 
             FF.send_keys(fecha_ft)
             nombrec=(f"{nombre} {apellido}")
@@ -704,9 +715,6 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box35-popup-cont"]//div[text()="{dueno}"]')))
             opcionx.click()
 
-            #//*[@id="__box35-popup-cont"]
-            #opciong = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box35-popup-cont"]//div[text()="GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL"]')))
-            #opciong.click()
             #proveedor
             driver.find_element(By.XPATH,'//*[@id="__box36-arrow"]').click()
             #CA661
@@ -721,9 +729,19 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
             #fechaf.clear()
             print("asignado")
             #continuar
+            time.sleep(2)
             driver.find_element(By.XPATH,'//*[@id="__button63-BDI-content"]').click()
-            time.sleep(10)
-            break
+            
+            try:
+                if driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]'):
+                    cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]')#//*[@id="__mbox-btn-1-BDI-content"]
+                elif driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]'):
+                    cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')
+                time.sleep(1)
+                cerrar.click()
+                continue
+            except:
+                break
         except:
             print("no asignado ")
 ####################################################################################################################################################3
@@ -832,8 +850,13 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         time.sleep(2)
         asignacion(nombre,apellido,fecha_ft,campaña)
         time.sleep(20)
-        #temporal_intro("inicio")
+        temporal_intro("inicio")
         #time.sleep(20)
+        #otro temporal
+        #//*[@id="__link5"]
+        #centro de administracion
+        #//*[@id="__link0"]
+
     elif estado=="activo":
         notification = Notify()
         notification.title = "persona activa con aliado"
