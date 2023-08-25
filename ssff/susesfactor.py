@@ -287,18 +287,20 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
                     time.sleep(2)
                     return "activo"
                 elif "cesado" in ventana_e.text.lower():
-                    texto_ventana = ventana_e.text.lower() 
-                    if "cesado" in texto_ventana:
-                        # Utilizar una expresión regular para buscar la fecha después de "cesado"
-                        patron_fecha = r'cesado el(\d{1,2}/\d{1,2}/\d{4})'  # Patrón para encontrar una fecha en formato dd/mm/yyyy después de "cesado"
-                        fecha_coincidencia = re.search(patron_fecha, texto_ventana)
 
-                        if fecha_coincidencia:
-                            fecha = fecha_coincidencia.group(1)  # Obtener la fecha encontrada
-                            print(f"La fecha después de 'cesado' es: {fecha}")
-                        else:
-                            print("No se encontró una fecha después de 'cesado'")
-                    print("a")
+                    try:
+                        #seleccion generica
+                        driver.find_element(By.XPATH,'//*[@id="__photo0-UserSearchResult--newHireUserMatchList-1-inner"]/div/img').click()
+                        time.sleep(1)
+                        driver.find_element(By.XPATH,'//*[@id="__button23-BDI-content"]').click()
+                        # si
+                        driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-inner"]').click()
+                        time.sleep(10)
+                        return "cesado"
+
+                    except Exception as e:
+                        print(e)
+                    print("cesado")
 
                 time.sleep(20)
             except:
@@ -487,7 +489,7 @@ def ingresar2(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p
         try:
             nom=driver.find_element(By.XPATH,'//*[@id="__input20-inner"]')
             nom.clear()
-            nom.send_keys(f"{cedula}CA")
+            nom.send_keys(f"{cedula}CA661")
             ### identificacion
             print("echo")
             break
@@ -841,7 +843,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
 
         
     time.sleep(2)
-    if estado == "sesado":
+    if estado == "cesado":
         ingresar2(nombre, apellido, fechan,pais,cedula,fecha_expedicion,'si' )
         time.sleep(5)
     elif estado=="añadir":
@@ -856,7 +858,6 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         #//*[@id="__link5"]
         #centro de administracion
         #//*[@id="__link0"]
-
     elif estado=="activo":
         notification = Notify()
         notification.title = "persona activa con aliado"
