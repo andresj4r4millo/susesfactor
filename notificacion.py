@@ -65,17 +65,19 @@ if opc=="si":
         try:
             reciente=driver.find_element(By.XPATH,'/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-main-nav/mws-conversations-list/nav/div[1]/mws-conversation-list-item[1]')
             reciente.click()
-            sms=driver.find_element(By.XPATH,'/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-conversation-container/div/div[1]/div/mws-messages-list/mws-bottom-anchored')
-            texto=reciente.text
-            patron = r'\d{10}'
+
+            cadena=reciente.text
+            expresion_regular =  r'\((\d+)\)'
+            texto=re.sub(expresion_regular, '', cadena)
+
 
             txt = re.sub(r'[^0-9]', '', texto)
 
-            remitente = txt[:10]
+            remitente = txt[:4]
 
             # Corta los siguientes 6 dígitos y almacénalos en otra variable
-            codigo = txt[10:16]
-            if remitente=="3242078956":
+            codigo = txt[4:12]
+            if remitente=="6231":
                 if codigo not in tokens:
                     hora_actual = datetime.datetime.now()
                     la_hora=hora_actual.strftime('%H:%M')

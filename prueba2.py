@@ -4,8 +4,18 @@ import pymysql
 
 
 # Texto de ejemplo
-texto = "324 2078956 Lorena ajdjvdgaks jsjdhsjjad Jsjsjsjs jdjdjdjjd zkdijdhdud 35753888 13 min"
+texto = "324 2078956(1) Lorena ajdjvdgaks jsjdhsjjad Jsjsjsjs jdjdjdjjd zkdijdhdud 35753888 13 min"
+cadena =texto
+expresion_regular = r'\((\d+)\)'
 
+# Usa re.sub para reemplazar los números entre paréntesis con una cadena vacía
+text = re.sub(expresion_regular, '', cadena)
+txt = re.sub(r'[^0-9]', '', text)
+
+# Imprime la cadena resultante
+print(text)
+print(txt)
+"""
 # Busca los primeros 10 números en el texto
 patron = r'\d{10}'
 txt = re.sub(r'[^0-9]', '', texto)
@@ -57,3 +67,4 @@ finally:
     if conn:
         conn.close()
 
+"""
