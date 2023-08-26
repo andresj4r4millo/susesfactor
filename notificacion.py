@@ -1,12 +1,12 @@
-from notifypy import Notify
+#from notifypy import Notify
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
-from notifypy import Notify
+#from notifypy import Notify
 import re
 import datetime
 import pymysql
-
+from plyer import notification
 driver= webdriver.Edge()
 driver.maximize_window()
 
@@ -83,10 +83,14 @@ if opc=="si":
                     la_hora=hora_actual.strftime('%H:%M')
                     tokens[codigo]=la_hora
                     hora=tokens[codigo]
-                    notification = Notify()
-                    notification.title = "token nuevo"
-                    notification.message = f"Token agregado a la lista:\nCódigo: {codigo}\nHora: {hora}"
-                    notification.send()
+                    title = "Token nuevo"
+                    message = f"Token agregado a la lista:\nCódigo: {codigo}\nHora: {hora}"
+
+                    notification.notify(
+                        title=title,
+                        message=message,
+                        app_name="NombreDeTuApp"  # Puedes personalizar el nombre de la aplicación
+                    )
                     ############
                     try:
                         conn = pymysql.connect(
