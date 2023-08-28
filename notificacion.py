@@ -46,8 +46,10 @@ while True:
         break
     elif opc==7 or opc=='7':
         campaña="uraba"
+        break
     elif opc==8 or opc=="8":
-        campaña=="back"
+        campaña="back"
+        break
     else:
         print("opcion no valida, vuelva a digitar ")
         continue
