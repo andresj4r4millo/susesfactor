@@ -17,7 +17,7 @@ driver.get("https://messages.google.com/web/conversations/20")
 while True:
     print("MENU DE OPCIONES: ")
 
-    print("digite 1 para hogar ")
+    print("digite 1 para ojt ")
     print("digite 2 para movil ")
     print("digite 3 para portabilidad ")
     print("digite 4 para migracion ")
@@ -27,7 +27,7 @@ while True:
     print("digite 8 para backoffice ")
     opc=input("digite opcion de campaña: ")
     if opc==1 or opc=='1':
-        campaña="hogar"
+        campaña="ojt"
         break
     elif opc==2 or opc=='2':
         campaña="movil"
