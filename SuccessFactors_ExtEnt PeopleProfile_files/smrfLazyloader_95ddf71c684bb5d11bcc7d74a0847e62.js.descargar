@@ -1,0 +1,166 @@
+window.smrfLazyLoader = (function () {
+	var loadingControllers = {};
+	var pendingAjaxCall={};
+	var pendingEmployeecardCallBack = [];
+
+	return {
+		_mBeanInstances : {},
+		ECTOrgChartView : function(callback){
+            getSharedControllers();
+			SMRF.load(['ajaxservice:genericobject.genericObjectController','ajaxservice:genericobject.configUIController','ajaxservice:positionmanagement.positionOrgChartController', 'ajaxservice:positionmanagement.positionSidePanelController', 'ajaxservice:positionmanagement.positionOrgChartQuickCardConfigUIController', 'ajaxservice:positionmanagement.positionOrgChartQuickCardController','/ui/ect/js/common/ectOrgChartView.js'], function(){
+				callback.apply(this);
+			})
+		},
+        showExportUtils: function(callback){
+            SMRF.load(['/ui/juic/js/components/sfExportUtil.js'], callback)
+        },
+        loadLearningDetails: function(callback){
+            SMRF.load(['/ui/cdp/js/transcript/ActivityIntegrationPage.js', '/ui/surj/js/util/AjaxService2.js'], callback)
+		},
+		showTopNavigation: function (callBack) {
+            SMRF.load(['/ui/topnav/js/SFResponsiveHeader.js'], function() {
+                SMRF.load(['/ui/quickcard/js/quickcard.js'], function () {
+                    if (typeof renderPageHeaderFunc !== "undefined") {
+                        window.SFTopNavConstructor = SFResponsiveHeader;
+                        if (window.isfioriStyling) {
+                            SMRF.load(['/ui/uicore/css/fiori.css'])
+                        }
+                        if(jQuery('#renderTopNavSFHeader').length > 0) {
+                            renderPageHeaderFunc("renderTopNavSFHeader");//render bizX header into successFactorHeader.
+                        } else {
+                            console.log('no header');
+                        }
+                        callBack && callBack.apply(this);
+                        SMRF.load(['/ui/admin/js/tutorial/admTutorialVideoLinks.js', '/ui/trial/js/sfGuidedTourRegistry.js']);
+                    }
+                });
+            });
+		},
+		showPeoplePickerAndUserPhoto: function(fCallback, fContext){
+			pendingEmployeecardCallBack.push({callback:fCallback, context:fContext})
+			SMRF.load(['/ui/sfgrp/js/surjControls.js'],function(){
+				for(var i = pendingEmployeecardCallBack.length -1;i >= 0 ; i--){
+					var oCallBack = pendingEmployeecardCallBack[i]
+					oCallBack.callback.apply(oCallBack.context,[true])
+				}
+				pendingEmployeecardCallBack = [];
+			});
+		},
+        showVideoRecord : function(callback){	 
+            SMRF.load(['/ui/edu/js/profile/common/VideoRecord.js', 'ajaxservice:edu.publicProfileController'],function(){
+                callback.apply(this)	 
+            })	 
+        },	 
+        showAudioRecord : function(callback){	 
+            SMRF.load(['/ui/edu/js/profile/common/AudioRecord.js', 'ajaxservice:edu.publicProfileController'],function(){
+                callback.apply(this)	 
+            })	 
+        },
+		logPageAccess : function(callback){
+            SMRF.load(['/ui/pageaccess/js/pageAccess.js'],function(){
+                callback.apply(this)
+            })
+        },
+		initApprenticeManagement : function(callback){
+			SMRF.load(['/ui/apprenticemanagement/js/i18n/i18n.js', 'ajaxservice:apprenticemanagement.apprenticeManagementRBPController', 'ajaxservice:apprenticemanagement.apprenticeManagementMailUtilController'],function(){
+				window._sAdminPPUrlPrefix = /^(\/[^\/]+\/[^\/]+\/[^\/]+\/).*$/.exec(RESOURCES['/ui/apprenticemanagement/resources/ui5app/root.txt'])[1]; 
+				jQuery.sap.registerModulePath("com.sap.sf", window._sAdminPPUrlPrefix + 'ui5app');
+				callback.apply(this)
+			})
+		},
+		showEditProfileDialog : function(callback, context){
+			SMRF.load(['/ui/edu/js/profile/common/VideoRecord.js','/ui/edu/js/profile/common/AudioRecord.js'],function(){
+				callback.apply(context)
+			})
+		},
+		loadSpellCheck : function(){
+			SMRF.load(['/ui/extlib/ckeditor_sf_plugins/documentEditor/DocumentEditorUtil.js'], function(){})
+		},
+        startBatching: function(){
+            if(this._endbatch == 0){
+         //       AjaxService.beginRemoteBatch();
+            }
+        },
+        endBatching : function(forceEndBatch){
+            this._endbatch++;
+            if(forceEndBatch || this._endbatch >= 3){
+				if(this._failSafeTimeout){
+					clearTimeout(this._failSafeTimeout)
+				}
+            //    AjaxService.endRemoteBatch();
+                this._endbatch = 0
+            }else{
+                var that = this;
+                if(this._failSafeTimeout){
+                    clearTimeout(this._failSafeTimeout)
+                }
+                this._failSafeTimeout = setTimeout(function(){
+                    if(that._endbatch != 0){
+            //            AjaxService.endRemoteBatch();
+                        that._endbatch = 0;
+                    }}, 500)
+            }
+        },
+        _endbatch:0,
+        _failSafeTimeout:null,
+		getControllerInstance : function(controller, module,method, ajaxrespObj, forceEndBatch) {
+			var me = this;
+			module = module ? module : 'v4';
+
+            var testLoadedController = !this._mBeanInstances[controller] && window.AjaxService && AjaxService.getMBeanInstance(controller);
+            if(testLoadedController){
+                this._mBeanInstances[controller] = testLoadedController;
+            }
+
+            if(!this._mBeanInstances[controller]) {
+            	if(loadingControllers[controller]) {
+            		if(!pendingAjaxCall[controller]){
+						pendingAjaxCall[controller]=[];
+					} 
+					pendingAjaxCall[controller].push({"method":method,"ajaxrespObj":ajaxrespObj});
+            	}
+            	else {
+            		loadingControllers[controller]=true;
+					SMRF["load"](['ajaxservice:'+ module + '.'+controller],function(){
+						loadingControllers[controller]=false;
+						me._mBeanInstances[controller] = AjaxService.getMBeanInstance(controller);
+						if(!me._mBeanInstances[controller]){
+							console.log("ERROR: no service")
+						}
+						if(method && ajaxrespObj){
+	                        me.startBatching();
+							me._mBeanInstances[controller][method].apply(window, ajaxrespObj);
+	                        me.endBatching(forceEndBatch);
+						}else{
+							return me._mBeanInstances[controller];
+						}
+						if(pendingAjaxCall[controller]){
+							var pendingControllers = pendingAjaxCall[controller];
+							for(var i=0;i<pendingControllers.length;i++){
+								var controll=pendingControllers[i];
+	                                me.startBatching();
+									me._mBeanInstances[controller][controll.method].apply(window, controll.ajaxrespObj);
+	                                me.endBatching(forceEndBatch);
+							}
+						}
+					});
+            	}
+            }
+			else{
+				if(method && ajaxrespObj){
+                    this.startBatching();
+					this._mBeanInstances[controller][method].apply(window, ajaxrespObj);
+                    this.endBatching(forceEndBatch);
+				}else{
+					return this._mBeanInstances[controller];
+				}
+			}
+
+		},
+		getControllerOnly : function(controller, module, callback){
+			SMRF["load"](['ajaxservice:'+ module + '.'+controller],function(){
+				callback.apply(this)
+			})
+		}
+	};
+})();

@@ -1,0 +1,66 @@
+function DUMMYfUNCTIONdOnOTcALL(){
+    // edu
+    SMRF.load(['ajaxservice:edu.BadgesController', 'ajaxservice:edu.notesController', 'ajaxservice:edu.TagsController', 'ajaxservice:edu.backgroundController']);
+    SMRF.load(['ajaxservice:edu.ratingController', 'ajaxservice:edu.peopleNavigationController', 'ajaxservice:edu.positionPortletController', 'ajaxservice:edu.customExtensionPP3Controller']);
+    SMRF.load(['ajaxservice:edu.EDUPercentCompleteController', 'ajaxservice:edu.pictureUploadController', 'ajaxservice:edu.publicProfileExpressiveLibraryController']);
+    SMRF.load(['ajaxservice:edu.EDUProfileController', 'ajaxservice:edu.publicProfileController', 'ajaxservice:edu.employeeInfoController' ]);
+    //hris
+    SMRF.load(['ajaxservice:hris.mssEmploymentInfoController', 'ajaxservice:hris.essController', 'ajaxservice:hris.essMssActionController']);
+    SMRF.load(['ajaxservice:hris.essMssWorkflowController','ajaxservice:hris.hrisHireController','ajaxservice:hris.ecHelpController','ajaxservice:hris.quickcardController','ajaxservice:hris.cwkHireController','ajaxservice:hris.concurrentCWKHireController']);
+    SMRF.load(['ajaxservice:hris.hrisHistoryController','ajaxservice:hris.hrisAttachmentController', 'ajaxservice:hris.lazyDataGridController']);
+    SMRF.load(['ajaxservice:hris.EssMssGlobalAssignmentNavigationController', 'ajaxservice:hris.NationalIdFormatRetrieverController', 'ajaxservice:hris.FieldValueDecryptionController']);
+    SMRF.load(['ajaxservice:hris.hrisUserSearchController']);
+    SMRF.load(['ajaxservice:hris.employmentDifferentiatorTestController']);
+    SMRF.load(['ajaxservice:fo.hireTemplateAutoCompleteController']);
+    SMRF.load(['ajaxservice:hris.fieldTraceController']);
+    //employeeprofilepoc
+    SMRF.load(['ajaxservice:employeeprofilepoc.employeeInfoForPP3Controller','ajaxservice:employeeprofilepoc.linkedInIntegrationController']);
+    SMRF.load(['ajaxservice:employeeprofilepoc.employeeProfilePageConfigController']);
+    //v4
+    SMRF.load(['ajaxservice:competency.objectiveRatingController', 'ajaxservice:cdp.transcriptController', 'ajaxservice:cdp.devGoalPP3Controller', 'ajaxservice:gm.goalPP3Controller']);
+    SMRF.load(['ajaxservice:competency.PerformanceHistoryController', 'ajaxservice:sm.successorController', 'ajaxservice:sm.talentPoolController', 'ajaxservice:edu.empFilesHistoryController']);
+    SMRF.load(['ajaxservice:nomination.pullNominationController', 'ajaxservice:sm.currentNominationsController', 'ajaxservice:sm.matrixPlacementController', 'ajaxservice:picklist.picklistController']);
+    SMRF.load(['ajaxservice:competency.competencyPortletController', 'ajaxservice:competency.compBehaviorController', 'ajaxservice:edu.learningHistoryController', 'ajaxservice:sm.employeeOverviewController']);
+    //compensation
+    SMRF.load(['ajaxservice:compensation.compStatementController', 'ajaxservice:compensation.combinedStatementController']);
+    //absence
+    SMRF.load(['ajaxservice:absence.tlmPeopleProfile3Controller']);
+    //documentgeneration
+    SMRF.load(['ajaxservice:faas.essMssFormsGenerationController','ajaxservice:documentgeneration.documentGenerationPP3Controller']);
+    //jdmng
+    SMRF.load(['ajaxservice:jdmng.jobProfileListController','ajaxservice:jdmng.jobProfileMgmtController','ajaxservice:jdmng.skillProfileMgmtController']);
+    SMRF.load(['ajaxservice:jdmng.competencyContentController']);
+    SMRF.load(['ajaxservice:jdmng.cafCompetencyBrowseController','ajaxservice:jdmng.cafCompetencySearchController']);
+    SMRF.load(['ajaxservice:jdmng.competencyContentWorkflowController', 'ajaxservice:jdmng.cafSaveCompetencyAssignmentsController']);
+    //calibration
+    SMRF.load(['ajaxservice:calibration.calHistoryPortletController']);
+    //varpay
+    SMRF.load(['ajaxservice:varpay.varpayIndividualController', 'ajaxservice:varpay.varpayStatementController', 'ajaxservice:varpay.varpayBonusAssignmentStmtController']);
+    //benefitsmanagement
+    SMRF.load(['ajaxservice:benefitsmanagement.ectBenefitUIController','ajaxservice:benefitsmanagement.benefitsEmployeeOverviewController']);
+    SMRF.load(['ajaxservice:benefitsmanagement.benefitsPageConfigController']);
+    SMRF.load(['ajaxservice:benefitsmanagement.confirmationStatementsController']);
+    SMRF.load(['ajaxservice:benefitsmanagement.benefitsLifeEventDeclarationFormController']);
+    SMRF.load(['/ui/orgchart/js/readinessColorConstant.js']);
+    //Leave Loading
+    SMRF.load("ajaxservice:leaveloading.leaveLoadingController");
+}
+function getSharedControllers(){
+    //fo
+    SMRF.load(['ajaxservice:fo.countrySpecificValueController','ajaxservice:fo.foundationAutoCompleteController', 'ajaxservice:fo.foAutoCompleteController']);
+    SMRF.load(['ajaxservice:fo.positionAutoCompleteController','ajaxservice:fo.positionMSSAutoCompleteController','ajaxservice:fo.positionHireAutoCompleteController']);
+    SMRF.load(['ajaxservice:fo.customFieldAsGOAutoCompleteController']);
+    SMRF.load(['ajaxservice:fo.hireTemplateAutoCompleteController']);
+    SMRF.load(['ajaxservice:fo.autoCompleteBatchValidationController']);
+    SMRF.load(['ajaxservice:hris.fieldTraceController']);
+    //absence
+    SMRF.load(['ajaxservice:absence.tlmTimeOffController','ajaxservice:absence.tlmErrorListController']);
+    SMRF.load(['ajaxservice:absence.tlmWorkScheduleController','ajaxservice:absence.tlmWorkbenchController']);
+    SMRF.load(['ajaxservice:absence.TLMEmployeeTimeAccountPP3Controller']);
+    //genericobject
+    SMRF.load(['ajaxservice:genericobject.genericObjectController','ajaxservice:genericobject.genericObjectListController','ajaxservice:genericobject.genericObjectAutoCompleteController']);
+    SMRF.load(['ajaxservice:genericobject.configUIController','ajaxservice:genericobject.customAutoCompleteFieldController']);
+    //workstructure
+    SMRF.load(['ajaxservice:workstructure.migratedObjectAutoCompleteController']);
+}
+

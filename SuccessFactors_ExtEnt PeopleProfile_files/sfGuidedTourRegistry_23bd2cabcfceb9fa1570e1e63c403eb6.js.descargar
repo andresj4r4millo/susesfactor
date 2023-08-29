@@ -1,0 +1,2 @@
+function SFGuidedTourRegistry(){}SFGuidedTourRegistry.registry={};SFGuidedTourRegistry.register=function(a,b){SFGuidedTourRegistry.registry[a]||(SFGuidedTourRegistry.registry[a]=[]);SFGuidedTourRegistry.registry[a].push(b)};SFGuidedTourRegistry.getGuideTipOptionsForId=function(a){return SFGuidedTourRegistry.registry[a]||[]};
+SFGuidedTourRegistry.registerTopNavLink=function(a,b,c){c&&this.register("sfGuidedTour_SelectedTopNavSubTab",{id:b});"COMPANY_ORG_CHART"==a&&this.register("sfGuidedTour_OrgChartIntro",{id:b})};

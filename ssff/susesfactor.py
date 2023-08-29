@@ -17,7 +17,7 @@ from selenium.webdriver.support.ui import Select
 import traceback
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from notifypy import Notify
+
 import os
 from datetime import datetime
 #import funciones
@@ -295,14 +295,13 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
                         driver.find_element(By.XPATH,'//*[@id="__button23-BDI-content"]').click()
                         # si
                         driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-inner"]').click()
-                        time.sleep(10)
+                        time.sleep(2)
                         return "cesado"
 
                     except Exception as e:
                         print(e)
                     print("cesado")
 
-                time.sleep(20)
             except:
                 return "añadir"
             
@@ -349,42 +348,29 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
             
 
 ##################################################################################################
-def ingresar2(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p ):
+def cesado(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p ):
+    time.sleep(20)
+   
     while True:
         try:
-            #NOMBRE
-            driver.find_element(By.XPATH,'//*[@id="__input13-inner"]').clear
-            driver.find_element(By.XPATH,'//*[@id="__input13-inner"]').send_keys(nombre)
-            #APELLIDO
-            driver.find_element(By.XPATH,'//*[@id="__input14-inner"]').clear()
-            driver.find_element(By.XPATH,'//*[@id="__input14-inner"]').send_keys(apellido)
-            break
-        except:
-            print("no se pudo diligenciar")
-    while True:
-        try:
-            #FECHA NACIMIENTO
-            #campofecha=driver.find_element(By.XPATH,'//*[@id="__picker0-inner"]')
-            #actions.double_click(campofecha).perform()
-            #campofecha.clear()
-            #campofecha.send_keys(fecha_n)
-            #time.sleep(1)
-            #empresa
+
             elemento_input = driver.find_element(By.ID,"__box10-inner")
+            #//*[@id="__box10-inner"]
             texto="ONE CONTACT INTERNACIONAL (CA661)"
+            driver.find_element(By.XPATH,'//*[@id="__box10-arrow"]').click()
             elemento_input.send_keys("661")
-            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box10-popup-list"]//div[text()="{texto}"]')))
+            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box10-popup-cont"]//div[text()="{texto}"]')))
             #//*[@id="__box0-popup-list-listUl"]
             opcion.click()
-            time.sleep(2)
-            elemento_input.send_keys(Keys.ARROW_DOWN)
-            elemento_input.send_keys(Keys.ENTER)
-            time.sleep(1)#
-            # PREINGRESO
+            time.sleep(1)
+            #motivo
+            driver.find_element(By.XPATH,'//*[@id="__box11-arrow"]').click()
+
             print('bien')
             break
         except:
             print('error2')
+
     while True:
         try:
             #//*[@id="__box1-popup"]
@@ -393,153 +379,24 @@ def ingresar2(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p
             #motivo.send_keys(opciont)
             driver.find_element(By.XPATH,'//*[@id="__box11-arrow"]').click()
             #//*[@id="__box1-popup"]
-            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box11-popup-list-listUl"]//div[text()="{opciont}"]')))
+            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box11-popup-cont"]//div[text()="{opciont}"]')))
             opcion.click()
             time.sleep(1)
-
             break
         except:
             print("error3")
-    ###informacion biografica
+    #continuar
     while True:
         try:
-            driver.find_element(By.XPATH,'//*[@id="__picker4-inner"]').clear()         
-            driver.find_element(By.XPATH,'//*[@id="__picker4-inner"]').send_keys(fecha_naci)
-            time.sleep(1)
-            #//*[@id="__box2-inner"]
-            #PAIS     //*[@id="__input20-inner"]
-
-            span=driver.find_element(By.XPATH,'//*[@id="__box12-inner"]')#//*[@id="__box2-inner"]
-            span.clear()
-            paism=pais.lower()
-            opcion_texto=paism.capitalize()
-            span.send_keys(opcion_texto)
-            #desplegar opciones
-            driver.find_element(By.XPATH,'//*[@id="__box12-arrow"]').click()
-            time.sleep(2)
-             # Texto de la opción que deseas seleccionar
-            opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box12-popup-cont"]//div[text()="{opcion_texto}"]')))
-            opcion.click()
-            if (opcion_texto !="Colombia"):
-                departamento="Otros departamentos"
-            else:
-                departamento="Antioquia"
-            #departamento  
-            
-            depa=driver.find_element(By.XPATH,'//*[@id="__box13-inner"]')
-            depa.clear()
-            depa.send_keys(departamento)
-            time.sleep(1)
-            driver.find_element(By.XPATH,'//*[@id="__box13-arrow"]').click()
-            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box13-popup-cont"]//div[text()="{departamento}"]')))
-            opciond.click()
-            print("bien")
-            break
-        except:
-            print("error biografico")
-    while True:
-        try:
-            if pais=="COLOMBIA":
-                driver.find_element(By.XPATH,'//*[@id="__box14-arrow"]').click()
-                
-                ciud=driver.find_element(By.XPATH,'//*[@id="__box14-inner"]')
-                actions.double_click(ciud).perform()
-                ciud.send_keys("mede")
-                time.sleep(2)
-                ciud="Medellín"
-                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box14-popup-cont"]//div[text()="{ciud}"]')))
-                opciond.click()
-            else:
-                driver.find_element(By.XPATH,'//*[@id="__box14-arrow"]').click()
-                driver.find_element(By.XPATH,'//*[@id="__box14-arrow"]').send_keys("otros")
-                time.sleep(2)
-                ciud="Otros municipios"
-                opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box14-popup-cont"]//div[text()="{ciud}"]')))
-                opciond.click()
-            print("municipio select")
-            break
-        except:
-            print("error ciudad")
-    if codigo_p=="si":
-        while True:
-            try:
-                cdp=driver.find_element(By.XPATH,'//*[@id="__input20-inner"]')
-                actions.double_click(cdp).perform()
-                cdp.send_keys(f"{cedula}CA")
-                break
-            except:
-                print("error al interactuar con el codigo de la persona")
-    #documento
-    """
-    while True:
-        try:
-            #                            //*[@id="__input6-inner"]
-            driver.find_element(By.XPATH,'//*[@id="__input6-content"]').click()
-            document=driver.find_element(By.XPATH,'//*[@id="__input6-content"]')
-            print(cedula)    
-            document.send_keys(cedula)
-            print("si")
-            time.sleep(10)
-            break
-        except NoSuchElementException as e:
-            print("error documento")
-            print("mensaje: ", e)
-    """
-    while True:
-        try:
-            nom=driver.find_element(By.XPATH,'//*[@id="__input20-inner"]')
-            nom.clear()
-            nom.send_keys(f"{cedula}CA661")
-            ### identificacion
-            print("echo")
-            break
-        except:
-            print("error nombre")
-    #IDENTIFICACION
-    while True:
-        try:
-            driver.find_element(By.XPATH,'//*[@id="__box15-arrow"]').click()
-            option="Colombia"
-            opciond = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box15-popup-cont"]//div[text()="{option}"]')))
-            
-            opciond.click()
-            #tipo documento
-            cc="#"
-            driver.find_element(By.XPATH,'//*[@id="__box16-arrow"]').click()
-            if pais=="COLOMBIA":
-                cc="Cédula de ciudadanía"
-            elif pais=="VENEZUELA":
-                cc="Cédula de Extranjeria"
-            else:
-                cc="Pasaporte"
-            document=WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box16-popup-cont"]//div[text()="{cc}"]')))
-            document.click()
-            #documento
-            cd=driver.find_element(By.XPATH,'//*[@id="__input23-inner"]')
-            cd.clear()
-            cd.send_keys(cedula)
-            #fecha expedicion
-            fx=driver.find_element(By.XPATH,'//*[@id="__picker5-inner"]')
-            fx.clear()
-            fx.send_keys(fecha_expedicion)
-            ##departamento de expedicion
-            exp="Antioquia"
-            driver.find_element(By.XPATH,'//*[@id="__box18-arrow"]').click()
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box18-popup-cont"]//div[text()="{exp}"]')))
-            opcionx.click()
-            #//*[@id="__box8-popup-cont"]
-            #Antioquia
-            #nombre de usuario
-            #//*[@id="__input26-inner"]
+            #continuar
             driver.find_element(By.XPATH,'//*[@id="__button38-BDI-content"]').click()
-            print("listo a envio")
-            time.sleep(20)
-            break
-            #
-
-
+            time.sleep(2)
+            crr=driver.find_element(By.XPATH,'//*[@id="__input28-inner"]')
+            crr.click()
+            
         except:
-            print("datos erroneos")
+            print("error 4")
+
 def info_asignacion(campaña):
     while True:
         try:
@@ -555,7 +412,7 @@ def info_asignacion(campaña):
             print("err.position")
 #########################################################################################################################################################
 ##########################################FUNCION CORREO Y  TELEFONO
-def correo_tel_2(correo_corporativo,celular,correo):
+def correo_tel_2(correo_corporativo,semilla,celular,correo):
     #correo
     while True:
         try:
@@ -571,23 +428,165 @@ def correo_tel_2(correo_corporativo,celular,correo):
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box20-popup-cont"]//div[text()="{tc}"]')))
             opcionx.click()
             #añadir o añadido
+            driver.find_element(By.XPATH,'//*[@id="__box21-arrow"]').click()
+            #
+            tc="Personal"
+            opcionp = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box21-popup-cont"]//div[text()="{tc}"]')))
+            opcionp.click()
+            #
             cp=driver.find_element(By.XPATH,'//*[@id="__input31-inner"]')
             cp.clear()
             cp.send_keys(correo)
-                
-            driver.find_element(By.XPATH,'//*[@id="__box21-arrow"]').click()
-            #//*[@id="__box21-popup-cont"]
-            tc="Personal"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box21-popup-cont"]//div[text()="{tc}"]')))
-            opcionx.click()
-                
-            driver.find_element(By.XPATH,'//*[@id="__box22-arrow"]').clik()
+            #
             tc="No"
+            driver.find_element(By.XPATH,'//*[@id="__box22-arrow"]').click()
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box22-popup-cont"]//div[text()="{tc}"]')))
             opcionx.click()
+            #############################################
+
+
+
+            driver.find_element(By.XPATH,'//*[@id="__box23-arrow"]').click()
+            #//*[@id="__box21-popup-cont"]
+            tc="Corporativo"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box23-popup-cont"]//div[text()="{tc}"]')))
+            opcionx.click()
+            #
+            nm=driver.find_element(By.XPATH,'//*[@id="__input34-inner"]')
+            nm.clear()
+            nm.send_keys(semilla)
+
+            driver.find_element(By.XPATH,'//*[@id="__box24-arrow"]').clik()
+            tc="Sí"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box24-popup-cont"]//div[text()="{tc}"]')))
+            opcionx.click()
+            # añadir o añadido
+            try:
+                driver.find_element(By.XPATH,'//*[@id="__box25-arrow"]').click()
+                tc="Personal"
+                opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box25-popup-cont"]//div[text()="{tc}"]')))
+                opcionx.click()
+                correoc=driver.find_element(By.XPATH,'//*[@id="__input37-inner"]')
+                actions.double_click(correoc).perform()
+                correoc.send_keys(correo_corporativo)
+                driver.find_element(By.XPATH,'//*[@id="__box26-arrow"]').click()
+                tc="No"
+                opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box26-popup-cont"]//div[text()="{tc}"]')))
+                opcionx.click()
+            except:
+                #añadir 
+                driver.find_element(By.XPATH,'//*[@id="__button57-inner"]').click()
+
+                driver.find_element(By.XPATH,'//*[@id="__box25-arrow"]').click()
+                tc="Personal"
+                opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box25-popup-cont"]//div[text()="{tc}"]')))
+                opcionx.click()
+                correoc=driver.find_element(By.XPATH,'//*[@id="__input37-inner"]')
+                actions.double_click(correoc).perform()
+                correoc.send_keys(correo_corporativo)
+                driver.find_element(By.XPATH,'//*[@id="__box26-arrow"]').click()
+                tc="No"
+                opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box26-popup-cont"]//div[text()="{tc}"]')))
+                opcionx.click()
+
+            
+            #continuar
+            driver.find_element(By.XPATH,'//*[@id="__button52-BDI-content"]').click()
+
+            #otrapagina
+            driver.find_element(By.XPATH,'//*[@id="__box29-inner"]').click()
             break
         except:
             print(correo)
+##############################################################################
+##################################################################################
+def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
+    while True:
+        try:
+            #posicion
+            
+            driver.find_element(By.XPATH,'//*[@id="__box29-arrow"]').click()
+            pt=driver.find_element(By.XPATH,'//*[@id="__box29-inner"]')
+            puesto="ASESOR ADICIONALES AUTOGENERACION TMK ALIADO (30031651)"
+            if campaña=="HOGAR OUT":
+                puesto="ASESOR HOGAR OUT TMK ALIADO (30031640)"
+                pt.send_keys("hogar")
+            elif campaña=="PORTABILIDAD OUT":
+                puesto="ASESOR PORTA OUT TMK ALIADO (30031644)"
+                pt.send_keys("porta")
+            elif campaña=="MIGRACION OUT":
+                pt.send_keys("migra")
+                puesto="ASESOR MIGRA OUT TMK ALIADO (30031645)"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box29-popup-cont"]//div[text()="{puesto}"]')))
+            opcionx.click()
+            #direccion
+            #driver.find_element(By.XPATH,'//*[@id="__box23-arrow"]').click()
+            time.sleep(3)
+            #ubicacion
+            driver.find_element(By.XPATH,'//*[@id="__box33-arrow"]').click()
+            ubicacion="SEDE ALIADO (6100210)"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box33-popup-cont"]//div[text()="{ubicacion}"]')))
+            opcionx.click()
+            print("ya casi")
+
+            driver.find_element(By.XPATH,'//*[@id="__button74-BDI-content"]').click()
+            break
+        except:
+            print("error de asignacion  ")
+    ### work order
+    while True:
+        try:
+            # fecha fin 2 meses
+            FF=driver.find_element(By.XPATH,'//*[@id="__picker7-inner"]')#//*[@id="__picker7-inner"]
+
+            FF.send_keys(fecha_ft)
+            nombrec=(f"{nombre} {apellido}")
+            cd=driver.find_element(By.XPATH,'//*[@id="__input51-inner"]')
+            cd.clear()
+            cd.send_keys(cedula)
+            #
+            nom=driver.find_element(By.XPATH,'//*[@id="__input52-inner"]')
+            nom.clear()
+            nom.send_keys(nombrec)
+
+            #GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL
+            dueño=driver.find_element(By.XPATH,'//*[@id="__box35-inner"]')
+            dueño.clear()
+            dueño.send_keys("GESTOR")#
+            dueno="GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL"
+            time.sleep(2)
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box35-popup-cont"]//div[text()="{dueno}"]')))
+            opcionx.click()
+
+            #proveedor
+            driver.find_element(By.XPATH,'//*[@id="__box36-arrow"]').click()
+            #CA661
+            prov=driver.find_element(By.XPATH,'//*[@id="__box36-inner"]')
+            prov.clear()
+
+            prov.send_keys("CA661")
+            provedor="CA661 (ONE CONTACT INTERNACIONAL)"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box36-popup-cont"]//div[text()="{provedor}"]')))
+            opcionx.click()
+            
+            #fechaf.clear()
+            print("asignado")
+            #continuar
+            time.sleep(2)
+            driver.find_element(By.XPATH,'//*[@id="__button63-BDI-content"]').click()
+            
+            try:
+                if driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]'):
+                    cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]')#//*[@id="__mbox-btn-1-BDI-content"]
+                elif driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]'):
+                    cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')
+                time.sleep(1)
+                cerrar.click()
+                continue
+            except:
+                break
+        except:
+            print("no asignado ")
 
 
 #############
@@ -844,8 +843,9 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         
     time.sleep(2)
     if estado == "cesado":
-        ingresar2(nombre, apellido, fechan,pais,cedula,fecha_expedicion,'si' )
+        cesado(nombre, apellido, fechan,pais,cedula,fecha_expedicion,'si' )
         time.sleep(5)
+        correo_tel_2(correo_corporativo,semilla,celular,correo)
     elif estado=="añadir":
         print(correo)
         correo_telefono(correo_corporativo,semilla,celular,correo)
@@ -859,10 +859,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         #centro de administracion
         #//*[@id="__link0"]
     elif estado=="activo":
-        notification = Notify()
-        notification.title = "persona activa con aliado"
-        notification.message = "captura guardada en carpeta capturas."
-        notification.send()
+
         driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
         time.sleep(1)
         #//*[@id="__mbox-btn-0-BDI-content"]
