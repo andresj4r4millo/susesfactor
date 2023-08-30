@@ -39,8 +39,10 @@ def temporal(texto):
             primer_shadow_root = driver.execute_script('return arguments[0].shadowRoot', primer_etiqueta)
             segunda_etiqueta = primer_shadow_root.find_element(By.ID,"search")
             segundo_shadow_root = driver.execute_script('return arguments[0].shadowRoot', segunda_etiqueta)
-
-            buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_14-inner")
+            try:
+                buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_14-inner")
+            except:
+                buscador=segundo_shadow_root.find_element(By.ID,"ui5wc_19-inner")
             time.sleep(1)
             buscador.send_keys(texto)
             time.sleep(2)
@@ -350,7 +352,6 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
 
 ##################################################################################################
 def cesado(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p ):
-    time.sleep(20)
    
     while True:
         try:
@@ -555,41 +556,41 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
             # fecha fin 2 meses
             FF=driver.find_element(By.XPATH,'//*[@id="__picker10-inner"]')#//*[@id="__picker7-inner"]
 
-            FF.send_keys(fecha_ft)
+            #FF.send_keys(fecha_ft)
             nombrec=(f"{nombre} {apellido}")
             cd=driver.find_element(By.XPATH,'//*[@id="__input61-inner"]')
             cd.clear()
             cd.send_keys(cedula)
             #
-            nom=driver.find_element(By.XPATH,'//*[@id="__input74-inner"]')
+            nom=driver.find_element(By.XPATH,'//*[@id="__input62-content"]')
             nom.clear()
             nom.send_keys(nombrec)
 
             #GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL
-            dueño=driver.find_element(By.XPATH,'//*[@id="__box51-inner"]')
+            dueño=driver.find_element(By.XPATH,'//*[@id="__box43-inner"]')
             dueño.clear()
             dueño.send_keys("GESTOR")#
             dueno="GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL"
             time.sleep(2)
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box35-popup-cont"]//div[text()="{dueno}"]')))
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box43-popup-cont"]//div[text()="{dueno}"]')))
             opcionx.click()
 
             #proveedor
-            driver.find_element(By.XPATH,'//*[@id="__box52-arrow"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__box44-arrow"]').click()
             #CA661
-            prov=driver.find_element(By.XPATH,'//*[@id="__box52-inner"]')
+            prov=driver.find_element(By.XPATH,'//*[@id="__box44-inner"]')
             prov.clear()
 
             prov.send_keys("CA661")
             provedor="CA661 (ONE CONTACT INTERNACIONAL)"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box52-popup-cont"]//div[text()="{provedor}"]')))
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box44-popup-cont"]//div[text()="{provedor}"]')))
             opcionx.click()
             
             #fechaf.clear()
             print("asignado")
             #continuar
             time.sleep(2)
-            driver.find_element(By.XPATH,'//*[@id="__button63-BDI-content"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__button81-BDI-content"]').click()
             
             try:
                 if driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]'):
