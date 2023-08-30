@@ -556,13 +556,13 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
             # fecha fin 2 meses
             FF=driver.find_element(By.XPATH,'//*[@id="__picker10-inner"]')#//*[@id="__picker7-inner"]
 
-            #FF.send_keys(fecha_ft)
+            FF.send_keys(fecha_ft)
             nombrec=(f"{nombre} {apellido}")
             cd=driver.find_element(By.XPATH,'//*[@id="__input61-inner"]')
             cd.clear()
             cd.send_keys(cedula)
             #
-            nom=driver.find_element(By.XPATH,'//*[@id="__input62-content"]')
+            nom=driver.find_element(By.XPATH,'//*[@id="__input62-inner"]')#
             nom.clear()
             nom.send_keys(nombrec)
 
@@ -593,8 +593,8 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
             driver.find_element(By.XPATH,'//*[@id="__button81-BDI-content"]').click()
             
             try:
-                if driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]'):
-                    cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]')#//*[@id="__mbox-btn-1-BDI-content"]
+                if driver.find_element(By.XPATH,'//*[@id="__mbox-btn-2-BDI-content"]'):
+                    cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-2-BDI-content"]')#//*[@id="__mbox-btn-1-BDI-content"]
                 elif driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]'):
                     cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')
                 time.sleep(1)
