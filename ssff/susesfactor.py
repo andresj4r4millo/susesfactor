@@ -250,6 +250,7 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
             #fecha expedicion
             
             fx=driver.find_element(By.XPATH,'//*[@id="__picker2-inner"]')
+            fx.clear()
             fx.send_keys(fecha_expedicion)
             ##departamento de expedicion
             exp="Antioquia"
@@ -266,7 +267,7 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
             continuar.click()
             time.sleep(4)
             if 'Tipo de Documento es obligatorio' in driver.page_source:
-                driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-inner"]').click()
                 continue
             try:
                 ventana_e=driver.find_element(By.XPATH,'//*[@id="UserSearchResult--userSearchDialog-cont"]')#//*[@id="UserSearchResult--userSearchDialog"]
@@ -382,6 +383,10 @@ def cesado(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p ):
             opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box11-popup-cont"]//div[text()="{opciont}"]')))
             opcion.click()
             time.sleep(1)
+            cd_p=driver.find_element(By.XPATH,'//*[@id="__input20-inner"]')
+            cd_p.clear()
+            cdp=f"{cedula}CA661"
+            cd_p.send_keys(cdp)
             break
         except:
             print("error3")
@@ -393,7 +398,7 @@ def cesado(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p ):
             time.sleep(2)
             crr=driver.find_element(By.XPATH,'//*[@id="__input28-inner"]')
             crr.click()
-            
+            break
         except:
             print("error 4")
 
@@ -422,7 +427,7 @@ def correo_tel_2(correo_corporativo,semilla,celular,correo):
             opcionx.click()
             correoc=driver.find_element(By.XPATH,'//*[@id="__input28-inner"]')
             actions.double_click(correoc).perform()
-            correoc.send_keys(correo_corporativo)
+            correoc.send_keys(correo)
             driver.find_element(By.XPATH,'//*[@id="__box20-arrow"]').click()
             tc="Sí"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box20-popup-cont"]//div[text()="{tc}"]')))
@@ -436,16 +441,19 @@ def correo_tel_2(correo_corporativo,semilla,celular,correo):
             #
             cp=driver.find_element(By.XPATH,'//*[@id="__input31-inner"]')
             cp.clear()
-            cp.send_keys(correo)
+            cp.send_keys(correo_corporativo)
             #
             tc="No"
             driver.find_element(By.XPATH,'//*[@id="__box22-arrow"]').click()
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box22-popup-cont"]//div[text()="{tc}"]')))
             opcionx.click()
             #############################################
+            break
+        except:
+            print(correo)
 
-
-
+    while True:
+        try:
             driver.find_element(By.XPATH,'//*[@id="__box23-arrow"]').click()
             #//*[@id="__box21-popup-cont"]
             tc="Corporativo"
@@ -455,13 +463,18 @@ def correo_tel_2(correo_corporativo,semilla,celular,correo):
             nm=driver.find_element(By.XPATH,'//*[@id="__input34-inner"]')
             nm.clear()
             nm.send_keys(semilla)
-
-            driver.find_element(By.XPATH,'//*[@id="__box24-arrow"]').clik()
+            time.sleep(1)
+            print("primer")
+            pr=driver.find_element(By.XPATH,'//*[@id="__box24-inner"]')
+            pr.clear()
+            pr.send_keys("Sí")
             tc="Sí"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box24-popup-cont"]//div[text()="{tc}"]')))
             opcionx.click()
             # añadir o añadido
+            print("primer cel")
             try:
+                print("entra")
                 driver.find_element(By.XPATH,'//*[@id="__box25-arrow"]').click()
                 tc="Personal"
                 opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box25-popup-cont"]//div[text()="{tc}"]')))
@@ -475,9 +488,9 @@ def correo_tel_2(correo_corporativo,semilla,celular,correo):
                 opcionx.click()
             except:
                 #añadir 
-                driver.find_element(By.XPATH,'//*[@id="__button57-inner"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__button57-content"]').click()
 
-                driver.find_element(By.XPATH,'//*[@id="__box25-arrow"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__box25-arrow"]').click()#//*[@id="__box25-arrow"]
                 tc="Personal"
                 opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box25-popup-cont"]//div[text()="{tc}"]')))
                 opcionx.click()
@@ -497,9 +510,11 @@ def correo_tel_2(correo_corporativo,semilla,celular,correo):
             driver.find_element(By.XPATH,'//*[@id="__box29-inner"]').click()
             break
         except:
-            print(correo)
+            print(semilla)
+
 ##############################################################################
 ##################################################################################
+
 def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
     while True:
         try:
@@ -533,24 +548,25 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
             break
         except:
             print("error de asignacion  ")
+    time.sleep(10)
     ### work order
     while True:
         try:
             # fecha fin 2 meses
-            FF=driver.find_element(By.XPATH,'//*[@id="__picker7-inner"]')#//*[@id="__picker7-inner"]
+            FF=driver.find_element(By.XPATH,'//*[@id="__picker10-inner"]')#//*[@id="__picker7-inner"]
 
             FF.send_keys(fecha_ft)
             nombrec=(f"{nombre} {apellido}")
-            cd=driver.find_element(By.XPATH,'//*[@id="__input51-inner"]')
+            cd=driver.find_element(By.XPATH,'//*[@id="__input61-inner"]')
             cd.clear()
             cd.send_keys(cedula)
             #
-            nom=driver.find_element(By.XPATH,'//*[@id="__input52-inner"]')
+            nom=driver.find_element(By.XPATH,'//*[@id="__input74-inner"]')
             nom.clear()
             nom.send_keys(nombrec)
 
             #GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL
-            dueño=driver.find_element(By.XPATH,'//*[@id="__box35-inner"]')
+            dueño=driver.find_element(By.XPATH,'//*[@id="__box51-inner"]')
             dueño.clear()
             dueño.send_keys("GESTOR")#
             dueno="GESTOR INFORMACION ALIADO ONE CONTACT INTERNACIONAL"
@@ -559,14 +575,14 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
             opcionx.click()
 
             #proveedor
-            driver.find_element(By.XPATH,'//*[@id="__box36-arrow"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__box52-arrow"]').click()
             #CA661
-            prov=driver.find_element(By.XPATH,'//*[@id="__box36-inner"]')
+            prov=driver.find_element(By.XPATH,'//*[@id="__box52-inner"]')
             prov.clear()
 
             prov.send_keys("CA661")
             provedor="CA661 (ONE CONTACT INTERNACIONAL)"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box36-popup-cont"]//div[text()="{provedor}"]')))
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box52-popup-cont"]//div[text()="{provedor}"]')))
             opcionx.click()
             
             #fechaf.clear()
@@ -844,8 +860,10 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     time.sleep(2)
     if estado == "cesado":
         cesado(nombre, apellido, fechan,pais,cedula,fecha_expedicion,'si' )
-        time.sleep(5)
+        time.sleep(1)
         correo_tel_2(correo_corporativo,semilla,celular,correo)
+        time.sleep(1)
+        asignacion_cesado(nombre,apellido,fecha_ft,campaña)
     elif estado=="añadir":
         print(correo)
         correo_telefono(correo_corporativo,semilla,celular,correo)
