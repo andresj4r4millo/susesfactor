@@ -889,7 +889,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         time.sleep(1)
         driver.find_element(By.XPATH,'//*[@id="__button5-BDI-content"]').click()
         time.sleep(1)
-        driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
+        temporal_intro("inicio")
+        #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
         continue
         
 
