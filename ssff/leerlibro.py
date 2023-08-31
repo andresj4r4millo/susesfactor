@@ -21,7 +21,8 @@ def formatof(fecha):
     fechas=lafecha.split("-")
     fecha_n="".join(fechas)
     return fecha_n
-
+nuevo_workbook = openpyxl.Workbook()
+nueva_sheet = nuevo_workbook.active
 
 workbook = openpyxl.load_workbook('SSFF.xlsx', read_only=True, data_only=True, keep_links=False, keep_vba=False)
 # Seleccionar la hoja de cálculo que deseas leer
@@ -49,6 +50,11 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     estado=str(row[17])
     observaciones=str(row[18])
     fecha=fn
+
+
+    nueva_sheet.cell(row=index, column=1, value=cedula)
+    nueva_sheet.cell(row=index, column=2, value=pais)
+    """
     if fecha == None:
         continue
     else:
@@ -72,6 +78,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         print(fecha_formateada)
         print(expedicion)
         #print(fechan)
+    """
+nuevo_workbook.save('Nuevo_SSF.xlsx')
 
     
 
