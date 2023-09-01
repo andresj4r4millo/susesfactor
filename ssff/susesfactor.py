@@ -347,7 +347,13 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
         except:
             print("datos erroneos")
             
-
+def fun_activo():
+    while True:
+        try:
+            print(1)
+            time.sleep(20)
+        except:
+            print("2")
 ##################################################################################################
 def cesado(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p ):
    
@@ -882,6 +888,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         print("el estado")
         #ignorar
         driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
+        fun_activo()
         time.sleep(2)
         time.sleep(8)
         temporal_intro("inicio")
