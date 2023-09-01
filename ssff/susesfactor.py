@@ -40,7 +40,7 @@ def temporal(texto):
             segunda_etiqueta = primer_shadow_root.find_element(By.ID,"search")
             segundo_shadow_root = driver.execute_script('return arguments[0].shadowRoot', segunda_etiqueta)
             try:
-                buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_14-inner")
+                buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_14-inner")#//*[@id="ui5wc_8-inner"]
             except:
                 buscador=segundo_shadow_root.find_element(By.ID,"ui5wc_19-inner")
             time.sleep(1)
@@ -280,14 +280,12 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
                     if not os.path.exists(carpeta_capturas):
                         os.makedirs(carpeta_capturas)
                     print("preparando navegador para captura")
-                    
 
                     screenshot_name = f'capturas/{cedula}.png'
                     driver.save_screenshot(screenshot_name)
                     #ignorar
                     driver.execute_script("arguments[0].style.zoom='100%';", ventana_e)
-                    
-                    time.sleep(2)
+                    time.sleep(8)
                     return "activo"
                 elif "cesado" in ventana_e.text.lower():
 
@@ -881,14 +879,11 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         #centro de administracion
         #//*[@id="__link0"]
     elif estado=="activo":
-
+        print("el estado")
+        #ignorar
         driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
-        time.sleep(1)
-        #//*[@id="__mbox-btn-0-BDI-content"]
-        driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
-        time.sleep(1)
-        driver.find_element(By.XPATH,'//*[@id="__button5-BDI-content"]').click()
-        time.sleep(1)
+        time.sleep(2)
+        time.sleep(8)
         temporal_intro("inicio")
         #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
         continue
