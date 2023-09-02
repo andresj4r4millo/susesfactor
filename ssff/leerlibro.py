@@ -21,6 +21,17 @@ def formatof(fecha):
     fechas=lafecha.split("-")
     fecha_n="".join(fechas)
     return fecha_n
+
+def formatodefecha(fecha):
+    if fecha==None:
+        fecha_actual = datetime.now()
+        fecha_n = fecha_actual.strftime("%d%m%Y")
+        return fecha_n
+    fechas = fecha.split("/")
+    fechan = "".join(fechas)
+    formato=fechan.split(" ")
+    lafecha=formato[0]
+    return lafecha
 nuevo_workbook = openpyxl.Workbook()
 nueva_sheet = nuevo_workbook.active
 
@@ -50,11 +61,14 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     estado=str(row[17])
     observaciones=str(row[18])
     fecha=fn
+    print(fecha)
+    fch=formatodefecha(fecha)
+    print(fch)
 
-
+    """
     nueva_sheet.cell(row=index, column=1, value=cedula)
     nueva_sheet.cell(row=index, column=2, value=pais)
-    """
+    
     if fecha == None:
         continue
     else:
@@ -79,7 +93,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         print(expedicion)
         #print(fechan)
     """
-nuevo_workbook.save('Nuevo_SSF.xlsx')
+#nuevo_workbook.save('Nuevo_SSF.xlsx')
 
     
 

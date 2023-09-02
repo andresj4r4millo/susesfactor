@@ -17,12 +17,15 @@ from selenium.webdriver.support.ui import Select
 import traceback
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
+from selenium.webdriver.edge.service import Service as EdgeService
 import os
 from datetime import datetime
 #import funciones
 
-driver= webdriver.Edge(executable_path='msedgedriver.exe')
+edge_service = EdgeService('msedgedriver.exe')
+
+# Inicializa el controlador de Edge
+driver = webdriver.Edge(service=edge_service)
 driver.maximize_window()
 driver.implicitly_wait(4)
 actions = ActionChains(driver)
