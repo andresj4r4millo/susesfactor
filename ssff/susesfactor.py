@@ -355,8 +355,20 @@ def fun_activo():
         try:
             print(1)
             time.sleep(20)
+            if "El nombre del usuario ya existe. Introduzca un nuevo valor exclusivo." in driver.page_source:
+                #cerrar 
+                driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
+            #guardar borrador
+            driver.find_element(By.XPATH,'//*[@id="__button5-BDI-content"]').click()   
+
+            #El nombre del usuario ya existe. Introduzca un nuevo valor exclusivo.
+            #//*[@id="__mbox-btn-1-BDI-content"]
+            
         except:
             print("2")
+
+
+
 ##################################################################################################
 def cesado(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion,codigo_p ):
    
