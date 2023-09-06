@@ -56,7 +56,7 @@ def temporal(texto):
 
             print("tambien se encontro")
 
-            time.sleep(5)
+            time.sleep(2)
             break
         except Exception as e:
             print("No se pudo interactuar:", e)
@@ -77,7 +77,7 @@ def temporal_intro(texto):
                 buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_8-inner")#//*[@id="ui5wc_8-inner"]
             time.sleep(1)
             buscador.send_keys(texto)
-            time.sleep(2)
+            time.sleep(1)
             buscador.send_keys(Keys.ARROW_DOWN)
             buscador.send_keys(Keys.ARROW_DOWN)
             time.sleep(1)
@@ -85,7 +85,7 @@ def temporal_intro(texto):
 
             print("tambien se encontro")
 
-            time.sleep(5)
+            time.sleep(2)
             break
         except Exception as e:
 
@@ -130,7 +130,7 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
             opcion = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box0-popup-list-listUl"]//div[text()="{texto}"]')))
             #//*[@id="__box0-popup-list-listUl"]
             opcion.click()
-            time.sleep(2)
+            time.sleep(1)
             elemento_input.send_keys(Keys.ARROW_DOWN)
             elemento_input.send_keys(Keys.ENTER)
             time.sleep(1)#
@@ -275,7 +275,7 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
 
             continuar=driver.find_element(By.XPATH,'//*[@id="__button19-BDI-content"]')
             continuar.click()
-            time.sleep(4)
+            time.sleep(2)
             if 'Tipo de Documento es obligatorio' in driver.page_source:
                 driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-inner"]').click()
                 continue
@@ -293,7 +293,7 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
                     driver.save_screenshot(screenshot_name)
                     #ignorar
                     driver.execute_script("arguments[0].style.zoom='100%';", ventana_e)
-                    time.sleep(8)
+                    time.sleep(4)
                     return "activo"
                 elif "cesado" in ventana_e.text.lower():
 
@@ -819,6 +819,8 @@ cont=0
 for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if index==1:
         continue
+    if cedula in activos or cedula in trabajadores:
+        continue
     cedula=str(row[0])
     ex=str(row[1])
     fecha=str(row[2])
@@ -899,8 +901,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         continue
     
     if trabajador_temporal== True:
-        usuario=f"{cedula}-{nombre} {apellido}"
-        trabajadores.append(usuario)
+
+        trabajadores.append(cedula)
 
 if len(trabajadores) > 0:    
     with open('trabajadores_temporales.txt', 'w') as archivo:
