@@ -327,10 +327,12 @@ def fun_activo():
                 #cerrar 
                 driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
             #guardar borrador
-            driver.find_element(By.XPATH,'//*[@id="__link0"]').click()  
+            driver.find_element(By.XPATH,'//*[@id="__link0"]').click() 
             if "Hay datos sin guardar en la página. ¿Seguro que desea salir sin guardarlos?"  in driver.page_source:
                 driver.find_element(By.XPATH,'//*[@id="__button26-BDI-content"]').click()
                 break
+            if "Ya existe el ID nacional 1037121156 para el país/la región COL y el tipo de tarjeta CitizenshipCard." in driver.page_source:
+                driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
 
             #El nombre del usuario ya existe. Introduzca un nuevo valor exclusivo.
             #//*[@id="__mbox-btn-1-BDI-content"]
