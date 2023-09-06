@@ -63,8 +63,11 @@ def temporal(texto):
 def temporal_intro(texto):
     while True:
         try:
-
-            primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="renderTopNavSFHeader"]/xweb-shellbar')#//*[@id="renderTopNavSFHeader"]/xweb-shellbar
+            try:
+                primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="renderTopNavSFHeader"]/xweb-shellbar')
+            except:
+                primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="bizXShellBarContainer"]/xweb-shellbar')
+                #//*[@id="bizXShellBarContainer"]/xweb-shellbar
             primer_shadow_root = driver.execute_script('return arguments[0].shadowRoot', primer_etiqueta)
             segunda_etiqueta = primer_shadow_root.find_element(By.ID,"search")
             segundo_shadow_root = driver.execute_script('return arguments[0].shadowRoot', segunda_etiqueta)
@@ -311,44 +314,7 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
             except:
                 return "añadir"
             
-            """
-            if 'Activo' in driver.page_source:
-                screenshot_name = f'capturas/{cedula}.png'
-                driver.save_screenshot(screenshot_name)
-                return "activo"
-                
-            try:
-                #aceptar correspondencia 
-                #//*[@id="__button23-BDI-content"]
-                #cerrar
-                #//*[@id="__mbox-btn-0"]
 
-                driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
-            except:   
-                print("listo a envio")
-
-                #time.sleep(20)
-
-                try:
-                    driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]')
-                    try:
-                        ignorar=driver.find_element(By.XPATH,'//*[@id="__button23-inner"]')
-                        ignorar.click()#
-                        print("aceptar")
-                        return "aceptar"
-                    except:
-                        driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
-                        print("ignorar")
-                        return "ignorar"
-                except:
-                    try:
-                        cor=driver.find_element(By.XPATH,'//*[@id="__input15-inner"]')
-                        print("añadir")
-                        cor.click()
-                        return "añadir"
-                    except:
-                        continue
-            """
         except:
             print("datos erroneos")
             
@@ -622,6 +588,13 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
                 elif driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]'):
                     cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')
                 time.sleep(1)
+                carpeta_añadidos="añadidos"
+                if not os.path.exists(carpeta_añadidos):
+                    os.makedirs(carpeta_añadidos)
+                    print("preparando navegador para captura")
+
+                    screenshot_name = f'capturas/{cedula}CA661.png'
+                    driver.save_screenshot(screenshot_name)
                 cerrar.click()
                 continue
             except:
@@ -630,7 +603,7 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
                 break
         except:
             print("no asignado ")
-
+    return True
 
 #############
 ####################
@@ -782,12 +755,21 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
                 elif driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]'):
                     cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')
                 time.sleep(1)
+                carpeta_añadidos="añadidos"
+                if not os.path.exists(carpeta_añadidos):
+                    os.makedirs(carpeta_añadidos)
+                    print("preparando navegador para captura")
+
+                    screenshot_name = f'capturas/{cedula}CA661.png'
+                    driver.save_screenshot(screenshot_name) 
+
                 cerrar.click()
                 continue
             except:
                 break
         except:
             print("no asignado ")
+    return True
 ####################################################################################################################################################3
 #######################################################################  FORMATO DE FECHA    ############################################################
 def formatof(fecha):
@@ -831,7 +813,8 @@ def iniciar_sesion():
             print("a")
 
 iniciar_sesion()
-
+trabajadores=[]
+activos=[]
 cont=0
 for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if index==1:
@@ -857,6 +840,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     observaciones=str(row[18])
     fechan=formatof(fecha)
     fecha_ex=formatof(ex)
+    if cedula=="None":
+        break
     sexo="FEMENINO"
     estadoc="CASADO"
     time.sleep(2)
@@ -882,49 +867,52 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     n=0
 
     print(estado)
-
-        
+    trabajador_temporal=False
+    
     time.sleep(2)
     if estado == "cesado":
         cesado(nombre, apellido, fechan,pais,cedula,fecha_expedicion,'si' )
         time.sleep(1)
         correo_tel_2(correo_corporativo,semilla,celular,correo)
         time.sleep(1)
-        asignacion_cesado(nombre,apellido,fecha_ft,campaña)
+        trabajador_temporal=asignacion_cesado(nombre,apellido,fecha_ft,campaña)
         temporal_intro("inicio")
+        
+
     elif estado=="añadir":
         print(correo)
         correo_telefono(correo_corporativo,semilla,celular,correo)
         time.sleep(2)
-        asignacion(nombre,apellido,fecha_ft,campaña)
+        trabajador_temporal=asignacion(nombre,apellido,fecha_ft,campaña)
         time.sleep(20)
         temporal_intro("inicio")
-        #time.sleep(20)
-        #otro temporal
-        #//*[@id="__link5"]
-        #centro de administracion
-        #//*[@id="__link0"]
+
     elif estado=="activo":
         print("el estado")
         #ignorar
         driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
         fun_activo()
         time.sleep(1)
-
+        activos.append(cedula)
         temporal_intro("inicio")
         #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
         continue
-        
+    
+    if trabajador_temporal== True:
+        usuario=f"{cedula}-{nombre} {apellido}"
+        trabajadores.append(usuario)
+
+if len(trabajadores) > 0:    
+    with open('trabajadores_temporales.txt', 'w') as archivo:
+        for trabajador in trabajadores:
+            archivo.write(trabajador + '\n')
+if len(activos) > 0:
+    with open('trabajadores_activos.txt', 'w') as archivo:
+        for trabajador in activos:
+            archivo.write(trabajador + '\n')
+    
 
 
-    """
-    agregar()
-    parte1(nombre,apellido,fechan,pais,sexo,cedula)
-    parte2(fechaex,pais,cedula)
-    time.sleep(6)
-    cont+=1
-    #driver.find_element(By.XPATH,'//*[@id="ui5wc_8-inner"]').send_keys("añadir")
-    """
 
 print("terminao")
 
