@@ -819,8 +819,7 @@ cont=0
 for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if index==1:
         continue
-    if cedula in activos or cedula in trabajadores:
-        continue
+
     cedula=str(row[0])
     ex=str(row[1])
     fecha=str(row[2])
@@ -842,6 +841,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     observaciones=str(row[18])
     fechan=formatof(fecha)
     fecha_ex=formatof(ex)
+    if cedula in activos or cedula in trabajadores:
+        continue
     if cedula=="None":
         break
     sexo="FEMENINO"
