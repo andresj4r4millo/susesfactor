@@ -318,7 +318,7 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
         except:
             print("datos erroneos")
             
-def fun_activo():
+def fun_activo(cedula):
     while True:
         try:
             print(1)
@@ -331,7 +331,8 @@ def fun_activo():
             if "Hay datos sin guardar en la página. ¿Seguro que desea salir sin guardarlos?"  in driver.page_source:
                 driver.find_element(By.XPATH,'//*[@id="__button26-BDI-content"]').click()
                 break
-            if "Ya existe el ID nacional 1037121156 para el país/la región COL y el tipo de tarjeta CitizenshipCard." in driver.page_source:
+            cadena=(f"Ya existe el ID nacional {cedula} para el país/la región COL y el tipo de tarjeta CitizenshipCard.")
+            if cadena in driver.page_source:
                 driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
 
             #El nombre del usuario ya existe. Introduzca un nuevo valor exclusivo.
@@ -896,7 +897,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         print("el estado")
         #ignorar
         driver.find_element(By.XPATH,'//*[@id="__button25-BDI-content"]').click()
-        fun_activo()
+        fun_activo(cedula)
         time.sleep(1)
         activos.append(cedula)
         temporal_intro("inicio")
@@ -919,7 +920,7 @@ if len(activos) > 0:
 
 
 
-print("terminao")
+print("ONE CONTACT")
 
 
 
