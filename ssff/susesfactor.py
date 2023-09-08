@@ -325,18 +325,22 @@ def fun_activo(cedula):
             #time.sleep(20)
             if "El nombre del usuario ya existe. Introduzca un nuevo valor exclusivo." in driver.page_source:
                 #cerrar 
-                driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
-            #guardar borrador
-            driver.find_element(By.XPATH,'//*[@id="__link0"]').click() 
+                try:
+                    driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()#//*[@id="__mbox-btn-1-inner"]
+                except:
+                    driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-inner"]').click()#//*[@id="__mbox-btn-1-inner"]
+            
             if "Hay datos sin guardar en la página. ¿Seguro que desea salir sin guardarlos?"  in driver.page_source:
                 driver.find_element(By.XPATH,'//*[@id="__button26-BDI-content"]').click()
                 break
-            cadena=(f"Ya existe el ID nacional {cedula} para el país/la región COL y el tipo de tarjeta CitizenshipCard.")
+            cadena=("Ya existe el ID nacional ")
             if cadena in driver.page_source:
                 driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]').click()
 
             #El nombre del usuario ya existe. Introduzca un nuevo valor exclusivo.
             #//*[@id="__mbox-btn-1-BDI-content"]
+            #volver
+            driver.find_element(By.XPATH,'//*[@id="__link0"]').click() 
             
         except:
             print("2")
