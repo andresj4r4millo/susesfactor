@@ -299,7 +299,10 @@ def ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion):
 
                     try:
                         #seleccion generica
-                        driver.find_element(By.XPATH,'//*[@id="__photo0-UserSearchResult--newHireUserMatchList-1-inner"]/div/img').click()
+                        try:
+                            driver.find_element(By.XPATH,'//*[@id="__photo0-UserSearchResult--newHireUserMatchList-1-inner"]/div/img').click()
+                        except:    #//*[@id="__photo0-UserSearchResult--newHireUserMatchList-0-inner"]/div/img                    
+                            driver.find_element(By.XPATH,'//*[@id="__photo0-UserSearchResult--newHireUserMatchList-0-inner"]/div/img').click()
                         time.sleep(1)
                         driver.find_element(By.XPATH,'//*[@id="__button23-BDI-content"]').click()
                         # si
