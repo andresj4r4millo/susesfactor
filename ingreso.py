@@ -112,37 +112,66 @@ def formatof(fecha):
     fechas=lafecha.split("-")
     fecha_n="".join(fechas)
     return fecha_n
+###################### PRE INGRESO##############
+def preingreso():
+    while True:
+        try:
+            driver.find_element(By.XPATH,'//*[@id="__xmlview0--objectPage-anchBar-__section1-__xmlview0--objectPage-5-anchor-internalSplitBtn-textButton-BDI-content"]').click()
+            break
+        except:
+            print("no se pudo interactuar")
+    while True:
+        try:
+            #//*[@id="__button71-inner"]
+            prei=driver.find_element(By.XPATH,'//*[@id="__xmlview0--objectPage-anchBar-__section1-__xmlview0--objectPage-7-anchor-content"]')
+            prei.click()
+            try:
+                cust=driver.find_element(By.XPATH,'//*[@id="__button65-inner"]')
+            except:
+                cust=driver.find_element(By.XPATH,'//*[@id="__button71-inner"]')
+            cust.click()
+            break
+        except Exception as e:
 
+            print(f"error pre ingreso: {e}")
+    while True:
+        try:
+            fm=driver.find_element(By.XPATH,'//*[@id="__box4-arrow"]')
+            fm.click()
+            tf="No (No)"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box4-popup-cont"]//div[text()="{tf}"]')))
+            opcionx.click()
+
+            fam=driver.find_element(By.XPATH,'//*[@id="__box5-arrow"]')
+            fam.click()
+            familiares=driver.find_element(By.XPATH,'//*[@id="__box5-inner"]')
+            familiares.clear()
+            familiares.send_keys("no")
+            tf="No Aplica (07)"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box5-popup-cont"]//div[text()="{tf}"]')))
+            opcionx.click()
+            time.sleep(1)
+            print("continuar")
+            #continuar
+            try:
+                driver.find_element(By.XPATH,'//*[@id="__button76-content"]').click()
+            except:
+                driver.find_element(By.XPATH,'//*[@id="__button80-content"]').click()
+            #//*[@id="__button80-content"]
+            #//*[@id="__button80-inner"]
+            #//*[@id="__button80"]
+            ## //*[@id="__button76-inner"]
+            #//*[@id="__button76-content"]
+            break
+
+        except Exception as e:
+            print(f"err familiares: {e}")
 
 iniciar_sesion()
 
-for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
-    if index==1:
-        continue
+temporal("JOSE HANDERS GAMBOA ECHEVERRY")
+time.sleep(20)
+preingreso()
+time.sleep(20)
 
-    cedula=str(row[0])
-    ex=str(row[1])
-    fecha=str(row[2])
-    pais=str(row[3])
-    nombre=str(row[4])
-    apellido=str(row[5])
-    campaña=str(row[6])
-    semilla=str(row[7])
-    celular=str(row[8])
-    correo=str(row[9])
-    correo_corporativo=str(row[10])
-    direccion=str(row[11])
-    barrio=str(row[12])
-    preingreso=str(row[13])
-    ingreso=str(row[14])
-    rm=str(row[15])
-    lider_virtual=str(row[16])
-    estado=str(row[17])
-    observaciones=str(row[18])
-    fechan=formatof(fecha)
-    fecha_ex=formatof(ex)
-    
-
-    #ingreso
-    temporal("NUEVO COLABORADOR")
     

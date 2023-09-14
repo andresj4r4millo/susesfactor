@@ -45,7 +45,10 @@ def temporal(texto):
             try:
                 buscador = segundo_shadow_root.find_element(By.ID, "ui5wc_14-inner")#//*[@id="ui5wc_8-inner"]
             except:
-                buscador=segundo_shadow_root.find_element(By.ID,"ui5wc_19-inner")
+                try:
+                    buscador=segundo_shadow_root.find_element(By.ID,"ui5wc_19-inner")
+                except:
+                    buscador=segundo_shadow_root.find_element(By.ID,'//*[@id="ui5wc_8-inner"]')
             time.sleep(1)
             buscador.send_keys(texto)
             time.sleep(2)
@@ -67,7 +70,7 @@ def temporal_intro(texto):
                 primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="renderTopNavSFHeader"]/xweb-shellbar')
             except:
                 primer_etiqueta=driver.find_element(By.XPATH, '//*[@id="bizXShellBarContainer"]/xweb-shellbar')
-                #//*[@id="bizXShellBarContainer"]/xweb-shellbar
+                #//*[@id="ui5wc_8-inner"]
             primer_shadow_root = driver.execute_script('return arguments[0].shadowRoot', primer_etiqueta)
             segunda_etiqueta = primer_shadow_root.find_element(By.ID,"search")
             segundo_shadow_root = driver.execute_script('return arguments[0].shadowRoot', segunda_etiqueta)
@@ -691,6 +694,7 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
             
             driver.find_element(By.XPATH,'//*[@id="__box21-arrow"]').click()
             pt=driver.find_element(By.XPATH,'//*[@id="__box21-inner"]')
+            pt.clear()
             puesto="ASESOR ADICIONALES AUTOGENERACION TMK ALIADO (30031651)"
             if campaña=="HOGAR OUT":
                 puesto="ASESOR HOGAR OUT TMK ALIADO (30031640)"
@@ -722,7 +726,7 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
         try:
             # fecha fin 2 meses
             FF=driver.find_element(By.XPATH,'//*[@id="__picker7-inner"]')#//*[@id="__picker7-inner"]
-
+            FF.clear()
             FF.send_keys(fecha_ft)
             nombrec=(f"{nombre} {apellido}")
             cd=driver.find_element(By.XPATH,'//*[@id="__input51-inner"]')
@@ -806,23 +810,88 @@ fecha_futura = calcular_fechas()
 
 
 ##################################################INGRESAR#############################
+
+
 def iniciar_sesion():
     while True:
         try:
-            driver.get("https://performancemanager8.successfactors.com/login?bplte_logout=1&company=comunicaci&_s.crb=VG1RqGoWUmkzkcagqGY%252fybzahzatv77ql1k8j0nbZ2E%253d#/login")
 
-            driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys("EC7061B")
-            driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys("Onecont2025*")
+            driver.get("https://performancemanager8.successfactors.com/login?bplte_logout=1&company=comunicaci&_s.crb=VG1RqGoWUmkzkcagqGY%252fybzahzatv77ql1k8j0nbZ2E%253d#/login")
+            """
+            driver.find_element(By.XPATH,'//*[@id="__input1-inner"]').send_keys(user)
+            time.sleep(1)
+            driver.find_element(By.XPATH,'//*[@id="__input2-inner"]').send_keys(pas)
+            print("b")
             time.sleep(1)
             driver.find_element(By.XPATH,'//*[@id="__button2-content"]').click()
-            time.sleep(4)
             print('adentro')
             time.sleep(3)
+            """
+            paso=input("estas adentro?: ")
+            if paso=="si" or paso=="SI":
+                break
             break
         except:
             print("a")
+##################
+###################### PRE INGRESO##############
+def preingreso():
+    while True:
+        try:
+            driver.find_element(By.XPATH,'//*[@id="__xmlview0--objectPage-anchBar-__section1-__xmlview0--objectPage-5-anchor-internalSplitBtn-textButton-BDI-content"]').click()
+            break
+        except:
+            print("no se pudo interactuar")
+    while True:
+        try:
+            #//*[@id="__button71-inner"]
+            prei=driver.find_element(By.XPATH,'//*[@id="__xmlview0--objectPage-anchBar-__section1-__xmlview0--objectPage-7-anchor-content"]')
+            prei.click()
+            try:
+                cust=driver.find_element(By.XPATH,'//*[@id="__button65-inner"]')
+            except:
+                cust=driver.find_element(By.XPATH,'//*[@id="__button71-inner"]')
+            cust.click()
+            break
+        except Exception as e:
 
+            print(f"error pre ingreso: {e}")
+    while True:
+        try:
+            fm=driver.find_element(By.XPATH,'//*[@id="__box4-arrow"]')
+            fm.click()
+            tf="No (No)"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box4-popup-cont"]//div[text()="{tf}"]')))
+            opcionx.click()
+
+            fam=driver.find_element(By.XPATH,'//*[@id="__box5-arrow"]')
+            fam.click()
+            familiares=driver.find_element(By.XPATH,'//*[@id="__box5-inner"]')
+            familiares.clear()
+            familiares.send_keys("no")
+            tf="No Aplica (07)"
+            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box5-popup-cont"]//div[text()="{tf}"]')))
+            opcionx.click()
+            time.sleep(1)
+            print("continuar")
+            #continuar
+            try:
+                driver.find_element(By.XPATH,'//*[@id="__button76-content"]').click()
+            except:
+                driver.find_element(By.XPATH,'//*[@id="__button80-content"]').click()
+            #//*[@id="__button80-content"]
+            #//*[@id="__button80-inner"]
+            #//*[@id="__button80"]
+            ## //*[@id="__button76-inner"]
+            #//*[@id="__button76-content"]
+            break
+
+        except Exception as e:
+            print(f"err familiares: {e}")
+
+preingresar=[]
 iniciar_sesion()
+
 trabajadores=[]
 activos=[]
 cont=0
@@ -890,6 +959,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         time.sleep(1)
         trabajador_temporal=asignacion_cesado(nombre,apellido,fecha_ft,campaña)
         temporal_intro("inicio")
+        busca=f"{nombre} {apellido}"
+        preingresar.append(busca)
         
 
     elif estado=="añadir":
@@ -899,6 +970,8 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         trabajador_temporal=asignacion(nombre,apellido,fecha_ft,campaña)
         time.sleep(20)
         temporal_intro("inicio")
+        busca=f"{nombre} {apellido}"
+        preingresar.append(busca)
 
     elif estado=="activo":
         print("el estado")
@@ -925,7 +998,11 @@ if len(activos) > 0:
             archivo.write(trabajador + '\n')
     
 
+for acti in preingresar:
 
+    
+    temporal(acti)
+    preingreso()
 
 print("ONE CONTACT")
 
