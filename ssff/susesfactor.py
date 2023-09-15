@@ -605,13 +605,7 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
                 elif driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]'):
                     cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')
                 time.sleep(1)
-                carpeta_añadidos="añadidos"
-                if not os.path.exists(carpeta_añadidos):
-                    os.makedirs(carpeta_añadidos)
-                    print("preparando navegador para captura")
-
-                    screenshot_name = f'capturas/{cedula}CA661.png'
-                    driver.save_screenshot(screenshot_name)
+                
                 cerrar.click()
                 continue
             except:
@@ -620,6 +614,15 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
                 break
         except:
             print("no asignado ")
+
+        carpeta_añadidos="añadidos"
+        if not os.path.exists(carpeta_añadidos):
+            os.makedirs(carpeta_añadidos)
+            print("preparando navegador para captura")
+
+        screenshot_name = f'capturas/{cedula}CA661.png'
+        driver.save_screenshot(screenshot_name)
+                
     return True
 
 #############
@@ -634,14 +637,14 @@ def correo_telefono(correo_corporativo,semilla,celular,correo):
     while True:
         try:
             #//*[@id="__input28-inner"]
-            driver.find_element(By.XPATH,'//*[@id="__input15-inner"]').clear()
+            driver.find_element(By.XPATH,'//*[@id="__input15-inner"]').clear()#//*[@id="__input24-inner"]
             driver.find_element(By.XPATH,'//*[@id="__input15-inner"]').send_keys(correo)
             
             #añadir 
             driver.find_element(By.XPATH,'//*[@id="__button35-inner"]').click()
             time.sleep(1)
             #tipo
-            driver.find_element(By.XPATH,'//*[@id="__box13-arrow"]').click()
+            driver.find_element(By.XPATH,'//*[@id="__box13-arrow"]').click()#
             #
             tc="Personal"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box13-popup-cont"]//div[text()="{tc}"]')))
@@ -684,14 +687,16 @@ def correo_telefono(correo_corporativo,semilla,celular,correo):
             tf="No"
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box18-popup-cont"]//div[text()="{tf}"]')))
             opcionx.click()
+            #time.sleep(8)
             driver.find_element(By.XPATH,'//*[@id="__button33-BDI-content"]').click()
             time.sleep(2)
             break
         except:
             print(celular)
-
+datosmal=""
 
 def asignacion(nombre,apellido,fecha_ft,campaña):
+    global datos_mal
     while True:
         try:
             #posicion
@@ -726,6 +731,7 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
         except:
             print("error de asignacion  ")
     ### work order
+    conerror=0
     while True:
         try:
             # fecha fin 2 meses
@@ -766,28 +772,51 @@ def asignacion(nombre,apellido,fecha_ft,campaña):
             #continuar
             time.sleep(2)
             driver.find_element(By.XPATH,'//*[@id="__button63-BDI-content"]').click()
-            
+
             try:
+                
                 if driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]'):
-                    cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]')#//*[@id="__mbox-btn-1-BDI-content"]
+                    cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]')
+                    cerrar.click()
+                    
                 elif driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]'):
                     cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')
-                time.sleep(1)
-                carpeta_añadidos="añadidos"
-                if not os.path.exists(carpeta_añadidos):
-                    os.makedirs(carpeta_añadidos)
-                    print("preparando navegador para captura")
-
-                    screenshot_name = f'capturas/{cedula}CA661.png'
-                    driver.save_screenshot(screenshot_name) 
-
-                cerrar.click()
+                    cerrar.click()
+                cone+=1
+                if conerror>=5:
+                    datosmal="si"
+                    print(f"errores en los datos suministrados= {datosmal}")
+                    return False
                 continue
+                  
             except:
                 break
         except:
+            conerror+=1
             print("no asignado ")
-    return True
+
+        carpeta_añadidos="añadidos"
+        if not os.path.exists(carpeta_añadidos):
+            os.makedirs(carpeta_añadidos)
+            print("preparando navegador para captura")
+
+        screenshot_name = f'capturas/{cedula}CA661.png'
+        driver.save_screenshot(screenshot_name)
+        return True
+
+
+def fechamal():
+    while True:
+        try:
+
+            time.sleep(1)
+            driver.find_element(By.XPATH,'//*[@id="__link0"]').click()#//*[@id="__link0"]
+            #aceptar
+            time.sleep(1)
+            driver.find_element(By.XPATH,'//*[@id="__button70-BDI-content"]').click()
+            break
+        except:
+            print("")
 ####################################################################################################################################################3
 #######################################################################  FORMATO DE FECHA    ############################################################
 def formatof(fecha):
@@ -898,6 +927,7 @@ iniciar_sesion()
 
 trabajadores=[]
 activos=[]
+datos=[]
 cont=0
 for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     if index==1:
@@ -971,8 +1001,12 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         print(correo)
         correo_telefono(correo_corporativo,semilla,celular,correo)
         time.sleep(2)
+        trabajador_temporal=True
         trabajador_temporal=asignacion(nombre,apellido,fecha_ft,campaña)
-        time.sleep(20)
+        if trabajador_temporal== False or datosmal=="si":
+            print("error en los datos ")
+            fechamal()
+            datos.append(cedula)
         temporal_intro("inicio")
         busca=f"{nombre} {apellido}"
         preingresar.append(busca)
@@ -1001,13 +1035,13 @@ if len(activos) > 0:
         for trabajador in activos:
             archivo.write(trabajador + '\n')
     
-
+"""
 for acti in preingresar:
 
     
     temporal(acti)
     preingreso()
-
+"""
 print("ONE CONTACT")
 driver.close()
 

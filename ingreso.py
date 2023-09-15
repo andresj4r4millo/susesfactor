@@ -128,7 +128,11 @@ def preingreso():
             try:
                 cust=driver.find_element(By.XPATH,'//*[@id="__button65-inner"]')
             except:
-                cust=driver.find_element(By.XPATH,'//*[@id="__button71-inner"]')
+                try:
+                    cust=driver.find_element(By.XPATH,'//*[@id="__button71-inner"]')
+                except:
+                    cust=driver.find_element(By.XPATH,'//*[@id="__button80-inner"]')
+                    #//*[@id="__button68-img"]
             cust.click()
             break
         except Exception as e:
@@ -169,7 +173,7 @@ def preingreso():
 
 iniciar_sesion()
 
-temporal("JOSE HANDERS GAMBOA ECHEVERRY")
+temporal("ALEJANDRA MARIA CAÑAS GUZMAN")
 time.sleep(20)
 preingreso()
 time.sleep(20)
