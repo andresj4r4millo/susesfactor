@@ -20,6 +20,9 @@ from dateutil.relativedelta import relativedelta
 from selenium.webdriver.edge.service import Service as EdgeService
 import os
 from datetime import datetime
+from tkinter import *
+from tkinter import ttk
+import tkinter as tk
 #import funciones
 
 edge_service = EdgeService('msedgedriver.exe')
@@ -526,6 +529,7 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
             
             driver.find_element(By.XPATH,'//*[@id="__box29-arrow"]').click()
             pt=driver.find_element(By.XPATH,'//*[@id="__box29-inner"]')
+            pt.clear()
             puesto="ASESOR ADICIONALES AUTOGENERACION TMK ALIADO (30031651)"
             if campaña=="HOGAR OUT":
                 puesto="ASESOR HOGAR OUT TMK ALIADO (30031640)"
@@ -558,7 +562,7 @@ def asignacion_cesado(nombre,apellido,fecha_ft,campaña):
         try:
             # fecha fin 2 meses
             FF=driver.find_element(By.XPATH,'//*[@id="__picker10-inner"]')#//*[@id="__picker7-inner"]
-
+            FF.clear()
             FF.send_keys(fecha_ft)
             nombrec=(f"{nombre} {apellido}")
             cd=driver.find_element(By.XPATH,'//*[@id="__input61-inner"]')
@@ -1005,6 +1009,7 @@ for acti in preingresar:
     preingreso()
 
 print("ONE CONTACT")
+driver.close()
 
 
 
