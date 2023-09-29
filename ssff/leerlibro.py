@@ -64,6 +64,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
     print(fecha)
     fch=formatodefecha(fecha)
     print(fch)
+    
 
     """
     nueva_sheet.cell(row=index, column=1, value=cedula)
