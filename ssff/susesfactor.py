@@ -801,34 +801,29 @@ def asignacion(nombre,apellido,fecha_ft,campaña,conerror,datosmal):
                     screenshot_name = f'añadidos/{cedula}CA661.png'
                     driver.save_screenshot(screenshot_name) """
                 try:
-                    try:
-                        cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]')
-                        cerrar.click()
+                    if (driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]')):
+                        cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-0-BDI-content"]')   
                         asignado="No"
                         print("btn1")
-                    except:
-                        try:
-                            cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')
-                            cerrar.click()
-                            asignado="No"
-                            print("btn2")
-                        except:
-                            try:
-                                cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-2-BDI-content"]')
-                                cerrar.click()#//*[@id="__mbox-btn-2-content"]
-                                asignado="No"
-                                print("btn3")
-                            except:
-                                try:
-                                    cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-3-BDI-content"]')
-                                    cerrar.click()#
-                                    asignado="No"
-                                    print("btn4")
-                                except:
-                                    print("otrobtn")
-                                    driver.find_element(By.XPATH,'//*[@id="__mbox-btn-4-BDI-content"]').click()
-                                    #time.sleep(4)
-                                    return False
+                    elif  (driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')):
+                        cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-1-BDI-content"]')
+                        asignado="No"
+                        print("btn2")
+                    elif (driver.find_element(By.XPATH,'//*[@id="__mbox-btn-2-BDI-content"]')):
+                        cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-2-BDI-content"]')
+                        #//*[@id="__mbox-btn-2-content"]
+                        asignado="No"
+                        print("btn3")
+                    elif (driver.find_element(By.XPATH,'//*[@id="__mbox-btn-3-BDI-content"]')):
+                        cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-3-BDI-content"]')                  
+                        asignado="No"
+                        print("btn4")
+                    elif(driver.find_element(By.XPATH,'//*[@id="__mbox-btn-4-BDI-content"]')):
+                        cerrar=driver.find_element(By.XPATH,'//*[@id="__mbox-btn-4-BDI-content"]')
+                        cerrar.click()
+                        return False
+                    cerrar.click()
+                    continue
                 except:
 
                     carpeta_añadidos="añadidos"
@@ -922,60 +917,7 @@ def iniciar_sesion():
         except:
             print("a")
 ##################
-###################### PRE INGRESO##############
-def preingreso():
-    while True:
-        try:
-            driver.find_element(By.XPATH,'//*[@id="__xmlview0--objectPage-anchBar-__section1-__xmlview0--objectPage-5-anchor-internalSplitBtn-textButton-BDI-content"]').click()
-            break
-        except:
-            print("no se pudo interactuar")
-    while True:
-        try:
-            #//*[@id="__button71-inner"]
-            prei=driver.find_element(By.XPATH,'//*[@id="__xmlview0--objectPage-anchBar-__section1-__xmlview0--objectPage-7-anchor-content"]')
-            prei.click()
-            try:
-                cust=driver.find_element(By.XPATH,'//*[@id="__button65-inner"]')
-            except:
-                cust=driver.find_element(By.XPATH,'//*[@id="__button71-inner"]')
-            cust.click()
-            break
-        except Exception as e:
 
-            print(f"error pre ingreso: {e}")
-    while True:
-        try:
-            fm=driver.find_element(By.XPATH,'//*[@id="__box4-arrow"]')
-            fm.click()
-            tf="No (No)"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box4-popup-cont"]//div[text()="{tf}"]')))
-            opcionx.click()
-
-            fam=driver.find_element(By.XPATH,'//*[@id="__box5-arrow"]')
-            fam.click()
-            familiares=driver.find_element(By.XPATH,'//*[@id="__box5-inner"]')
-            familiares.clear()
-            familiares.send_keys("no")
-            tf="No Aplica (07)"
-            opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box5-popup-cont"]//div[text()="{tf}"]')))
-            opcionx.click()
-            time.sleep(1)
-            print("continuar")
-            #continuar
-            try:
-                driver.find_element(By.XPATH,'//*[@id="__button76-content"]').click()
-            except:
-                driver.find_element(By.XPATH,'//*[@id="__button80-content"]').click()
-            #//*[@id="__button80-content"]
-            #//*[@id="__button80-inner"]
-            #//*[@id="__button80"]
-            ## //*[@id="__button76-inner"]
-            #//*[@id="__button76-content"]
-            break
-
-        except Exception as e:
-            print(f"err familiares: {e}")
 
 preingresar=[]
 iniciar_sesion()
@@ -1019,8 +961,7 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
 
     fecha_ft=fecha_futura.strftime('%d%m%Y')
     #//*[@id="main--globalSFHeader"]
-    texto="Añadir trabajador temporal"
-    temporal(texto)
+
     #ssff()
     time.sleep(1)
     try:
@@ -1032,6 +973,23 @@ for index, row in enumerate(sheet.iter_rows(values_only=True), start=1):
         # Formatea la fecha en el nuevo formato (DDMMYYYY)
     fecha_expedicion = fx.strftime("%d%m%Y")
     fecha_naci=fechanaci.strftime("%d%m%Y")
+    
+    # Calcula la diferencia en días
+    diferencia_en_dias = (fx - fechanaci).days
+
+    # Calcula la diferencia en años
+    diferencia_en_anios = diferencia_en_dias / 365
+
+    # Comprueba si la diferencia es mayor o igual a 18 años
+    if diferencia_en_anios >= 18:
+        print("Han pasado más de 18 años entre la fecha de nacimiento y la fecha de expedición.")
+    else:
+        dato=f'{cedula} No han pasado 18 años entre la fecha de nacimiento y la fecha de expedición.'
+        datos.append(cedula)
+        print("No han pasado 18 años entre la fecha de nacimiento y la fecha de expedición.")
+        continue
+    texto="Añadir trabajador temporal"
+    temporal(texto)
     #driver.get("https://performancemanager8.successfactors.com/sf/home?bplte_company=comunicaci&_s.crb=2TUciEoM%2b9O44AcjHb01h2aVK7SLjpZl13QK2%2foTuqs%3d")
     estado=ingresar(nombre, apellido, fecha_naci,pais,cedula,fecha_expedicion)
     #time.sleep(20)
