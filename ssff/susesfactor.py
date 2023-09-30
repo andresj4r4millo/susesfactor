@@ -437,7 +437,7 @@ def correo_tel_2(correo_corporativo,semilla,celular,correo):
             opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box19-popup-cont"]//div[text()="{tc}"]')))
             opcionx.click()
             correoc=driver.find_element(By.XPATH,'//*[@id="__input28-inner"]')
-            actions.double_click(correoc).perform()
+            correoc.clear()
             correoc.send_keys(correo)
             driver.find_element(By.XPATH,'//*[@id="__box20-arrow"]').click()
             tc="Sí"
@@ -488,25 +488,31 @@ def correo_tel_2(correo_corporativo,semilla,celular,correo):
                 print("entra")
                 driver.find_element(By.XPATH,'//*[@id="__box25-arrow"]').click()
                 tc="Personal"
+                print("1")
                 opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box25-popup-cont"]//div[text()="{tc}"]')))
                 opcionx.click()
+                print("2")
+                time.sleep(4)
                 correoc=driver.find_element(By.XPATH,'//*[@id="__input37-inner"]')
-                actions.double_click(celular).perform()
+                correoc.send_keys(celular)
+                print("3")
                 correoc.send_keys(correo_corporativo)
                 driver.find_element(By.XPATH,'//*[@id="__box26-arrow"]').click()
+                print("4")
                 tc="No"
                 opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box26-popup-cont"]//div[text()="{tc}"]')))
                 opcionx.click()
-            except:
-                #añadir 
-                driver.find_element(By.XPATH,'//*[@id="__button57-content"]').click()
+            except Exception as e:
 
-                driver.find_element(By.XPATH,'//*[@id="__box25-arrow"]').click()#//*[@id="__box25-arrow"]
+                print("otro ")
+                print(e)
+                driver.find_element(By.XPATH,'//*[@id="__button57-content"]').click()
+                driver.find_element(By.XPATH,'//*[@id="__box25-arrow"]').click()#
                 tc="Personal"
                 opcionx = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, f'//*[@id="__box25-popup-cont"]//div[text()="{tc}"]')))
                 opcionx.click()
                 correoc=driver.find_element(By.XPATH,'//*[@id="__input37-inner"]')
-                actions.double_click(correoc).perform()
+                correoc.clear()
                 correoc.send_keys(semilla)
                 driver.find_element(By.XPATH,'//*[@id="__box26-arrow"]').click()
                 tc="No"
